@@ -66,3 +66,8 @@ cd ext/openssl
 #define HAVE_EVP_CIPHER_CTX_COPY 1
 # or install it and then do chruby ruby-2.0.0-p247, otherwise you will get have_func errors
 ../../bin/ruby extconf.rb --with-openssl-dir=/usr/local/openssl-1.0.1e/bin/
+
+Some good docs there:
+
+http://www.ruby-doc.org/core-2.0.0/TracePoint.html
+
