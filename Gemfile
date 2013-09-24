@@ -1,3 +1,3 @@
 source "https://rubygems.org"
 
-#gem 'byebug', :path => "/Users/tomcopeland/github.com/byebug"
+gem 'byebug', :path => "/Users/tomcopeland/github.com/byebug"
