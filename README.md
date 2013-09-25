@@ -71,3 +71,4 @@ Some good docs there:
 
 http://www.ruby-doc.org/core-2.0.0/TracePoint.html
 
+Why "pippi"?  Because Pippi Longstocking was a <A href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.
