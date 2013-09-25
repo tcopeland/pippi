@@ -1,6 +1,6 @@
 Pippi is a Ruby runtime code analysis tool
 
-# Examples of problems to detect:
+## Examples of problems to detect:
 
 ```ruby
 # unnecessary assignment since String#strip! mutates receiver 
@@ -37,7 +37,7 @@ return x
 # something with replacing x.map.compact with x.select.map
 ````
 
-# Developing
+## Developing
 
 Switch to Ruby 2.0 with:
 
@@ -45,7 +45,7 @@ Switch to Ruby 2.0 with:
 chruby ruby-2.0.0-p247
 ````
 
-## Setup 
+### Setup
 
 To install Ruby 2.0, first had to install openssl:
 
@@ -78,6 +78,6 @@ Some good docs there:
 
 http://www.ruby-doc.org/core-2.0.0/TracePoint.html
 
-# Why "pippi"?
+## Why "pippi"?
 
 Because Pippi Longstocking was a <A href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.
