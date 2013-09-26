@@ -43,7 +43,13 @@ Switch to Ruby 2.0 with:
 
 ```bash
 chruby ruby-2.0.0-p247
-````
+```
+
+To run it:
+
+```bash
+bundle exec bin/pippi tmp/tmpfile.rb SelectFollowedByFirst Foo.new.bar tmp/out.txt
+```
 
 ### Setup
 

@@ -1,18 +1,16 @@
 PATH
-  remote: /Users/tomcopeland/github.com/byebug
+  remote: .
   specs:
-    byebug (2.2.0)
-      columnize (~> 0.3.6)
-      debugger-linecache (~> 1.2.0)
+    pippi (0.0.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    columnize (0.3.6)
-    debugger-linecache (1.2.0)
+    minitest (5.0.8)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug!
+  minitest
+  pippi!
