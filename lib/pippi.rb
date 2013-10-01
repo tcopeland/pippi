@@ -20,7 +20,7 @@ module Pippi
       ctx = {:report => []}
       Pippi::Checks.const_get(rule).new(ctx).register_tracepoint
       load "#{codefile}"
-      eval @code_to_eval
+      eval code_to_eval
       dump_report ctx
     end
 
@@ -30,6 +30,10 @@ module Pippi
           outfile.syswrite("#{finding}\n")
         end
       end
+    end
+
+    def log(str)
+      File.open("pippi.log", "a") {|f| f.syswrite("#{Time.now}: #{str}\n")}
     end
 
   end

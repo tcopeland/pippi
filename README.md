@@ -53,7 +53,7 @@ bundle exec bin/pippi tmp/tmpfile.rb SelectFollowedByFirst Foo.new.bar tmp/out.t
 
 ### Setup
 
-To install Ruby 2.0, first had to install openssl:
+To install Ruby 2.0 on OSX 10.7.5, first had to install openssl:
 
 ```bash
 cd ~/src/
