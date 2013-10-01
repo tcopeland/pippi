@@ -3,23 +3,16 @@ require 'fileutils'
 
 class SelectFollowedByFirstTest < MiniTest::Test
 
-  def setup
-    FileUtils.rm_f(output_file_name) if File.exists?(output_file_name)
-  end
-
   def test_canonical_case_is_found
-    execute_pippi_on foo_bar_code_sample("[1,2,3].select {|x| x > 2 }.first"), "SelectFollowedByFirst"
-    assert_equal 1, load_report.size
+    assert_equal 1, execute_pippi_on(foo_bar_code_sample("[1,2,3].select {|x| x > 2 }.first"), "SelectFollowedByFirst").size
   end
 
   def test_two_line_case_is_found
-    execute_pippi_on foo_bar_code_sample("x = [1,2,3].select {|x| x > 2 } ; x.first"), "SelectFollowedByFirst"
-    assert_equal 1, load_report.size
+    assert_equal 1, execute_pippi_on(foo_bar_code_sample("x = [1,2,3].select {|x| x > 2 } ; x.first"), "SelectFollowedByFirst").size
   end
 
   def test_rule_does_not_fire_if_no_first_call
-    execute_pippi_on foo_bar_code_sample("[1,2,3].select {|x| x > 2 }"), "SelectFollowedByFirst"
-    assert_equal 0, load_report.size
+    assert execute_pippi_on(foo_bar_code_sample("[1,2,3].select {|x| x > 2 }"), "SelectFollowedByFirst").empty?
   end
 
   private
@@ -32,16 +25,15 @@ class SelectFollowedByFirstTest < MiniTest::Test
     File.open(tmp_code_sample_file_name, "w") {|f| f.syswrite(code.code_text) }
     cmd = "bundle exec ruby bin/pippi #{tmp_code_sample_file_name} #{rule} #{code.eval_to_execute} #{output_file_name}"
     IO.popen(cmd).close
-  end
-
-  def load_report
-    File.read(output_file_name).split("\n")
+    report = File.read(output_file_name).split("\n")
+    FileUtils.rm_f(output_file_name) if File.exists?(output_file_name)
+    report
   end
 
   def output_file_name
     "tmp/out.txt"
   end
-  
+
   def tmp_code_sample_file_name
     "tmp/tmpfile.rb"
   end
