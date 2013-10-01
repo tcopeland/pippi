@@ -7,7 +7,7 @@ class SelectFollowedByFirstTest < MiniTest::Test
     FileUtils.rm_f(output_file_name) if File.exists?(output_file_name)
   end
 
-  def test_trivial_case_is_found
+  def test_canonical_case_is_found
     execute_pippi_on foo_bar_code_sample("[1,2,3].select {|x| x > 2 }.first"), "SelectFollowedByFirst"
     assert_equal 1, load_report.size
   end
@@ -29,9 +29,8 @@ class SelectFollowedByFirstTest < MiniTest::Test
   end
 
   def execute_pippi_on(code, rule)
-    tmp_file_name = "tmp/tmpfile.rb"
-    File.open(tmp_file_name, "w") {|f| f.syswrite(code.code_text) }
-    cmd = "bundle exec ruby bin/pippi #{tmp_file_name} #{rule} #{code.eval_to_execute} #{output_file_name}"
+    File.open(tmp_code_sample_file_name, "w") {|f| f.syswrite(code.code_text) }
+    cmd = "bundle exec ruby bin/pippi #{tmp_code_sample_file_name} #{rule} #{code.eval_to_execute} #{output_file_name}"
     IO.popen(cmd).close
   end
 
@@ -41,6 +40,10 @@ class SelectFollowedByFirstTest < MiniTest::Test
 
   def output_file_name
     "tmp/out.txt"
+  end
+  
+  def tmp_code_sample_file_name
+    "tmp/tmpfile.rb"
   end
 
 end
