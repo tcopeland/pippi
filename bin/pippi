@@ -4,4 +4,4 @@ $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'pippi'
 
-Pippi::Runner.new(ARGV.dup).run
+Pippi::ExecRunner.new(ARGV.dup).run

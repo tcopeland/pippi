@@ -1,6 +1,26 @@
 Pippi is a Ruby runtime code analysis tool
 
-## Examples of problems to detect:
+## Usage
+
+### Inside Rails tests
+
+See https://github.com/tcopeland/pippi_demo#pippi-demo
+
+### From the command line:
+
+Assuming you're using bundler:
+
+```bash
+# clone this repo as a sibling directory to your project
+git clone https://github.com/tcopeland/pippi.git
+# Add this to your project's Gemfile:
+gem 'pippi', :path => "../pippi"
+# Run 'bundle', see some output
+# then run Pippi on one of your files, in this case, some_file_to_run.rb, and exercise it with Foo.new.bar:
+bundle exec pippi some_file_to_run.rb SelectFollowedByCompact Foo.new.bar out.txt
+```
+
+## Ideas for other problems to detect:
 
 ```ruby
 # unnecessary assignment since String#strip! mutates receiver 
@@ -8,12 +28,6 @@ Pippi is a Ruby runtime code analysis tool
 x = x.strip!
 # right
 x.strip!
-
-# use Enumerable#detect instead
-# wrong
-[1,2,3].select {|x| x > 1 }.first
-# right
-[1,2,3].detect {|x| x > 1 }
 
 # Use Pathname
 # wrong
@@ -29,13 +43,15 @@ return x
 # right
 [1,2].tap {|y| y << 3 }
 
-# Unnecessary compact
-# wrong
-[1,2,nil].select {|x| in_list(x) }.compact
-# right
-[1,2,nil].select {|x| x.present? && x.in_list? }
 # something with replacing x.map.compact with x.select.map
 ````
+
+## TODO
+
+* Generate documentation from the docs embedded in the checks and publish that somewhere
+* Clean up this context/report/loader/blah mess
+* Implement more checks
+* Allow running with just an additional require, like `bundle exec ruby -rpippi/autorunner my_program`
 
 ## Developing
 

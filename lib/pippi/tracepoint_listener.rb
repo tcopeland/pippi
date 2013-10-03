@@ -1,9 +1,9 @@
 class TracepointListener
 
-  attr_reader :rules
+  attr_reader :checks
 
-  def initialize(rules)
-    @rules = [rules].flatten
+  def initialize(checks)
+    @checks = [checks].flatten
     TracePoint.trace do |tracepoint|
       self.send(event_callback_method_name_for_tracepoint(tracepoint), tracepoint)
     end
@@ -31,9 +31,9 @@ class TracepointListener
   #     }
   # }
   def method_missing(method_name, *args, &blk)
-    rules.each do |rule|
-      if rule.respond_to?(method_name)
-        rule.send(method_name, args[0])
+    checks.each do |check|
+      if check.respond_to?(method_name)
+        check.send(method_name, args[0])
       end
     end
   end
