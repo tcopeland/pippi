@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.executables = "pippi"
   s.require_paths = ["lib"]
   s.add_development_dependency 'minitest'
+  s.required_ruby_version = '~> 2'
 end

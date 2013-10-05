@@ -16,8 +16,8 @@ git clone https://github.com/tcopeland/pippi.git
 # Add this to your project's Gemfile:
 gem 'pippi', :path => "../pippi"
 # Run 'bundle', see some output
-# then run Pippi on one of your files, in this case, some_file_to_run.rb, and exercise it with Foo.new.bar:
-bundle exec pippi some_file_to_run.rb SelectFollowedByCompact Foo.new.bar out.txt
+# then run Pippi on your code and exercise it with MyClass.new.exercise_some_code:
+bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
 
 ## Ideas for other problems to detect:
@@ -51,7 +51,8 @@ return x
 * Generate documentation from the docs embedded in the checks and publish that somewhere
 * Clean up this context/report/loader/blah mess
 * Implement more checks
-* Allow running with just an additional require, like `bundle exec ruby -rpippi/autorunner my_program`
+* Something to group checks - CheckSet or whatever - so we can run all rules at once
+* Something to make it easier to develop rules; a debug mode or something that prints out callbacks and such
 
 ## Developing
 

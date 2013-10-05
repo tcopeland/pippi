@@ -19,6 +19,9 @@ class SelectFollowedByCompactTest < CheckTest
     assert_no_problems "y = [1,2,3].select {|x| x > 2 } ; z = [1,2] ; z.compact"
   end
 
+  def test_intervening_method_call_prevents_report
+    assert_no_problems "y = [1,2,3].select {|x| x > 2 } ; y.sort_by {|z| z+1} ; y.compact"
+  end
 
   protected
 

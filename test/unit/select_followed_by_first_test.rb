@@ -19,6 +19,10 @@ class SelectFollowedByFirstTest < CheckTest
     assert_no_problems "y = [1,2,3].select {|x| x > 2 } ; z = [1,2] ; z.first"
   end
 
+  def test_intervening_method_call_prevents_report
+    assert_no_problems "y = [1,2,3].select {|x| x > 2 } ; y.map {|z| z+1} ; y.first"
+  end
+
   protected
 
   def check_for_test

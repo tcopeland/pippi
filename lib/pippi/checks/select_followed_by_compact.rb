@@ -6,15 +6,19 @@ module Pippi::Checks
       @result_of_select_invocation = nil
     end
 
-    def c_return_event(tp)
-      if tp.defined_class == Array && tp.method_id == :select
-        @result_of_select_invocation = tp.return_value
+    def c_call_event(tp)
+      if @result_of_select_invocation.object_id == tp.self.object_id
+        if tp.method_id == :compact
+          ctx.report.add(Pippi::Problem.new(:line_number => tp.lineno, :file_path => tp.path, :check_class => self.class))
+        else
+          @result_of_select_invocation = nil
+        end
       end
     end
 
-    def c_call_event(tp)
-      if tp.defined_class == Array && tp.method_id == :compact && @result_of_select_invocation.object_id == tp.self.object_id
-        ctx.report.add(Pippi::Problem.new(:line_number => tp.lineno, :file_path => tp.path, :check_class => self.class))
+    def c_return_event(tp)
+      if tp.defined_class == Array && tp.method_id == :select
+        @result_of_select_invocation = tp.return_value
       end
     end
 
