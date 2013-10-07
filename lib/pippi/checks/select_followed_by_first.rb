@@ -8,9 +8,7 @@ module Pippi::Checks
 
     def c_call_event(tp)
       if @result_of_select_invocation.object_id == tp.self.object_id
-        # ctx.logger.warn "##{tp.method_id} called on #{tp.self.object_id} at #{tp.path} line #{tp.lineno}; defined_class is #{tp.defined_class}"
         if tp.method_id == :first
-          # ctx.logger.warn "BOOM GOT ONE"
           ctx.report.add(Pippi::Problem.new(:line_number => tp.lineno, :file_path => tp.path, :check_class => self.class))
         else
           @result_of_select_invocation = nil
@@ -20,7 +18,6 @@ module Pippi::Checks
 
     def c_return_event(tp)
       if tp.defined_class == Array && tp.method_id == :select
-        # ctx.logger.warn "Alerting on #select on #{tp.return_value.object_id} at #{tp.path} line #{tp.lineno}"
         @result_of_select_invocation = tp.return_value
       end
     end

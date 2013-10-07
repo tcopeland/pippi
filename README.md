@@ -16,7 +16,9 @@ git clone https://github.com/tcopeland/pippi.git
 # Add this to your project's Gemfile:
 gem 'pippi', :path => "../pippi"
 # Run 'bundle', see some output
-# then run Pippi on your code and exercise it with MyClass.new.exercise_some_code:
+# To run a particular check:
+bundle exec pippi tmp/tmpfile.rb SelectFollowedByCompact Foo.new.bar out.txt
+# Or to run all the basic Pippi checks on your code and exercise it with MyClass.new.exercise_some_code:
 bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
 
@@ -27,14 +29,6 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 [1,2,3].select {|x| x > 2 }.size == 1
 # right
 [1,2,3].one? {|x| x > 2 }
-```
-
-```ruby
-# wrong
-[1,2,3].select {|x| x > 1 }.size
-# right
-[1,2,3].count {|x| x > 1 }
-# Tricky thing is that #select returns a RETURN_SIZED_ENUMERATOR so there's no tracepoint event.
 ```
 
 ```ruby
@@ -77,10 +71,23 @@ Switch to Ruby 2.0 with:
 chruby ruby-2.0.0-p247
 ```
 
-To run it:
+To see trace point event output for a file `tmp/baz.rb`:
 
 ```bash
-bundle exec bin/pippi tmp/tmpfile.rb SelectFollowedByFirst Foo.new.bar tmp/out.txt
+rm -f pippi_debug.log ; PIPPI_DEBUG=1 bundle exec pippi tmp/baz.rb DebugCheck Foo.new.bar tmp/out.txt ; cat pippi_debug.log
+```
+
+When trying to find issues in a project:
+
+```bash
+# in pippi directory
+rm -f pippi-0.0.1.gem && gem build pippi.gemspec && mv pippi-0.0.1.gem ~/github.com/aasm/vendor/cache/
+
+# in project directory (e.g., aasm)
+chruby ruby-2.0.0-p247
+rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 be ruby -rpippi/auto_runner -e "puts 'hi'" && grep -C 5 BOOM pippi_debug.log
+# or to run a spec with pippi watching:
+rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 be ruby -rpippi/auto_runner -Ispec spec/unit/transition_spec.rb && grep -C 5 BOOM pippi_debug.log
 ```
 
 ### Setup

@@ -1,3 +1,4 @@
 tmp/
 pippi.log
+pippi_debug.log
 pippi*.gem

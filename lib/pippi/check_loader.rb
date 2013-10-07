@@ -2,21 +2,21 @@ module Pippi
 
   class CheckLoader
 
-    attr_reader :ctx
-    attr_accessor :check_name
+    attr_reader :ctx, :check_names
 
-    def self.for_check_name(ctx, check_name)
-      CheckLoader.new(ctx).tap do |check_loader|
-        check_loader.check_name = check_name
+    def initialize(ctx, check_names)
+      @ctx = ctx
+      @check_names = if check_names.kind_of?(String)
+        Pippi::CheckSetMapper.new(check_names).check_names
+      else
+        check_names
       end
     end
 
-    def initialize(ctx)
-      @ctx = ctx
-    end
-
-    def check
-      Pippi::Checks.const_get(check_name).new(ctx)
+    def checks
+      check_names.map do |check_name|
+        Pippi::Checks.const_get(check_name).new(ctx)
+      end
     end
 
   end

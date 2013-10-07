@@ -14,22 +14,20 @@ class TracepointListener
   end
 
   # From vm_trace.c:
-  # static const char *
-  # get_event_name(rb_event_flag_t event)
-  # {
-  #     switch (event) {
-  #       case RUBY_EVENT_LINE:     return "line";
-  #       case RUBY_EVENT_CLASS:    return "class";
-  #       case RUBY_EVENT_END:      return "end";
-  #       case RUBY_EVENT_CALL:     return "call";
-  #       case RUBY_EVENT_RETURN: return "return";
-  #       case RUBY_EVENT_C_CALL: return "c-call";
-  #       case RUBY_EVENT_C_RETURN: return "c-return";
-  #       case RUBY_EVENT_RAISE:  return "raise";
-  #       default:
-  #   return "unknown";
-  #     }
-  # }
+  # C(line, LINE);
+  # C(class, CLASS);
+  # C(end, END);
+  # C(call, CALL);
+  # C(return, RETURN);
+  # C(c_call, C_CALL);
+  # C(c_return, C_RETURN);
+  # C(raise, RAISE);
+  # C(b_call, B_CALL);
+  # C(b_return, B_RETURN);
+  # C(thread_begin, THREAD_BEGIN);
+  # C(thread_end, THREAD_END);
+  # C(specified_line, SPECIFIED_LINE);
+  #       case RUBY_EVENT_LINE | RUBY_EVENT_SPECIFIED_LINE: CONST_ID(id, "line"); return id;
   def method_missing(method_name, *args, &blk)
     checks.each do |check|
       if check.respond_to?(method_name)

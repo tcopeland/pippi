@@ -23,6 +23,10 @@ class CheckTest < MiniTest::Test
     assert execute_pippi_on(foo_bar_code_sample(str)).empty?
   end
 
+  def assert_problems(str, count=1)
+    assert_equal count, execute_pippi_on(foo_bar_code_sample(str)).size
+  end
+
   def output_file_name
     "tmp/out.txt"
   end

@@ -1,14 +1,13 @@
 require 'test_helper'
-require 'fileutils'
 
 class SelectFollowedByFirstTest < CheckTest
 
   def test_canonical_case_is_found
-    assert_equal 1, execute_pippi_on(foo_bar_code_sample("[1,2,3].select {|x| x > 2 }.first")).size
+    assert_problems "[1,2,3].select {|x| x > 2 }.first"
   end
 
   def test_two_line_case_is_found
-    assert_equal 1, execute_pippi_on(foo_bar_code_sample("x = [1,2,3].select {|x| x > 2 } ; x.first")).size
+    assert_problems "x = [1,2,3].select {|x| x > 2 } ; x.first"
   end
 
   def test_check_does_not_fire_if_no_first_call
