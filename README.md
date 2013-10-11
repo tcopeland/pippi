@@ -59,9 +59,6 @@ return x
 
 * Generate documentation from the docs embedded in the checks and publish that somewhere
 * Clean up this context/report/loader/blah mess
-* Implement more checks
-* Something to group checks - CheckSet or whatever - so we can run all rules at once
-* Something to make it easier to develop rules; a debug mode or something that prints out callbacks and such
 
 ## Developing
 
