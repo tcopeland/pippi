@@ -23,6 +23,21 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ## Ideas for other problems to detect:
 
 ```ruby
+# wrong
+[1,2,3].select {|x| x > 2 }.size == 1
+# right
+[1,2,3].one? {|x| x > 2 }
+```
+
+```ruby
+# wrong
+[1,2,3].select {|x| x > 1 }.size
+# right
+[1,2,3].count {|x| x > 1 }
+# Tricky thing is that #select returns a RETURN_SIZED_ENUMERATOR so there's no tracepoint event.
+```
+
+```ruby
 # unnecessary assignment since String#strip! mutates receiver 
 # wrong
 x = x.strip!
