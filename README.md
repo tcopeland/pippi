@@ -22,10 +22,12 @@ bundle exec pippi tmp/tmpfile.rb SelectFollowedByCompact Foo.new.bar out.txt
 bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
 
+This will get easier once I release the gem, which I'll do once I feel like there's a critical mass of rules.
+
 ## Ideas for other problems to detect:
 
 ```ruby
-# Use #any? rather than detect since it makes it more clear that you're checking for the presence of something without needing the thing itself
+# Use #any? rather than #detect followed by #present since it makes it more clear that you're checking for the presence of something without needing the thing itself
 # wrong
 [1,2,3].detect {|x| x > 2}.present?
 # right
@@ -34,7 +36,7 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 # Similar to one above except it's even more of an optimization since you don't have to iterate over the entire list
 # wrong
 [1,2,3].select {|x| x > 2}.size > 0
-# right 
+# right
 [1,2,3].any? {|x| x > 2}
 
 # wrong
