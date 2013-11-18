@@ -25,13 +25,23 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ## Ideas for other problems to detect:
 
 ```ruby
+# Use #any? rather than detect since it makes it more clear that you're checking for the presence of something without needing the thing itself
+# wrong
+[1,2,3].detect {|x| x > 2}.present?
+# right
+[1,2,3].any? {|x| x > 2 }
+
+# Similar to one above except it's even more of an optimization since you don't have to iterate over the entire list
+# wrong
+[1,2,3].select {|x| x > 2}.size > 0
+# right 
+[1,2,3].any? {|x| x > 2}
+
 # wrong
 [1,2,3].select {|x| x > 2 }.size == 1
 # right
 [1,2,3].one? {|x| x > 2 }
-```
 
-```ruby
 # unnecessary assignment since String#strip! mutates receiver 
 # wrong
 x = x.strip!
