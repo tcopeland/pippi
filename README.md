@@ -27,13 +27,7 @@ This will get easier once I release the gem, which I'll do once I feel like ther
 ## Ideas for other problems to detect:
 
 ```ruby
-# Use #any? rather than #detect followed by #present since it makes it more clear that you're checking for the presence of something without needing the thing itself
-# wrong
-[1,2,3].detect {|x| x > 2}.present?
-# right
-[1,2,3].any? {|x| x > 2 }
-
-# Similar to one above except it's even more of an optimization since you don't have to iterate over the entire list
+# Similar to 'detect followed by nil?' except it's even more of an optimization since you don't have to iterate over the entire list
 # wrong
 [1,2,3].select {|x| x > 2}.size > 0
 # right
@@ -94,9 +88,11 @@ rm -f pippi-0.0.1.gem && gem build pippi.gemspec && mv pippi-0.0.1.gem ~/github.
 
 # in project directory (e.g., aasm)
 chruby ruby-2.0.0-p247
-rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 be ruby -rpippi/auto_runner -e "puts 'hi'" && grep -C 5 BOOM pippi_debug.log
-# or to run a spec with pippi watching:
-rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 be ruby -rpippi/auto_runner -Ispec spec/unit/transition_spec.rb && grep -C 5 BOOM pippi_debug.log
+rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 bundle exec ruby -rpippi/auto_runner -e "puts 'hi'" && grep -C 5 BOOM pippi_debug.log
+# or to run some specs with pippi watching:
+chruby ruby-2.0.0-p247
+rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 bundle exec ruby -rpippi/auto_runner -Ispec spec/unit/*.rb
+
 ```
 
 ### Setup
