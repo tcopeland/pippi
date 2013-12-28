@@ -13,7 +13,9 @@ module Pippi
 
     def run
       ctx = Pippi::Context.new(:report => Pippi::Report.new, :logger => self)
-      TracepointListener.new(CheckLoader.new(ctx, check_name).checks)
+      CheckLoader.new(ctx, check_name).checks.each do |check|
+        check.decorate
+      end
       load "#{codefile}"
       eval code_to_eval
       dump_report ctx

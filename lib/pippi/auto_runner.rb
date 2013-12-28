@@ -1,18 +1,11 @@
-require 'pippi'
-
 module Pippi
 
   class AutoRunner
-  end
-
-  class MyLogger
-    def warn(str)
-      File.open("pippi.log", "a") do |f|
-        f.syswrite("#{str}\n")
-      end
+    def initialize
+      ctx = Pippi::Context.new(:report => Pippi::Report.new(Logger.new("log/pippi.log", "w")), :logger => self)
+      Pippi::CheckLoader.new(ctx, "basic").checks.each(&:decorate)
     end
   end
 
 end
 
-TracepointListener.new(Pippi::CheckLoader.new(Pippi::Context.new({:report => Pippi::Report.new(Pippi::MyLogger.new)}), "basic").checks)

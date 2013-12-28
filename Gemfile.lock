@@ -6,11 +6,17 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
+    columnize (0.3.6)
+    debugger-linecache (1.2.0)
     minitest (5.0.8)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   minitest
   pippi!

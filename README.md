@@ -1,5 +1,16 @@
 Pippi is a Ruby runtime code analysis tool
 
+Using the Aaron Quint "Ruby Performance Character Profiles" (https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s) system:
+
+Specificity - very specific, finds actual detailed usages of bad code
+Impact - very impactful, slows things down lots
+Difficulty of Operator Use - easy to install, just a new gemfile entry
+Readability - results are easy to read
+Realtimedness - finds stuff right away
+Special Abilities - ??
+
+Why "pippi"?  Because Pippi Longstocking was a <a href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.
+
 ## Usage
 
 ### Inside Rails tests
@@ -17,7 +28,7 @@ git clone https://github.com/tcopeland/pippi.git
 gem 'pippi', :path => "../pippi"
 # Run 'bundle', see some output
 # To run a particular check:
-bundle exec pippi tmp/tmpfile.rb SelectFollowedByCompact Foo.new.bar out.txt
+bundle exec pippi tmp/tmpfile.rb MapFollowedByFlatten Foo.new.bar out.txt
 # Or to run all the basic Pippi checks on your code and exercise it with MyClass.new.exercise_some_code:
 bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
@@ -27,6 +38,12 @@ This will get easier once I release the gem, which I'll do once I feel like ther
 ## Ideas for other problems to detect:
 
 ```ruby
+# Use assert_nil rather than assert_equals
+# wrong
+assert_equals(nil, foo)
+# right
+assert_nil foo
+
 # Similar to 'detect followed by nil?' except it's even more of an optimization since you don't have to iterate over the entire list
 # wrong
 [1,2,3].select {|x| x > 2}.size > 0
@@ -65,16 +82,11 @@ return x
 
 * Generate documentation from the docs embedded in the checks and publish that somewhere
 * Clean up this context/report/loader/blah mess
+* Maybe make documentation generate DSL-style
 
 ## Developing
 
-Switch to Ruby 2.0 with:
-
-```bash
-chruby ruby-2.0.0-p247
-```
-
-To see trace point event output for a file `tmp/baz.rb`:
+To see teacher output for a file `tmp/baz.rb`:
 
 ```bash
 rm -f pippi_debug.log ; PIPPI_DEBUG=1 bundle exec pippi tmp/baz.rb DebugCheck Foo.new.bar tmp/out.txt ; cat pippi_debug.log
@@ -83,51 +95,10 @@ rm -f pippi_debug.log ; PIPPI_DEBUG=1 bundle exec pippi tmp/baz.rb DebugCheck Fo
 When trying to find issues in a project:
 
 ```bash
-# in pippi directory
-rm -f pippi-0.0.1.gem && gem build pippi.gemspec && mv pippi-0.0.1.gem ~/github.com/aasm/vendor/cache/
-
 # in project directory (e.g., aasm)
-chruby ruby-2.0.0-p247
 rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 bundle exec ruby -rpippi/auto_runner -e "puts 'hi'" && grep -C 5 BOOM pippi_debug.log
 # or to run some specs with pippi watching:
-chruby ruby-2.0.0-p247
 rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 bundle exec ruby -rpippi/auto_runner -Ispec spec/unit/*.rb
 
 ```
 
-### Setup
-
-To install Ruby 2.0 on OSX 10.7.5, first had to install openssl:
-
-```bash
-cd ~/src/
-curl -O http://www.openssl.org/source/openssl-1.0.1e.tar.gz
-tar -zxf openssl-1.0.1e.tar.gz 
-cd openssl-1.0.1e
-./Configure darwin64-x86_64-cc --prefix=/usr/local/openssl-1.0.1e
-make
-sudo make install
-```
-
-Then install Ruby with:
-
-```bash
-# It will output the warning below, but then work anyway:
-# configure: WARNING: unrecognized options: --with-openssl-dir
-./configure --prefix=/opt/rubies/ruby-2.0.0-p247 --with-openssl-dir=/usr/local/openssl-1.0.1e/
-make
-cd ext/openssl
-# edit openssl_missing.h and add these lines around line 28-29
-#define HAVE_HMAC_CTX_COPY 1
-#define HAVE_EVP_CIPHER_CTX_COPY 1
-# or install it and then do chruby ruby-2.0.0-p247, otherwise you will get have_func errors
-../../bin/ruby extconf.rb --with-openssl-dir=/usr/local/openssl-1.0.1e/bin/
-```
-
-Some good docs there:
-
-http://www.ruby-doc.org/core-2.0.0/TracePoint.html
-
-## Why "pippi"?
-
-Because Pippi Longstocking was a <A href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.

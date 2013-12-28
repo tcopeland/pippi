@@ -19,9 +19,7 @@ module Pippi
     def predefined_sets
       {
         "basic" => [
-          "SelectFollowedByCompact",
-          "SelectFollowedByFirst",
-          "DetectFollowedByNil"
+          "MapFollowedByFlatten"
         ]
       }
     end
