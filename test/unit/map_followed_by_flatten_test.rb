@@ -14,6 +14,10 @@ class MapFollowedByFlattenTest < CheckTest
     assert_no_problems "[1,2,3].map {|x| [x] }.first"
   end
 
+  def test_works_across_statements
+    assert_problems "tmp = [1,2,3].map {|x| [x] } ; tmp.flatten"
+  end
+
   protected
 
   def check_for_test
