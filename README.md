@@ -1,6 +1,6 @@
 Pippi is a Ruby runtime code analysis tool
 
-Using the Aaron Quint "Ruby Performance Character Profiles" (https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s) system:
+Using <a href="https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s">the Aaron Quint "Ruby Performance Character Profiles"</a> system:
 
 * Specificity - very specific, finds actual detailed usages of bad code
 * Impact - very impactful, slows things down lots
