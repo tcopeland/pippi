@@ -2,12 +2,12 @@ Pippi is a Ruby runtime code analysis tool
 
 Using the Aaron Quint "Ruby Performance Character Profiles" (https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s) system:
 
-Specificity - very specific, finds actual detailed usages of bad code
-Impact - very impactful, slows things down lots
-Difficulty of Operator Use - easy to install, just a new gemfile entry
-Readability - results are easy to read
-Realtimedness - finds stuff right away
-Special Abilities - ??
+* Specificity - very specific, finds actual detailed usages of bad code
+* Impact - very impactful, slows things down lots
+* Difficulty of Operator Use - easy to install, just a new gemfile entry
+* Readability - results are easy to read
+* Realtimedness - finds stuff right away
+* Special Abilities - ??
 
 Why "pippi"?  Because Pippi Longstocking was a <a href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.
 
