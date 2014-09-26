@@ -18,8 +18,12 @@ class MapFollowedByFlattenTest < CheckTest
     assert_problems "tmp = [1,2,3].map {|x| [x] } ; tmp.flatten"
   end
 
-  def test_does_not_work_if_arg_to_flatten_is_more_than_one
+  def test_requires_arg_to_flatten_to_be_less_than_two
     assert_no_problems "[1,2,3].map {|x| [x] }.flatten(2)"
+  end
+
+  def test_will_not_flag_if_theres_an_intervening_method
+    assert_no_problems "[1,2,3].map {|x| [x] }.select {|x| x.to_s > '1' }.flatten"
   end
 
   protected
