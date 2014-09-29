@@ -4,15 +4,18 @@ module Pippi::Checks
 
     def decorate
       Array.class_exec(self) do |my_check|
-        # How to do this without a super-intrusive class variable?
-        @@_pippi_check = my_check
+        # How to do this without a class instance variable?
+        @_pippi_check = my_check
+        def self._pippi_check
+          @_pippi_check
+        end
         def map(&blk)
           result = super
           def result.flatten(depth=1)
             result = super(depth)
             if depth < 2
               problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-              @@_pippi_check.add_problem(problem_location.lineno, problem_location.path)
+              self.class._pippi_check.add_problem(problem_location.lineno, problem_location.path)
             end
             result
           end
