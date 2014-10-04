@@ -75,6 +75,14 @@ return x
 # right
 [1,2].tap {|y| y << 3 }
 
+# Rails checks
+
+# No need to call to_i on ActiveRecord::Base methods passed to route generators
+# wrong
+product_path(@product.to_i)
+# right
+product_path(@product.to_i)
+
 # something with replacing x.map.compact with x.select.map
 ````
 
