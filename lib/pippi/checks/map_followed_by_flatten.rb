@@ -11,7 +11,7 @@ module Pippi::Checks
         end
         def map(&blk)
           result = super
-          def result.flatten(depth=1)
+          result.define_singleton_method(:flatten) do |depth=1|
             result = super(depth)
             if depth < 2
               problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
