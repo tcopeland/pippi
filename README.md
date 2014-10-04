@@ -55,7 +55,7 @@ assert_nil foo
 # right
 [1,2,3].one? {|x| x > 2 }
 
-# unnecessary assignment since String#strip! mutates receiver 
+# unnecessary assignment since String#strip! mutates receiver
 # wrong
 x = x.strip!
 # right
@@ -74,6 +74,21 @@ x << 3
 return x
 # right
 [1,2].tap {|y| y << 3 }
+
+# Use self.new vs MyClass.new
+# wrong
+class Foo
+  def self.bar
+    Foo.new
+  end
+end
+# right
+class Foo
+  def self.bar
+    self.new
+  end
+end
+
 
 # Rails checks
 
