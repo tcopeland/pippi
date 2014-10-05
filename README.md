@@ -1,4 +1,4 @@
-Pippi is a Ruby runtime code analysis tool
+Pippi is a utility for locating suboptimal API usage in Ruby programs
 
 Using <a href="https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s">the Aaron Quint "Ruby Performance Character Profiles"</a> system:
 
