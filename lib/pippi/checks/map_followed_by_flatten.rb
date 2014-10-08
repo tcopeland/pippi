@@ -2,6 +2,17 @@ module Pippi::Checks
 
   class MapFollowedByFlatten < Check
 
+    def flatten_watcher_proc
+      Proc.new do |depth=1|
+        result = super(depth)
+        if depth < 2
+          problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+          self.class._pippi_check.add_problem(problem_location.lineno, problem_location.path)
+        end
+        result
+      end
+    end
+
     def decorate
       Array.class_exec(self) do |my_check|
         # How to do this without a class instance variable?
@@ -11,13 +22,10 @@ module Pippi::Checks
         end
         def map(&blk)
           result = super
-          result.define_singleton_method(:flatten) do |depth=1|
-            result = super(depth)
-            if depth < 2
-              problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-              self.class._pippi_check.add_problem(problem_location.lineno, problem_location.path)
-            end
-            result
+          if self.class._pippi_check.nil?
+            # Ignore Array subclasses since map or flatten may have difference meanings
+          else
+            result.define_singleton_method(:flatten, self.class._pippi_check.flatten_watcher_proc)
           end
           result
         end

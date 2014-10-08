@@ -75,7 +75,20 @@ return x
 # right
 [1,2].tap {|y| y << 3 }
 
-# Use self.new vs MyClass.new
+
+# Rails checks
+
+# No need to call to_i on ActiveRecord::Base methods passed to route generators
+# wrong
+product_path(@product.to_i)
+# right
+product_path(@product.to_i)
+
+# something with replacing x.map.compact with x.select.map
+````
+
+# Here are some things that Pippi is not well suited for
+# Use self.new vs MyClass.new.  This is not a good fit for Pippi because it involves a receiver usage that can be detected with static analysis.
 # wrong
 class Foo
   def self.bar
@@ -89,17 +102,6 @@ class Foo
   end
 end
 
-
-# Rails checks
-
-# No need to call to_i on ActiveRecord::Base methods passed to route generators
-# wrong
-product_path(@product.to_i)
-# right
-product_path(@product.to_i)
-
-# something with replacing x.map.compact with x.select.map
-````
 
 ## TODO
 
