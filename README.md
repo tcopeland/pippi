@@ -1,3 +1,7 @@
+This utility is doomed to produce false positives; details here:
+
+https://github.com/tcopeland/pippi/blob/master/test/unit/map_followed_by_flatten_test.rb#L35-L50
+
 Pippi is a utility for locating suboptimal API usage in Ruby programs
 
 Using <a href="https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s">the Aaron Quint "Ruby Performance Character Profiles"</a> system:
