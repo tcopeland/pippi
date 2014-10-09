@@ -51,7 +51,7 @@ be cold comfort.
 
 =end
 
-  def test_will_not_flag_if_other_method_invoked_after_flatten
+  def test_dfa_issue
     assert_no_problems "t = [1,2,3].map {|x| [x] } ; if (rand > 0.5) ; t.sort! ; end ; t.flatten"
   end
 

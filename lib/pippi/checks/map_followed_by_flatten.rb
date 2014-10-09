@@ -33,7 +33,7 @@ module Pippi::Checks
             # Ignore Array subclasses since map or flatten may have difference meanings
           else
             result.define_singleton_method(:flatten, self.class._pippi_check.flatten_watcher_proc)
-            [:select!, :sort].each do |this_means_its_ok_sym|
+            self.class._pippi_check.array_mutator_methods.each do |this_means_its_ok_sym|
               result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check.its_ok_watcher_proc)
             end
           end
@@ -44,6 +44,10 @@ module Pippi::Checks
 
     def add_problem(line_number, file_path)
       ctx.report.add(Pippi::Problem.new(:line_number => line_number, :file_path => file_path, :check_class => self.class))
+    end
+
+    def array_mutator_methods
+      (Array.new.methods.sort - Object.methods).select {|x| x.to_s =~ /!/ }
     end
 
     class Documentation
