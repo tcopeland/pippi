@@ -13,6 +13,13 @@ module Pippi::Checks
       end
     end
 
+    def its_ok_watcher_proc
+      Proc.new do
+        singleton_class.instance_eval { remove_method :flatten }
+        super()
+      end
+    end
+
     def decorate
       Array.class_exec(self) do |my_check|
         # How to do this without a class instance variable?
@@ -26,6 +33,9 @@ module Pippi::Checks
             # Ignore Array subclasses since map or flatten may have difference meanings
           else
             result.define_singleton_method(:flatten, self.class._pippi_check.flatten_watcher_proc)
+            [:select!, :sort].each do |this_means_its_ok_sym|
+              result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check.its_ok_watcher_proc)
+            end
           end
           result
         end
