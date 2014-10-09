@@ -19,7 +19,7 @@ class MapFollowedByFlattenTest < CheckTest
   end
 
   def test_requires_arg_to_flatten_to_be_one
-    assert_no_problems "[1,2,3].map {|x| [x] }.flatten(2)"
+    assert_no_problems "[1,2,3].map {|x| [x] }.flatten"
   end
 
   def test_will_not_flag_if_theres_an_intervening_method

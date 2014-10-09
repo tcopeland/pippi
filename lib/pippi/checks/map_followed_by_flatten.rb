@@ -1,11 +1,13 @@
+require 'pp'
+
 module Pippi::Checks
 
   class MapFollowedByFlatten < Check
 
     def flatten_watcher_proc
-      Proc.new do |depth=0|
+      Proc.new do |depth=nil|
         result = super(depth)
-        if depth == 1
+        if depth && depth == 1
           problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
           self.class._pippi_check.add_problem(problem_location.lineno, problem_location.path)
         end
