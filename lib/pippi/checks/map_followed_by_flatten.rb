@@ -1,5 +1,3 @@
-require 'pp'
-
 module Pippi::Checks
 
   class MapFollowedByFlatten < Check
@@ -9,7 +7,7 @@ module Pippi::Checks
         result = super(depth)
         if depth && depth == 1
           problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-          self.class._pippi_check.add_problem(problem_location.lineno, problem_location.path)
+          self.class._pippi_check_map_followed_by_flatten.add_problem(problem_location.lineno, problem_location.path)
         end
         result
       end
@@ -25,18 +23,18 @@ module Pippi::Checks
     def decorate
       Array.class_exec(self) do |my_check|
         # How to do this without a class instance variable?
-        @_pippi_check = my_check
-        def self._pippi_check
-          @_pippi_check
+        @_pippi_check_map_followed_by_flatten = my_check
+        def self._pippi_check_map_followed_by_flatten
+          @_pippi_check_map_followed_by_flatten
         end
         def map(&blk)
           result = super
-          if self.class._pippi_check.nil?
+          if self.class._pippi_check_map_followed_by_flatten.nil?
             # Ignore Array subclasses since map or flatten may have difference meanings
           else
-            result.define_singleton_method(:flatten, self.class._pippi_check.flatten_watcher_proc)
-            self.class._pippi_check.array_mutator_methods.each do |this_means_its_ok_sym|
-              result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check.its_ok_watcher_proc)
+            result.define_singleton_method(:flatten, self.class._pippi_check_map_followed_by_flatten.flatten_watcher_proc)
+            self.class._pippi_check_map_followed_by_flatten.array_mutator_methods.each do |this_means_its_ok_sym|
+              result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_map_followed_by_flatten.its_ok_watcher_proc)
             end
           end
           result
@@ -46,10 +44,6 @@ module Pippi::Checks
 
     def add_problem(line_number, file_path)
       ctx.report.add(Pippi::Problem.new(:line_number => line_number, :file_path => file_path, :check_class => self.class))
-    end
-
-    def array_mutator_methods
-      (Array.new.methods.sort - Object.methods).select {|x| x.to_s =~ /!/ }
     end
 
     class Documentation

@@ -8,5 +8,9 @@ module Pippi::Checks
       @ctx = ctx
     end
 
+    def array_mutator_methods
+      (Array.new.methods.sort - Object.methods).select {|x| x.to_s =~ /!/ }
+    end
+
   end
 end

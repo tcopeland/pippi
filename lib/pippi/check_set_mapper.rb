@@ -19,7 +19,8 @@ module Pippi
     def predefined_sets
       {
         "basic" => [
-          "MapFollowedByFlatten"
+          "MapFollowedByFlatten",
+          "ReverseFollowedByEach"
         ]
       }
     end
