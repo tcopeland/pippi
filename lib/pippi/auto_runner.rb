@@ -7,7 +7,7 @@ module Pippi
       @ctx = Pippi::Context.new
       Pippi::CheckLoader.new(@ctx, "basic").checks.each(&:decorate)
       at_exit { dump }
-      disable_rails_caching
+      maybe_disable_rails_caching
     end
 
     def dump
@@ -18,9 +18,11 @@ module Pippi
       end
     end
 
-    def disable_rails_caching
-      ActiveSupport::Cache::Store.class_eval do
-        def write(*_)
+    def maybe_disable_rails_caching
+      if defined?(ActiveSupport::Cache::Store)
+        ActiveSupport::Cache::Store.class_eval do
+          def write(*_)
+          end
         end
       end
     end
