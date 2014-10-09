@@ -15,11 +15,10 @@ module Pippi
       end
     end
 
-    attr_reader :report, :logger, :debug_logger
+    attr_reader :report, :debug_logger
 
-    def initialize(opts)
-      @report = opts[:report]
-      @logger = opts[:logger]
+    def initialize
+      @report = Pippi::Report.new
       @debug_logger = if ENV['PIPPI_DEBUG']
         Pippi::Context::DebugLogger.new
       else

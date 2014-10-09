@@ -2,20 +2,14 @@ module Pippi
 
   class Report
 
-    attr_reader :problems, :logger
+    attr_reader :problems
 
-    def initialize(logger=nil)
+    def initialize
       @problems = []
-      @logger = logger
     end
 
     def add(problem)
-      if !duplicate_report?(problem)
-        @problems << problem
-        if logger
-          logger.warn problem.to_text
-        end
-      end
+      @problems << problem unless duplicate_report?(problem)
     end
 
     private

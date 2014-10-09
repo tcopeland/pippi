@@ -12,7 +12,7 @@ module Pippi
     end
 
     def run
-      ctx = Pippi::Context.new(:report => Pippi::Report.new, :logger => self)
+      ctx = Pippi::Context.new
       CheckLoader.new(ctx, check_name).checks.each do |check|
         check.decorate
       end
@@ -27,10 +27,6 @@ module Pippi
           outfile.syswrite("#{problem.to_text}\n")
         end
       end
-    end
-
-    def log(str)
-      File.open("pippi.log", "a") {|f| f.syswrite("#{Time.now}: #{str}\n")}
     end
 
   end
