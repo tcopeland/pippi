@@ -26,6 +26,35 @@ class MapFollowedByFlattenTest < CheckTest
     assert_no_problems "[1,2,3].map {|x| [x] }.select {|x| x.to_s > '1' }.flatten"
   end
 
+  def test_will_not_flag_if_mutator_invoked
+    assert_no_problems "t = [1,2,3].map {|x| [x] } ; t.select! {|x| rand > 0.5 } ; t.flatten"
+  end
+
+=begin
+
+This is a DFA issue.  If the code does not follow path A, pippi will flag
+a problem.  But it's not, because if the code had followed path A,
+it would be ok.
+
+x = [1,2,3].map {|x| x }
+if x.size > 2
+  # A
+  x.select! {|y| y > 1}
+end
+x.flatten
+
+One fix for this would be to record this as a tentative violation, and then
+remove it if code path A was executed - say, in another test.  But what if there
+was no test that exercised that code path?  We'd have a false positive.  You could
+that that would tell the user that the app needed better test coverage, but that would
+be cold comfort.
+
+=end
+
+  def test_will_not_flag_if_other_method_invoked_after_flatten
+    assert_no_problems "t = [1,2,3].map {|x| [x] } ; if (rand > 0.5) ; t.sort! ; end ; t.flatten"
+  end
+
   protected
 
   def check_for_test
