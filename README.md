@@ -1,9 +1,26 @@
-Pippi is a utility for locating suboptimal API usage in Ruby programs.
+Pippi is a utility for locating suboptimal Ruby class API usage.
 
-Warning!  Pippi finds data flows that result in suboptimal API usage.  There may be other data flows where this API usage is correct.  Details here:
+For example, this snippet finds the first item greater than 1 in an array:
 
-https://github.com/tcopeland/pippi/blob/master/test/unit/map_followed_by_flatten_test.rb#L35-L50
+```ruby
+[1,2,3].select {|x| x > 1 }.first
+```
 
+This can be more clearly written using `Enumerable#detect`:
+
+```ruby
+[1,2,3].detect {|x| x > 1 }
+```
+
+Pippi will find this call sequence and recommend a change.
+
+Warning!  Pippi finds data flows that result in suboptimal API usage.  There may be other data flows where this API usage is correct.  For example, in the code below, if the random condition is true, then the Array will be mutated and the call sequence cannot be simplified to replace `Array#select` followed by `Array#first` with `Array#detect`:
+
+```ruby
+x = [1,2,3].select {|y| y > 1 }
+x.reject! {|y| y > 2} if rand < 0.5
+x.first
+```
 
 Using <a href="https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s">the Aaron Quint "Ruby Performance Character Profiles"</a> system:
 
