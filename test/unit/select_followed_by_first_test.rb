@@ -26,6 +26,10 @@ class SelectFollowedByFirstTest < CheckTest
     assert_no_problems "tmp = [1,2,3].select {|x| x > 1 } ; tmp.reject! {|x| x } ; tmp.first"
   end
 
+  def test_will_not_flag_if_arg_passed
+    assert_no_problems "[1,2,3].select {|x| x > 1 }.first(1)"
+  end
+
   protected
 
   def check_for_test

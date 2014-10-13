@@ -3,10 +3,16 @@ module Pippi::Checks
   class SelectFollowedByFirst < Check
 
     def first_watcher_proc
-      Proc.new do
-        result = super()
-        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-        self.class._pippi_check_select_followed_by_first.add_problem(problem_location.lineno, problem_location.path)
+      Proc.new do |elements=nil|
+        result = if elements
+          super(elements)
+        else
+          super()
+        end
+        unless elements
+          problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+          self.class._pippi_check_select_followed_by_first.add_problem(problem_location.lineno, problem_location.path)
+        end
         result
       end
     end
