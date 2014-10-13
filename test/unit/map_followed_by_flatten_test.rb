@@ -49,11 +49,11 @@ was no test that exercised that code path?  We'd have a false positive.  You cou
 that that would tell the user that the app needed better test coverage, but that would
 be cold comfort.
 
-=end
-
   def test_dfa_issue
     assert_no_problems "t = [1,2,3].map {|x| [x] } ; if (rand > 0.5) ; t.sort! ; end ; t.flatten(1)"
   end
+
+=end
 
   protected
 
