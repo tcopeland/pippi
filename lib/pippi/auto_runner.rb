@@ -3,7 +3,7 @@ module Pippi
   class AutoRunner
     attr_reader :ctx
 
-    def initialize(opts)
+    def initialize(opts={})
       checkset = opts.fetch(:checkset, "basic")
       @ctx = Pippi::Context.new
       Pippi::CheckLoader.new(@ctx, checkset).checks.each(&:decorate)
