@@ -20,8 +20,10 @@ module Pippi
       {
         "basic" => [
           "MapFollowedByFlatten",
-          "ReverseFollowedByEach",
           "SelectFollowedByFirst"
+        ],
+        "buggy" => [
+          "ReverseFollowedByEach",
         ]
       }
     end

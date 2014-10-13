@@ -3,9 +3,10 @@ module Pippi
   class AutoRunner
     attr_reader :ctx
 
-    def initialize
+    def initialize(opts)
+      checkset = opts.fetch(:checkset, "basic")
       @ctx = Pippi::Context.new
-      Pippi::CheckLoader.new(@ctx, "basic").checks.each(&:decorate)
+      Pippi::CheckLoader.new(@ctx, checkset).checks.each(&:decorate)
       at_exit { dump }
       maybe_disable_rails_caching
     end

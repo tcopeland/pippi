@@ -2,6 +2,10 @@ require "test_helper"
 
 class ReverseFollowedByEachTest < CheckTest
 
+  def test_reverse_still_works
+    assert_no_problems "raise 'bang' unless [1,2,3].reverse == [3,2,1]"
+  end
+
   def test_canonical_case_is_found
     assert_problems "[1,2,3].reverse.each {|x| x }"
   end
