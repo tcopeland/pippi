@@ -30,10 +30,4 @@ class SelectFollowedByFirstTest < CheckTest
     assert_no_problems "[1,2,3].select {|x| x > 1 }.first(1)"
   end
 
-  protected
-
-  def check_for_test
-    "SelectFollowedByFirst"
-  end
-
 end

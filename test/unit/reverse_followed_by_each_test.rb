@@ -26,10 +26,4 @@ class ReverseFollowedByEachTest < CheckTest
     assert_no_problems "t = [1,2,3].reverse ;  t.sort! ; t.each {|x| x }"
   end
 
-  protected
-
-  def check_for_test
-    "ReverseFollowedByEach"
-  end
-
 end

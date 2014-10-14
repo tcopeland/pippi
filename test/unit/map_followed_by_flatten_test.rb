@@ -35,11 +35,4 @@ class MapFollowedByFlattenTest < CheckTest
     assert_no_problems "t = [1,2,3].map {|x| [x] } ; if (rand > 0.5) ; t.sort! ; end ; t.flatten(1)"
   end
 =end
-
-  protected
-
-  def check_for_test
-    "MapFollowedByFlatten"
-  end
-
 end

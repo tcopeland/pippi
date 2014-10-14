@@ -26,10 +26,4 @@ class SelectFollowedBySizeTest < CheckTest
     assert_no_problems "tmp = [1,2,3].select {|x| x > 1 } ; tmp.reject! {|x| x } ; tmp.size"
   end
 
-  protected
-
-  def check_for_test
-    "SelectFollowedBySize"
-  end
-
 end

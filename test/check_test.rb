@@ -34,4 +34,8 @@ class CheckTest < MiniTest::Test
     report
   end
 
+  def check_for_test
+    self.class.name.sub(/Test/, "")
+  end
+
 end
