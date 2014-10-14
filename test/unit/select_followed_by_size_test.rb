@@ -26,4 +26,8 @@ class SelectFollowedBySizeTest < CheckTest
     assert_no_problems "tmp = [1,2,3].select {|x| x > 1 } ; tmp.reject! {|x| x } ; tmp.size"
   end
 
+  def test_will_not_flag_if_method_subsequently_invokedzz
+    assert_no_problems "tmp = [1,2,3].select {|x| x > 1 } ; tmp.size ; y = tmp.sort!"
+  end
+
 end
