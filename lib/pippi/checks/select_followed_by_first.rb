@@ -30,6 +30,8 @@ module Pippi::Checks
         def self._pippi_check_select_followed_by_first
           @_pippi_check_select_followed_by_first
         end
+        # FIXME this doesn't work if more than one rule does it
+        # maybe put this in a module and prepend it?
         def select(&blk)
           result = super
           if self.class._pippi_check_select_followed_by_first.nil?
