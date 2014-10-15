@@ -9,7 +9,7 @@ module Pippi::Checks
     end
 
     def array_mutator_methods
-      (Array.new.methods.sort - Object.methods).select {|x| x.to_s =~ /!/ }
+      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!]
     end
 
   end

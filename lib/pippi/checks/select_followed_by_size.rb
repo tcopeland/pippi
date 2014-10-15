@@ -47,8 +47,7 @@ module Pippi::Checks
             # Ignore Array subclasses since select or size may have difference meanings
           else
             result.define_singleton_method(:size, self.class._pippi_check_select_followed_by_size.size_watcher_proc)
-            # not using Check#array_mutator_methods because calling that does... something.
-            [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
+            self.class._pippi_check_select_followed_by_size.array_mutator_methods.each do |this_means_its_ok_sym|
               result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc)
             end
           end
