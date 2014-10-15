@@ -21,7 +21,7 @@ module Pippi::Checks
     end
 
     def clear_fault(lineno, path)
-      ctx.report.remove(lineno, path)
+      ctx.report.remove(lineno, path, self.class)
     end
 
     def its_ok_watcher_proc

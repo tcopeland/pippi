@@ -12,8 +12,8 @@ module Pippi
       @problems << problem unless duplicate_report?(problem)
     end
 
-    def remove(lineno, path)
-      @problems.reject! {|p| p.line_number == lineno && p.file_path == path }
+    def remove(lineno, path, clazz)
+      @problems.reject! {|p| p.line_number == lineno && p.file_path == path && p.check_class == clazz }
     end
 
     private
