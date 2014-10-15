@@ -7,11 +7,15 @@ module Pippi::Checks
         result = super()
         problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
         self.class._pippi_check_select_followed_by_size.add_problem(problem_location.lineno, problem_location.path)
-        [:sort!].each do |this_means_its_ok_sym|
+        self.class._pippi_check_select_followed_by_size.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
           define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.clear_fault_proc(problem_location.lineno, problem_location.path))
         end
         result
       end
+    end
+
+    def method_names_that_indicate_this_is_being_used_as_a_collection
+      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!, :collect, :compact, :flatten, :map, :reject, :reverse, :rotate, :select, :shuffle, :slice, :sort, :sort_by, :uniq]
     end
 
     def clear_fault_proc(lineno, path)
