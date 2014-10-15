@@ -66,17 +66,6 @@ assert_equals(nil, foo)
 # right
 assert_nil foo
 
-# Similar to 'detect followed by nil?' except it's even more of an optimization since you don't have to iterate over the entire list
-# wrong
-[1,2,3].select {|x| x > 2}.size > 0
-# right
-[1,2,3].any? {|x| x > 2}
-
-# wrong
-[1,2,3].select {|x| x > 2 }.size == 1
-# right
-[1,2,3].one? {|x| x > 2 }
-
 # unnecessary assignment since String#strip! mutates receiver
 # wrong
 x = x.strip!
@@ -104,7 +93,7 @@ return x
 # wrong
 product_path(@product.to_i)
 # right
-product_path(@product.to_i)
+product_path(@product)
 
 # something with replacing x.map.compact with x.select.map
 ````
