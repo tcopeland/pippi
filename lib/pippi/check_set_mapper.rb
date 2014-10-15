@@ -19,14 +19,14 @@ module Pippi
     def predefined_sets
       {
         "basic" => [
-          "MapFollowedByFlatten",
           "SelectFollowedByFirst",
-        ],
-        "training" => [
           "SelectFollowedBySize",
         ],
-        "buggy" => [
+        "training" => [
           "ReverseFollowedByEach",
+        ],
+        "buggy" => [
+          "MapFollowedByFlatten",
         ]
       }
     end

@@ -2,6 +2,21 @@ module Pippi::Checks
 
   class SelectFollowedByFirst < Check
 
+    module MySelect
+      def select(&blk)
+        result = super
+        if self.class._pippi_check_select_followed_by_first.nil?
+          # Ignore Array subclasses since select or first may have difference meanings
+        else
+          result.define_singleton_method(:first, self.class._pippi_check_select_followed_by_first.first_watcher_proc)
+          [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc)
+          end
+        end
+        result
+      end
+    end
+
     def first_watcher_proc
       Proc.new do |elements=nil|
         result = if elements
@@ -30,21 +45,8 @@ module Pippi::Checks
         def self._pippi_check_select_followed_by_first
           @_pippi_check_select_followed_by_first
         end
-        # FIXME this doesn't work if more than one rule does it
-        # maybe put this in a module and prepend it?
-        def select(&blk)
-          result = super
-          if self.class._pippi_check_select_followed_by_first.nil?
-            # Ignore Array subclasses since select or first may have difference meanings
-          else
-            result.define_singleton_method(:first, self.class._pippi_check_select_followed_by_first.first_watcher_proc)
-            [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
-              result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc)
-            end
-          end
-          result
-        end
       end
+      Array.prepend Pippi::Checks::SelectFollowedByFirst::MySelect
     end
 
     def add_problem(line_number, file_path)

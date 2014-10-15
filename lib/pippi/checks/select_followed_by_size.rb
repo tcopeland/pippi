@@ -2,6 +2,21 @@ module Pippi::Checks
 
   class SelectFollowedBySize < Check
 
+    module MySelect
+      def select(&blk)
+        result = super
+        if self.class._pippi_check_select_followed_by_size.nil?
+          # Ignore Array subclasses since select or size may have difference meanings
+        else
+          result.define_singleton_method(:size, self.class._pippi_check_select_followed_by_size.size_watcher_proc)
+          self.class._pippi_check_select_followed_by_size.array_mutator_methods.each do |this_means_its_ok_sym|
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc)
+          end
+        end
+        result
+      end
+    end
+
     def size_watcher_proc
       Proc.new do
         result = super()
@@ -41,19 +56,8 @@ module Pippi::Checks
         def self._pippi_check_select_followed_by_size
           @_pippi_check_select_followed_by_size
         end
-        def select(&blk)
-          result = super
-          if self.class._pippi_check_select_followed_by_size.nil?
-            # Ignore Array subclasses since select or size may have difference meanings
-          else
-            result.define_singleton_method(:size, self.class._pippi_check_select_followed_by_size.size_watcher_proc)
-            self.class._pippi_check_select_followed_by_size.array_mutator_methods.each do |this_means_its_ok_sym|
-              result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc)
-            end
-          end
-          result
-        end
       end
+      Array.prepend Pippi::Checks::SelectFollowedBySize::MySelect
     end
 
     def add_problem(line_number, file_path)

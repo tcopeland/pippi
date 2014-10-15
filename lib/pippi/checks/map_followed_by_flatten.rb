@@ -2,6 +2,21 @@ module Pippi::Checks
 
   class MapFollowedByFlatten < Check
 
+    module MyMap
+      def map(&blk)
+        result = super
+        if self.class._pippi_check_map_followed_by_flatten.nil?
+          # Ignore Array subclasses since map or flatten may have difference meanings
+        else
+          result.define_singleton_method(:flatten, self.class._pippi_check_map_followed_by_flatten.flatten_watcher_proc)
+          self.class._pippi_check_map_followed_by_flatten.array_mutator_methods.each do |this_means_its_ok_sym|
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_map_followed_by_flatten.its_ok_watcher_proc)
+          end
+        end
+        result
+      end
+    end
+
     def flatten_watcher_proc
       Proc.new do |depth=nil|
         result = super(depth)
@@ -15,6 +30,7 @@ module Pippi::Checks
 
     def its_ok_watcher_proc
       Proc.new do
+        # This raises NameError: method `flatten' not defined in Array, but how?
         singleton_class.instance_eval { remove_method :flatten }
         super()
       end
@@ -27,19 +43,8 @@ module Pippi::Checks
         def self._pippi_check_map_followed_by_flatten
           @_pippi_check_map_followed_by_flatten
         end
-        def map(&blk)
-          result = super
-          if self.class._pippi_check_map_followed_by_flatten.nil?
-            # Ignore Array subclasses since map or flatten may have difference meanings
-          else
-            result.define_singleton_method(:flatten, self.class._pippi_check_map_followed_by_flatten.flatten_watcher_proc)
-            self.class._pippi_check_map_followed_by_flatten.array_mutator_methods.each do |this_means_its_ok_sym|
-              result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_map_followed_by_flatten.its_ok_watcher_proc)
-            end
-          end
-          result
-        end
       end
+      Array.prepend Pippi::Checks::MapFollowedByFlatten::MyMap
     end
 
     def add_problem(line_number, file_path)
