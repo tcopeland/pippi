@@ -60,6 +60,7 @@ This will get easier once I release the gem, which I'll do once I feel like ther
 ## Ideas for other problems to detect:
 
 ```ruby
+# Don't use select followed by compact, use select with the nil inside the block
 # Use assert_nil rather than assert_equals
 # wrong
 assert_equals(nil, foo)
