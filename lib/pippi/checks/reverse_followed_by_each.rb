@@ -2,26 +2,27 @@ module Pippi::Checks
 
   class ReverseFollowedByEach < Check
 
+    module MyEach
+      def each
+        result = super()
+        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+        self.class._pippi_check_reverse_followed_by_each.add_problem(problem_location.lineno, problem_location.path)
+        result
+      end
+    end
+
     module MyReverse
       def reverse
         result = super
         if self.class._pippi_check_reverse_followed_by_each.nil?
           # Ignore Array subclasses since reverse or each may have difference meanings
         else
-          result.define_singleton_method(:each, self.class._pippi_check_reverse_followed_by_each.each_watcher_proc)
+          result.singleton_class.prepend MyEach
+          # FIXME why is corresponding test failing?
           self.class._pippi_check_reverse_followed_by_each.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc)
+            define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc)
           end
         end
-        result
-      end
-    end
-
-    def each_watcher_proc
-      Proc.new do
-        result = super()
-        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-        self.class._pippi_check_reverse_followed_by_each.add_problem(problem_location.lineno, problem_location.path)
         result
       end
     end
