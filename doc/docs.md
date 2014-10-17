@@ -1,4 +1,20 @@
 
+### AssertWithNil
+
+Don't use assert_equal with nil as a first argument; use assert_nil instead
+
+For example, rather than doing this:
+
+```ruby
+x = nil ; assert_equal(nil, x)
+```
+
+Instead, consider doing this:
+
+```ruby
+x = nil ; assert_nil(x)
+```
+
 ### MapFollowedByFlatten
 
 Don't use map followed by flatten; use flat_map instead

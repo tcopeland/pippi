@@ -4,6 +4,21 @@ Pippi is a utility for finding suboptimal Ruby class API usage.
 
 ## Checks
 
+### AssertWithNil
+
+Don't use assert_equal with nil as a first argument; use assert_nil instead
+
+For example, rather than doing this:
+
+```ruby
+x = nil ; assert_equal(nil, x)
+```
+
+Instead, consider doing this:
+
+```ruby
+x = nil ; assert_nil(x)
+
 ### MapFollowedByFlatten
 
 Don't use map followed by flatten; use flat_map instead
@@ -92,11 +107,6 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 
 ```ruby
 # Don't use select followed by compact, use select with the nil inside the block
-# Use assert_nil rather than assert_equals
-# wrong
-assert_equals(nil, foo)
-# right
-assert_nil foo
 
 # unnecessary assignment since String#strip! mutates receiver
 # wrong

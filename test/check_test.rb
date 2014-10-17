@@ -4,12 +4,12 @@ class CheckTest < MiniTest::Test
 
   CodeSample = Struct.new(:code_text, :eval_to_execute)
 
-  def assert_no_problems(str)
-    assert execute_pippi_on(foo_bar_code_sample(str)).empty?
+  def assert_no_problems(str, opts={})
+    assert execute_pippi_on(foo_bar_code_sample(str, opts[:subclass] || ""), opts).empty?
   end
 
   def assert_problems(str, opts={})
-    assert_equal opts[:count] || 1, execute_pippi_on(foo_bar_code_sample(str), opts).size
+    assert_equal opts[:count] || 1, execute_pippi_on(foo_bar_code_sample(str, opts[:subclass] || ""), opts).size
   end
 
   def output_file_name
@@ -20,8 +20,8 @@ class CheckTest < MiniTest::Test
     @tmp_code_sample_file_name ||= Tempfile.new("pippi_codesample").path
   end
 
-  def foo_bar_code_sample(code)
-    CodeSample.new.tap {|c| c.code_text = "class Foo ; def bar ; #{code} ; end ; end" ; c.eval_to_execute = "Foo.new.bar" }
+  def foo_bar_code_sample(code, subclass="")
+    CodeSample.new.tap {|c| c.code_text = "class Foo #{subclass.size > 0 ? "< #{subclass}" : ""}; def bar ; #{code} ; end ; end" ; c.eval_to_execute = "Foo.new.bar" }
   end
 
   def execute_pippi_on(code, opts={})

@@ -22,6 +22,7 @@ module Pippi
           "SelectFollowedByFirst",
           "SelectFollowedBySize",
           "ReverseFollowedByEach",
+          "AssertWithNil"
         ],
         "training" => [
         ],

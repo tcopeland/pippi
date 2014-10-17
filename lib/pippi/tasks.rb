@@ -7,7 +7,8 @@ module Pippi
       [Pippi::Checks::SelectFollowedBySize::Documentation,
        Pippi::Checks::SelectFollowedByFirst::Documentation,
        Pippi::Checks::ReverseFollowedByEach::Documentation,
-       Pippi::Checks::MapFollowedByFlatten::Documentation
+       Pippi::Checks::MapFollowedByFlatten::Documentation,
+       Pippi::Checks::AssertWithNil::Documentation,
       ].sort {|a,b| a.name <=> b.name }.each do |clz|
         obj = clz.new
         str << %Q{
