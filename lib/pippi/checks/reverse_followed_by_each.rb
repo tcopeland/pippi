@@ -20,7 +20,7 @@ module Pippi::Checks
           result.singleton_class.prepend MyEach
           # FIXME why is corresponding test failing?
           self.class._pippi_check_reverse_followed_by_each.array_mutator_methods.each do |this_means_its_ok_sym|
-            define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc)
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc)
           end
         end
         result
