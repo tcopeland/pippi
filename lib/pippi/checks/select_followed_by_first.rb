@@ -2,23 +2,8 @@ module Pippi::Checks
 
   class SelectFollowedByFirst < Check
 
-    module MySelect
-      def select(&blk)
-        result = super
-        if self.class._pippi_check_select_followed_by_first.nil?
-          # Ignore Array subclasses since select or first may have difference meanings
-        else
-          result.define_singleton_method(:first, self.class._pippi_check_select_followed_by_first.first_watcher_proc)
-          [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc)
-          end
-        end
-        result
-      end
-    end
-
-    def first_watcher_proc
-      Proc.new do |elements=nil|
+    module MyFirst
+      def first(elements=nil)
         result = if elements
           super(elements)
         else
@@ -32,9 +17,24 @@ module Pippi::Checks
       end
     end
 
+    module MySelect
+      def select(&blk)
+        result = super
+        if self.class._pippi_check_select_followed_by_first.nil?
+          # Ignore Array subclasses since select or first may have difference meanings
+        else
+          result.extend Pippi::Checks::SelectFollowedByFirst::MyFirst
+          [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc)
+          end
+        end
+        result
+      end
+    end
+
     def its_ok_watcher_proc
       Proc.new do
-        singleton_class.instance_eval { remove_method :first }
+        singleton_class.ancestors.detect {|x| x == Pippi::Checks::SelectFollowedByFirst::MyFirst }.instance_eval { remove_method :first }
         super()
       end
     end
@@ -47,10 +47,6 @@ module Pippi::Checks
         end
       end
       Array.prepend Pippi::Checks::SelectFollowedByFirst::MySelect
-    end
-
-    def add_problem(line_number, file_path)
-      ctx.report.add(Pippi::Problem.new(:line_number => line_number, :file_path => file_path, :check_class => self.class))
     end
 
     class Documentation

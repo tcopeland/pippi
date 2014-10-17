@@ -2,28 +2,28 @@ module Pippi::Checks
 
   class SelectFollowedBySize < Check
 
+    module MySize
+      def size
+        result = super()
+        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+        self.class._pippi_check_select_followed_by_size.add_problem(problem_location.lineno, problem_location.path)
+        self.class._pippi_check_select_followed_by_size.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
+          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.clear_fault_proc(problem_location.lineno, problem_location.path))
+        end
+        result
+      end
+    end
+
     module MySelect
       def select(&blk)
         result = super
         if self.class._pippi_check_select_followed_by_size.nil?
           # Ignore Array subclasses since select or size may have difference meanings
         else
-          result.define_singleton_method(:size, self.class._pippi_check_select_followed_by_size.size_watcher_proc)
+          result.extend Pippi::Checks::SelectFollowedBySize::MySize
           self.class._pippi_check_select_followed_by_size.array_mutator_methods.each do |this_means_its_ok_sym|
             result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc)
           end
-        end
-        result
-      end
-    end
-
-    def size_watcher_proc
-      Proc.new do
-        result = super()
-        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-        self.class._pippi_check_select_followed_by_size.add_problem(problem_location.lineno, problem_location.path)
-        self.class._pippi_check_select_followed_by_size.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
-          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.clear_fault_proc(problem_location.lineno, problem_location.path))
         end
         result
       end
@@ -45,7 +45,7 @@ module Pippi::Checks
 
     def its_ok_watcher_proc
       Proc.new do
-        singleton_class.instance_eval { remove_method :size }
+        singleton_class.ancestors.detect {|x| x == Pippi::Checks::SelectFollowedBySize::MySize }.instance_eval { remove_method :size }
         super()
       end
     end
@@ -58,10 +58,6 @@ module Pippi::Checks
         end
       end
       Array.prepend Pippi::Checks::SelectFollowedBySize::MySelect
-    end
-
-    def add_problem(line_number, file_path)
-      ctx.report.add(Pippi::Problem.new(:line_number => line_number, :file_path => file_path, :check_class => self.class))
     end
 
     class Documentation
