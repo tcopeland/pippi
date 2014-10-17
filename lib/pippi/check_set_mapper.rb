@@ -21,9 +21,9 @@ module Pippi
         "basic" => [
           "SelectFollowedByFirst",
           "SelectFollowedBySize",
+          "ReverseFollowedByEach",
         ],
         "training" => [
-          "ReverseFollowedByEach",
         ],
         "buggy" => [
           "MapFollowedByFlatten",
