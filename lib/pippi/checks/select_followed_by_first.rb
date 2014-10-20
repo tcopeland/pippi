@@ -23,7 +23,7 @@ module Pippi::Checks
           # Ignore Array subclasses since select or first may have difference meanings
         else
           result.extend MyFirst
-          [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
+          self.class._pippi_check_select_followed_by_first.array_mutator_methods.each do |this_means_its_ok_sym|
             result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc(MyFirst, :first))
           end
         end
