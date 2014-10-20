@@ -36,7 +36,7 @@ module Pippi::Checks
           @_pippi_check_map_followed_by_flatten
         end
       end
-      Array.prepend Pippi::Checks::MapFollowedByFlatten::MyMap
+      Array.prepend MyMap
     end
 
     class Documentation
