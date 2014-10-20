@@ -1,26 +1,36 @@
 Pippi is a utility for locating suboptimal Ruby class API usage.
 
-For example, this snippet finds the first item greater than 1 in an array:
+For example, consider an array:
+
+```ruby
+[1,2,3]
+```
+
+You may wish to find the first item greater than 1 in this array, so:
 
 ```ruby
 [1,2,3].select {|x| x > 1 }.first
 ```
 
-This can be more clearly written using `Enumerable#detect`:
+But this can be more clearly written using `Enumerable#detect`:
 
 ```ruby
 [1,2,3].detect {|x| x > 1 }
 ```
 
-Pippi will find this call sequence and recommend a change.
+When you run your tests, Pippi will watch the method call sequences, notice the "select followed by first" sequence and recommend a change.
 
-Warning!  Pippi finds data flows that result in suboptimal API usage.  There may be other data flows where this API usage is correct.  For example, in the code below, if the random condition is true, then the Array will be mutated and the call sequence cannot be simplified to replace `Array#select` followed by `Array#first` with `Array#detect`:
+Warning!  Pippi finds suboptimal API usage based on data flows as driven by a project's test suite.  There may be other data flows where this API usage is correct.  For example, in the code below, if `rand < 0.5` is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
 
 ```ruby
 x = [1,2,3].select {|y| y > 1 }
 x.reject! {|y| y > 2} if rand < 0.5
 x.first
 ```
+
+This is the halting problem; I don't see a way to avoid this.
+
+However, Pippi does use various techniques to attempt to avoid false positives.  For example, after flagging an issue, it watches subsequent method invocations and if those indicate the initial problem report was in error it'll remove the problem from the report.
 
 Using <a href="https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s">the Aaron Quint "Ruby Performance Character Profiles"</a> system:
 
@@ -47,15 +57,13 @@ Assuming you're using bundler:
 # clone this repo as a sibling directory to your project
 git clone https://github.com/tcopeland/pippi.git
 # Add this to your project's Gemfile:
-gem 'pippi', :path => "../pippi"
+gem 'pippi'
 # Run 'bundle', see some output
 # To run a particular check:
 bundle exec pippi tmp/tmpfile.rb MapFollowedByFlatten Foo.new.bar out.txt
 # Or to run all the basic Pippi checks on your code and exercise it with MyClass.new.exercise_some_code:
 bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
-
-This will get easier once I release the gem, which I'll do once I feel like there's a critical mass of rules.
 
 ## Ideas for other problems to detect:
 
@@ -118,8 +126,8 @@ end
 ## TODO
 
 * Generate documentation from the docs embedded in the checks and publish that somewhere
-* Clean up this context/report/loader/blah mess
-* Maybe make documentation generate DSL-style
+* Clean up this initial hacked out metaprogramming
+* Do more checks
 
 ## Developing
 
@@ -139,3 +147,8 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 
 ```
 
+## Credits
+
+* Thanks to <a href="https://www.livingsocial.com/">LivingSocial</a> for letting me develop and open source this utility.
+* Thanks to Evan Phoenix for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoints`.
+* Thanks to Michael Bernstein (of Code Climate fame) for an inspirational discussion of code anaysis in general.

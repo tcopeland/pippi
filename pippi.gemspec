@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version = Pippi::VERSION
   s.authors = ["Tom Copeland"]
   s.email = ["tom@thomasleecopeland.com"]
-  s.homepage = ""
+  s.homepage = "https://github.com/tcopeland/pippi"
   s.summary = "A Ruby runtime code analyzer"
   s.description = "A Ruby runtime code analyzer"
   s.rubyforge_project = "none"
@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'byebug'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
 end
