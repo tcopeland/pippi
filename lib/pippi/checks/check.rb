@@ -12,8 +12,20 @@ module Pippi::Checks
       [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!]
     end
 
-    def add_problem(line_number, file_path)
-      ctx.report.add(Pippi::Problem.new(:line_number => line_number, :file_path => file_path, :check_class => self.class))
+    def add_problem
+      problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+      ctx.report.add(Pippi::Problem.new(:line_number => problem_location.lineno, :file_path => problem_location.path, :check_class => self.class))
+    end
+
+    def clear_fault_proc
+      Proc.new do
+        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+        self.class._pippi_check_select_followed_by_size.clear_fault(problem_location.lineno, problem_location.path)
+      end
+    end
+
+    def clear_fault(lineno, path)
+      ctx.report.remove(lineno, path, self.class)
     end
 
     def its_ok_watcher_proc(clazz, method_name)

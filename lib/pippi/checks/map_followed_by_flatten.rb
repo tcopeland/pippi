@@ -6,8 +6,7 @@ module Pippi::Checks
       def flatten(depth=nil)
         result = super(depth)
         if depth && depth == 1
-          problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-          self.class._pippi_check_map_followed_by_flatten.add_problem(problem_location.lineno, problem_location.path)
+          self.class._pippi_check_map_followed_by_flatten.add_problem
         end
         result
       end

@@ -5,8 +5,7 @@ module Pippi::Checks
     module MyEach
       def each
         result = super()
-        problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-        self.class._pippi_check_reverse_followed_by_each.add_problem(problem_location.lineno, problem_location.path)
+        self.class._pippi_check_reverse_followed_by_each.add_problem
         result
       end
     end
