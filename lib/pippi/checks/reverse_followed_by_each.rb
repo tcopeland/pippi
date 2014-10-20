@@ -28,7 +28,7 @@ module Pippi::Checks
 
     def its_ok_watcher_proc
       Proc.new do
-        singleton_class.ancestors.detect {|x| x == Pippi::Checks::ReverseFollowedByEach::MyEach }.instance_eval { remove_method :each }
+        singleton_class.ancestors.detect {|x| x == MyEach }.instance_eval { remove_method :each }
         super()
       end
     end

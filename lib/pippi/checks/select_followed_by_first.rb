@@ -23,7 +23,7 @@ module Pippi::Checks
         if self.class._pippi_check_select_followed_by_first.nil?
           # Ignore Array subclasses since select or first may have difference meanings
         else
-          result.extend Pippi::Checks::SelectFollowedByFirst::MyFirst
+          result.extend MyFirst
           [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
             result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc)
           end
@@ -34,7 +34,7 @@ module Pippi::Checks
 
     def its_ok_watcher_proc
       Proc.new do
-        singleton_class.ancestors.detect {|x| x == Pippi::Checks::SelectFollowedByFirst::MyFirst }.instance_eval { remove_method :first }
+        singleton_class.ancestors.detect {|x| x == MyFirst }.instance_eval { remove_method :first }
         super()
       end
     end
@@ -46,7 +46,7 @@ module Pippi::Checks
           @_pippi_check_select_followed_by_first
         end
       end
-      Array.prepend Pippi::Checks::SelectFollowedByFirst::MySelect
+      Array.prepend MySelect
     end
 
     class Documentation

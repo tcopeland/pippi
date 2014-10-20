@@ -20,7 +20,7 @@ module Pippi::Checks
         if self.class._pippi_check_select_followed_by_size.nil?
           # Ignore Array subclasses since select or size may have difference meanings
         else
-          result.extend Pippi::Checks::SelectFollowedBySize::MySize
+          result.extend MySize
           self.class._pippi_check_select_followed_by_size.array_mutator_methods.each do |this_means_its_ok_sym|
             result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc)
           end
@@ -45,7 +45,7 @@ module Pippi::Checks
 
     def its_ok_watcher_proc
       Proc.new do
-        singleton_class.ancestors.detect {|x| x == Pippi::Checks::SelectFollowedBySize::MySize }.instance_eval { remove_method :size }
+        singleton_class.ancestors.detect {|x| x == MySize }.instance_eval { remove_method :size }
         super()
       end
     end
@@ -57,7 +57,7 @@ module Pippi::Checks
           @_pippi_check_select_followed_by_size
         end
       end
-      Array.prepend Pippi::Checks::SelectFollowedBySize::MySelect
+      Array.prepend MySelect
     end
 
     class Documentation
