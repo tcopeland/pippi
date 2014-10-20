@@ -19,17 +19,10 @@ module Pippi::Checks
         else
           result.singleton_class.prepend MyEach
           self.class._pippi_check_reverse_followed_by_each.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc)
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc(MyEach, :each))
           end
         end
         result
-      end
-    end
-
-    def its_ok_watcher_proc
-      Proc.new do
-        singleton_class.ancestors.detect {|x| x == MyEach }.instance_eval { remove_method :each }
-        super()
       end
     end
 

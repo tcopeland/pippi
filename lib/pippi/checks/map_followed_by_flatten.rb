@@ -21,17 +21,10 @@ module Pippi::Checks
         else
           result.extend MyFlatten
           self.class._pippi_check_map_followed_by_flatten.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_map_followed_by_flatten.its_ok_watcher_proc)
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_map_followed_by_flatten.its_ok_watcher_proc(MyFlatten, :flatten))
           end
         end
         result
-      end
-    end
-
-    def its_ok_watcher_proc
-      Proc.new do
-        singleton_class.ancestors.detect {|x| x == MyFlatten }.instance_eval { remove_method :flatten }
-        super()
       end
     end
 

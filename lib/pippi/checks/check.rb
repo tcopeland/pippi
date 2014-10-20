@@ -16,5 +16,12 @@ module Pippi::Checks
       ctx.report.add(Pippi::Problem.new(:line_number => line_number, :file_path => file_path, :check_class => self.class))
     end
 
+    def its_ok_watcher_proc(clazz, method_name)
+      Proc.new do
+        singleton_class.ancestors.detect {|x| x == clazz }.instance_eval { remove_method method_name }
+        super()
+      end
+    end
+
   end
 end

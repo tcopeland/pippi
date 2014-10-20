@@ -25,17 +25,10 @@ module Pippi::Checks
         else
           result.extend MyFirst
           [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!].each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc)
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc(MyFirst, :first))
           end
         end
         result
-      end
-    end
-
-    def its_ok_watcher_proc
-      Proc.new do
-        singleton_class.ancestors.detect {|x| x == MyFirst }.instance_eval { remove_method :first }
-        super()
       end
     end
 

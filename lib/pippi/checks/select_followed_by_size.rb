@@ -22,7 +22,7 @@ module Pippi::Checks
         else
           result.extend MySize
           self.class._pippi_check_select_followed_by_size.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc)
+            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.its_ok_watcher_proc(MySize, :size))
           end
         end
         result
@@ -41,13 +41,6 @@ module Pippi::Checks
 
     def clear_fault(lineno, path)
       ctx.report.remove(lineno, path, self.class)
-    end
-
-    def its_ok_watcher_proc
-      Proc.new do
-        singleton_class.ancestors.detect {|x| x == MySize }.instance_eval { remove_method :size }
-        super()
-      end
     end
 
     def decorate
