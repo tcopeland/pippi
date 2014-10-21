@@ -120,8 +120,6 @@ See https://github.com/tcopeland/pippi_demo#pippi-demo
 Assuming you're using bundler:
 
 ```bash
-# clone this repo as a sibling directory to your project
-git clone https://github.com/tcopeland/pippi.git
 # Add this to your project's Gemfile:
 gem 'pippi'
 # Run 'bundle', see some output
@@ -173,15 +171,15 @@ product_path(@product)
 # something with replacing x.map.compact with x.select.map
 ````
 
-# Here are some things that Pippi is not well suited for
-# Use self.new vs MyClass.new.  This is not a good fit for Pippi because it involves a receiver usage that can be detected with static analysis.
-# wrong
+## Here are some things that Pippi is not well suited for
+### Use self.new vs MyClass.new.  This is not a good fit for Pippi because it involves a receiver usage that can be detected with static analysis.
+#### wrong
 class Foo
   def self.bar
     Foo.new
   end
 end
-# right
+#### right
 class Foo
   def self.bar
     self.new
