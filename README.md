@@ -189,9 +189,9 @@ end
 
 ## TODO
 
-* Generate documentation from the docs embedded in the checks and publish that somewhere
 * Clean up this initial hacked out metaprogramming
 * Do more checks
+* Make writing rules nicer, without some much dorking around with methods.  "select followed by first" could be specified with something like "Array#select => #first" and the rest left up to the framework.
 
 ## Developing
 
