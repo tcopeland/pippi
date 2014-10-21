@@ -18,7 +18,7 @@ But this can be more clearly written using `Enumerable#detect`:
 [1,2,3].detect {|x| x > 1 }
 ```
 
-When you run your tests, Pippi will watch the method call sequences, notice the "select followed by first" sequence and recommend a change.
+When you run your tests, Pippi will observe the method call sequences, flag the "select followed by first" sequence, and recommend a change.
 
 Warning!  Pippi finds suboptimal API usage based on data flows as driven by a project's test suite.  There may be other data flows where this API usage is correct.  For example, in the code below, if `rand < 0.5` is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
 
