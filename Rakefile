@@ -1,6 +1,7 @@
 require 'rake/testtask'
 require 'rubygems'
 require 'bundler/setup'
+require 'pippi/tasks'
 
 Rake::TestTask.new do |t|
   t.libs << "test"
