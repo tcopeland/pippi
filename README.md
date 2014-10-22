@@ -1,6 +1,6 @@
 Pippi is a utility for finding suboptimal Ruby class API usage.
 
-<a href="http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html">Here's a project overview.</a>.
+<a href="http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html">Here's a project overview</a>.
 
 ## Checks
 
