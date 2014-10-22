@@ -1,47 +1,6 @@
-Pippi is a utility for locating suboptimal Ruby class API usage.
+Pippi is a utility for finding suboptimal Ruby class API usage.
 
-For example, consider an array:
-
-```ruby
-[1,2,3]
-```
-
-You may wish to find the first item greater than 1 in this array, so:
-
-```ruby
-[1,2,3].select {|x| x > 1 }.first
-```
-
-But this can be more clearly written using `Enumerable#detect`:
-
-```ruby
-[1,2,3].detect {|x| x > 1 }
-```
-
-When you run your tests, Pippi will observe the method call sequences, flag the "select followed by first" sequence, and recommend a change.
-
-Warning!  Pippi finds suboptimal API usage based on data flows as driven by a project's test suite.  There may be other data flows where this API usage is correct.  For example, in the code below, if `rand < 0.5` is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
-
-```ruby
-x = [1,2,3].select {|y| y > 1 }
-x.reject! {|y| y > 2} if rand < 0.5
-x.first
-```
-
-This is the halting problem; I don't see a way to avoid this.
-
-However, Pippi does use various techniques to attempt to avoid false positives.  For example, after flagging an issue, it watches subsequent method invocations and if those indicate the initial problem report was in error it'll remove the problem from the report.
-
-Using <a href="https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s">the Aaron Quint "Ruby Performance Character Profiles"</a> system:
-
-* Specificity - very specific, finds actual detailed usages of bad code
-* Impact - very impactful, slows things down lots
-* Difficulty of Operator Use - easy to install, just a new gemfile entry
-* Readability - results are easy to read
-* Realtimedness - finds stuff right away
-* Special Abilities - ??
-
-Why "pippi"?  Because Pippi Longstocking was a <a href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.
+<a href="http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html">Here's a project overview.</a>.
 
 ## Checks
 
@@ -214,5 +173,5 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 ## Credits
 
 * Thanks to <a href="https://www.livingsocial.com/">LivingSocial</a> for letting me develop and open source this utility.
-* Thanks to Evan Phoenix for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoints`.
+* Thanks to Evan Phoenix for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
 * Thanks to Michael Bernstein (of Code Climate fame) for an inspirational discussion of code anaysis in general.
