@@ -2,6 +2,23 @@ Pippi is a utility for finding suboptimal Ruby class API usage.
 
 <a href="http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html">Here's a project overview</a>.
 
+## Checksets
+
+Pippi has the concept of "checksets" which are, well, sets of checks.  The current checksets are listed below.
+
+Maybe we should have a dedicated "test" checkset?  Let me know what you think at https://twitter.com/tcopeland, thanks!
+
+### Basic
+
+* AssertWithNil
+* SelectFollowedByFirst
+* SelectFollowedBySize
+* ReverseFollowedByEach
+
+### Buggy
+
+* MapFollowedByFlatten
+
 ## Checks
 
 ### AssertWithNil
