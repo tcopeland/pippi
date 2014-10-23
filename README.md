@@ -10,13 +10,13 @@ Maybe we should have a dedicated "test" checkset?  Let me know what you think at
 
 ### Basic
 
-* AssertWithNil
 * SelectFollowedByFirst
 * SelectFollowedBySize
 * ReverseFollowedByEach
 
 ### Buggy
 
+* AssertWithNil
 * MapFollowedByFlatten
 
 ## Checks

@@ -22,11 +22,11 @@ module Pippi
           "SelectFollowedByFirst",
           "SelectFollowedBySize",
           "ReverseFollowedByEach",
-          "AssertWithNil"
         ],
         "training" => [
         ],
         "buggy" => [
+          "AssertWithNil",
           "MapFollowedByFlatten",
         ]
       }
