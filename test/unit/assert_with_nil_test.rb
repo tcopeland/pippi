@@ -26,6 +26,19 @@ class AssertWithNilTest < CheckTest
   # 0004 opt_send_simple  <callinfo!mid:x, argc:0, FCALL|VCALL|ARGS_SKIP>
   # 0006 opt_send_simple  <callinfo!mid:foo, argc:1, FCALL|ARGS_SKIP>
   # 0008 leave
+  # also consider
+=begin
+class Bar
+  def buz(x)
+  end
+  def foo
+    y = nil
+    buz(y)
+    RubyVM::InstructionSequence.of(method(__method__)).disasm.split("\n").each {|x| puts x }
+  end
+end
+Bar.new.foo
+=end
   def test_nil_reference_first_arg_doesnt_flag
     assert_no_problems "x = 42 ; y = nil ; assert_equal(nil, x)", :include_rails_core_extensions => true, :subclass => "ActiveSupport::TestCase"
   end
