@@ -35,6 +35,7 @@ Instead, consider doing this:
 
 ```ruby
 x = nil ; assert_nil(x)
+```
 
 ### MapFollowedByFlatten
 
