@@ -1,6 +1,8 @@
+# Pippi
+
 Pippi is a utility for finding suboptimal Ruby class API usage.
 
-<a href="http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html">Here's a project overview</a>.
+[Here's a project overview](http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html).
 
 ## Checksets
 
@@ -105,7 +107,7 @@ Instead, consider doing this:
 
 ### Inside Rails tests
 
-See https://github.com/tcopeland/pippi_demo#pippi-demo
+See [demo](https://github.com/tcopeland/pippi_demo#pippi-demo)
 
 ### From the command line:
 
@@ -159,20 +161,29 @@ product_path(@product)
 ````
 
 ## Here are some things that Pippi is not well suited for
-### Use self.new vs MyClass.new.  This is not a good fit for Pippi because it involves a receiver usage that can be detected with static analysis.
-#### wrong
+
+Use self.new vs MyClass.new. This is not a good fit for Pippi because it
+involves a receiver usage that can be detected with static analysis.
+
+**wrong**:
+
+```
 class Foo
   def self.bar
     Foo.new
   end
 end
-#### right
+```
+
+**right**:
+
+```
 class Foo
   def self.bar
     self.new
   end
 end
-
+```
 
 ## TODO
 
