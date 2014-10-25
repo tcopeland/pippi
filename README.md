@@ -4,6 +4,46 @@ Pippi is a utility for finding suboptimal Ruby class API usage.
 
 [Here's a project overview](http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html).
 
+## Usage
+
+### Rails with test-unit
+
+* Add `gem 'pippi'` to the `test` group in your project's `Gemfile`
+* Add this to `test_helper.rb` just before the `require 'rails/test_help'` line
+
+```ruby
+if ENV['USE_PIPPI'].present?
+  Pippi::AutoRunner.new(:checkset => ENV['PIPPI_CHECKSET'] || "basic")
+end
+```
+* Run it:
+
+```text
+USE_PIPPI=true bundle exec rake test:units && cat log/pippi.log
+```
+
+Here's a [demo Rails application](https://github.com/tcopeland/pippi_demo#pippi-demo).
+
+### Rails with rspec
+
+TODO and FIXME
+
+### From the command line:
+
+Assuming you're using bundler:
+
+```bash
+# Add this to your project's Gemfile:
+gem 'pippi'
+# Run 'bundle', see some output
+# To run a particular check:
+bundle exec pippi tmp/tmpfile.rb MapFollowedByFlatten Foo.new.bar out.txt
+# Or to run all the basic Pippi checks on your code and exercise it with MyClass.new.exercise_some_code:
+bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
+```
+
+
+
 ## Checksets
 
 Pippi has the concept of "checksets" which are, well, sets of checks.  The current checksets are listed below.
@@ -101,26 +141,6 @@ Instead, consider doing this:
 
 ```ruby
 [1,2,3].count {|x| x > 1 }
-```
-
-## Usage
-
-### Inside Rails tests
-
-See [demo](https://github.com/tcopeland/pippi_demo#pippi-demo)
-
-### From the command line:
-
-Assuming you're using bundler:
-
-```bash
-# Add this to your project's Gemfile:
-gem 'pippi'
-# Run 'bundle', see some output
-# To run a particular check:
-bundle exec pippi tmp/tmpfile.rb MapFollowedByFlatten Foo.new.bar out.txt
-# Or to run all the basic Pippi checks on your code and exercise it with MyClass.new.exercise_some_code:
-bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
 
 ## Ideas for other problems to detect:
