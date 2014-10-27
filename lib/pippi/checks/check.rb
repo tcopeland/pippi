@@ -21,6 +21,7 @@ module Pippi::Checks
       Proc.new do
         problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
         clz.clear_fault(problem_location.lineno, problem_location.path)
+        super()
       end
     end
 
