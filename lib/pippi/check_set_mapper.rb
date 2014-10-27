@@ -3,9 +3,11 @@ module Pippi
   class CheckSetMapper
 
     attr_reader :raw_check_specifier
+    attr_accessor :predefined_sets
 
     def initialize(raw_check_specifier)
       @raw_check_specifier = raw_check_specifier
+      define_standard_sets
     end
 
     def check_names
@@ -16,7 +18,8 @@ module Pippi
 
     private
 
-    def predefined_sets
+    def define_standard_sets
+      @predefined_sets =
       {
         "basic" => [
           "SelectFollowedByFirst",
