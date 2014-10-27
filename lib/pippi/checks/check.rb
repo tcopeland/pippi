@@ -17,10 +17,10 @@ module Pippi::Checks
       ctx.report.add(Pippi::Problem.new(:line_number => problem_location.lineno, :file_path => problem_location.path, :check_class => self.class))
     end
 
-    def clear_fault_proc
+    def clear_fault_proc(clz)
       Proc.new do
         problem_location = caller_locations.detect {|c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-        self.class._pippi_check_select_followed_by_size.clear_fault(problem_location.lineno, problem_location.path)
+        clz.clear_fault(problem_location.lineno, problem_location.path)
       end
     end
 
