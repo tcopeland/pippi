@@ -4,11 +4,10 @@ module Pippi::Checks
 
     module MyAssertEqual
       def assert_equal(*args)
-        result = super
         if args.size > 1 && args[0].object_id == 8
           self.class._pippi_check_assert_with_nil.add_problem
         end
-        result
+        super
       end
     end
 

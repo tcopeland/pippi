@@ -4,9 +4,8 @@ module Pippi::Checks
 
     module MyEach
       def each
-        result = super()
         self.class._pippi_check_reverse_followed_by_each.add_problem
-        result
+        super()
       end
     end
 

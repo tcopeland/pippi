@@ -4,15 +4,14 @@ module Pippi::Checks
 
     module MyFirst
       def first(elements=nil)
-        result = if elements
+        unless elements
+          self.class._pippi_check_select_followed_by_first.add_problem
+        end
+        if elements
           super(elements)
         else
           super()
         end
-        unless elements
-          self.class._pippi_check_select_followed_by_first.add_problem
-        end
-        result
       end
     end
 

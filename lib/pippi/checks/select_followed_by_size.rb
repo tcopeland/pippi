@@ -4,12 +4,11 @@ module Pippi::Checks
 
     module MySize
       def size
-        result = super()
         self.class._pippi_check_select_followed_by_size.add_problem
         self.class._pippi_check_select_followed_by_size.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
           define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.clear_fault_proc(self.class._pippi_check_select_followed_by_size))
         end
-        result
+        super()
       end
     end
 

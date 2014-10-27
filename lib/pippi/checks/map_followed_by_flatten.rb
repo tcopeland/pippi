@@ -4,11 +4,14 @@ module Pippi::Checks
 
     module MyFlatten
       def flatten(depth=nil)
-        result = super(depth)
         if depth && depth == 1
           self.class._pippi_check_map_followed_by_flatten.add_problem
         end
-        result
+        if depth
+          super(depth)
+        else
+          super()
+        end
       end
     end
 
