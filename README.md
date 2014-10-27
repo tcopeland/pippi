@@ -231,6 +231,6 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 
 ## Credits
 
-* Thanks to <a href="https://www.livingsocial.com/">LivingSocial</a> for letting me develop and open source this utility.
-* Thanks to Evan Phoenix for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
-* Thanks to Michael Bernstein (of Code Climate fame) for an inspirational discussion of code anaysis in general.
+* Thanks to [LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
+* Thanks to [Evan Phoenix](https://twitter.com/evanphx) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
+* Thanks to [Michael Bernstein](https://twitter.com/mrb_bk) (of [CodeClimate](https://codeclimate.com/) fame) for an inspirational discussion of code anaysis in general.
