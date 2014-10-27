@@ -114,8 +114,6 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 
 Pippi has the concept of "checksets" which are, well, sets of checks.  The current checksets are listed below.
 
-Maybe we should have a dedicated "test" checkset?  Let me know what you think at https://twitter.com/tcopeland, thanks!
-
 ### basic
 
 #### ReverseFollowedByEach
@@ -132,6 +130,22 @@ Instead, consider doing this:
 
 ```ruby
 [1,2,3].reverse_each {|x| x+1 }
+```
+
+#### SelectFollowedByEmpty
+
+Don't use select followed by empty?; use none? instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].select {|x| x > 1 }.empty?
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].none? {|x| x > 1 }
 ```
 
 #### SelectFollowedByFirst
@@ -198,7 +212,6 @@ Instead, consider doing this:
 ```ruby
 [1,2,3].flat_map {|x| [x, x+1]}
 ```
-
 ## Ideas for other problems to detect:
 
 ```ruby

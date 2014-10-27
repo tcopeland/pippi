@@ -25,10 +25,6 @@ module Pippi::Checks
       end
     end
 
-    def method_names_that_indicate_this_is_being_used_as_a_collection
-      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!, :collect, :compact, :flatten, :map, :reject, :reverse, :rotate, :select, :shuffle, :slice, :sort, :sort_by, :uniq]
-    end
-
     def decorate
       Array.class_exec(self) do |my_check|
         @_pippi_check_select_followed_by_size = my_check

@@ -16,6 +16,22 @@ Instead, consider doing this:
 [1,2,3].reverse_each {|x| x+1 }
 ```
 
+#### SelectFollowedByEmpty
+
+Don't use select followed by empty?; use none? instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].select {|x| x > 1 }.empty?
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].none? {|x| x > 1 }
+```
+
 #### SelectFollowedByFirst
 
 Don't use select followed by first; use detect instead

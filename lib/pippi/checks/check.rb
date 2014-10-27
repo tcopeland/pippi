@@ -10,6 +10,10 @@ module Pippi::Checks
       [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!]
     end
 
+    def method_names_that_indicate_this_is_being_used_as_a_collection
+      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!, :collect, :compact, :flatten, :map, :reject, :reverse, :rotate, :select, :shuffle, :slice, :sort, :sort_by, :uniq]
+    end
+
     def add_problem
       problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
       ctx.report.add(Pippi::Problem.new(line_number: problem_location.lineno, file_path: problem_location.path, check_class: self.class))
