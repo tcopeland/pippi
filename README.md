@@ -232,6 +232,7 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 ## Credits
 
 * Christopher Schramm bugfixes in fault proc clearing
-* LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
 * [Evan Phoenix](https://twitter.com/evanphx) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
+* Igor Kapkov documentation fixes
+* LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
 * [Michael Bernstein](https://twitter.com/mrb_bk) (of [CodeClimate](https://codeclimate.com/) fame) for an inspirational discussion of code anaysis in general.
