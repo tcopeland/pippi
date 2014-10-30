@@ -30,11 +30,15 @@ module Pippi::Checks
     end
 
     def its_ok_watcher_proc(clazz, method_name)
-      Proc.new do
-        singleton_class.ancestors.detect {|x| x == clazz }.instance_eval { remove_method method_name }
-        super()
+      Proc.new do |*args, &blk|
+        begin
+          singleton_class.ancestors.detect {|x| x == clazz }.instance_eval { remove_method method_name }
+        rescue NameError
+          return super(*args, &blk)
+        else
+          return super(*args, &blk)
+        end
       end
     end
-
   end
 end
