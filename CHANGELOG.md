@@ -1,3 +1,6 @@
+Oct 30, 2014 - 0.0.4:
+Bugfixes around method delegation
+
 Oct 22, 2014 - 0.0.3:
 Moved AssertWithNil to "buggy" checkset until I can figure out issues.
 
