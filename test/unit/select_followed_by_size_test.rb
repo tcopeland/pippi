@@ -40,4 +40,8 @@ EOS
     assert_problems str
   end
 
+  def test_clear_fault_proc_doesnt_try_to_remove_singleton_method_twicezz
+    assert_no_problems "tmp = [1,2,3].select {|x| x > 1 } ; y = tmp.sort! ; y = tmp.sort!"
+  end
+
 end
