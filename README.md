@@ -226,7 +226,6 @@ When trying to find issues in a project:
 rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 bundle exec ruby -rpippi/auto_runner -e "puts 'hi'" && grep -C 5 BOOM pippi_debug.log
 # or to run some specs with pippi watching:
 rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0.0.1.gem .bundle/specifications/pippi-0.0.1.gemspec && bundle update pippi --local && PIPPI_DEBUG=1 bundle exec ruby -rpippi/auto_runner -Ispec spec/unit/*.rb
-
 ```
 
 ## How to do a release
@@ -241,8 +240,8 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 
 ## Credits
 
-* Christopher Schramm bugfixes in fault proc clearing
-* [Evan Phoenix](https://twitter.com/evanphx) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
-* Igor Kapkov documentation fixes
-* LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
-* [Michael Bernstein](https://twitter.com/mrb_bk) (of [CodeClimate](https://codeclimate.com/) fame) for an inspirational discussion of code anaysis in general.
+* Christopher Schramm([@cschramm](https://github.com/cschramm)) bugfixes in fault proc clearing
+* [Evan Phoenix](https://twitter.com/evanphx)([@evanphx](https://github.com/evanphx)) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
+* [Igor Kapkov](https://twitter.com/igasgeek)([@igas](https://github.com/igas)) documentation fixes
+* [LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
+* [Michael Bernstein](https://twitter.com/mrb_bk)([@mrb](https://github.com/mrb)) (of [CodeClimate](https://codeclimate.com/) fame) for an inspirational discussion of code anaysis in general.
