@@ -1,6 +1,5 @@
-tmp/*
-!tmp/baz.rb
-pippi.log
-pippi_debug.log
-pippi*.gem
+tmp
+vendor
+*.log
+*.gem
 out.txt
