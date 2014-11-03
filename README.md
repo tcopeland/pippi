@@ -1,5 +1,7 @@
 # Pippi
 
+[![Build Status](http://img.shields.io/travis/tcopeland/pippi.svg)][http://travis-ci.org/tcopeland/pippi]
+
 Pippi is a utility for finding suboptimal Ruby class API usage.
 
 [Here's a project overview](http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html).
