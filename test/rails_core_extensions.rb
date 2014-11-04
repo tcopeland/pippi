@@ -1,13 +1,12 @@
 class Object
   def present?
-    self.nil? || self.size == 0
+    self.nil? || size == 0
   end
 end
 
-
 module ActiveSupport
   class TestCase
-    def assert_equal(*args)
+    def assert_equal(*_args)
     end
   end
 end

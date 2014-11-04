@@ -1,13 +1,11 @@
 module Pippi
-
   class CheckLoader
-
     attr_reader :ctx, :check_names
 
     def initialize(ctx, check_names)
       @ctx = ctx
-      @check_names = if check_names.kind_of?(String)
-        Pippi::CheckSetMapper.new(check_names).check_names
+      @check_names = if check_names.is_a?(String)
+                       Pippi::CheckSetMapper.new(check_names).check_names
       else
         check_names
       end
@@ -18,6 +16,5 @@ module Pippi
         Pippi::Checks.const_get(check_name).new(ctx)
       end
     end
-
   end
 end

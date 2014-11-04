@@ -1,7 +1,5 @@
 module Pippi::Checks
-
   class ReverseFollowedByEach < Check
-
     module MyEach
       def each
         self.class._pippi_check_reverse_followed_by_each.add_problem
@@ -28,8 +26,8 @@ module Pippi::Checks
       Array.class_exec(self) do |my_check|
         # How to do this without a class instance variable?
         @_pippi_check_reverse_followed_by_each = my_check
-        def self._pippi_check_reverse_followed_by_each
-          @_pippi_check_reverse_followed_by_each
+        class << self
+          attr_reader :_pippi_check_reverse_followed_by_each
         end
       end
       Array.prepend MyReverse
@@ -39,14 +37,14 @@ module Pippi::Checks
       def description
         "Don't use each followed by reverse; use reverse_each instead"
       end
+
       def sample
-        "[1,2,3].reverse.each {|x| x+1 }"
+        '[1,2,3].reverse.each {|x| x+1 }'
       end
+
       def instead_use
-        "[1,2,3].reverse_each {|x| x+1 }"
+        '[1,2,3].reverse_each {|x| x+1 }'
       end
     end
-
   end
-
 end

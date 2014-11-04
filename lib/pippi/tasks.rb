@@ -3,15 +3,15 @@ require 'pippi'
 module Pippi
   class Documentation
     def generate
-      str = ""
+      str = ''
       [Pippi::Checks::SelectFollowedBySize::Documentation,
        Pippi::Checks::SelectFollowedByFirst::Documentation,
        Pippi::Checks::ReverseFollowedByEach::Documentation,
        Pippi::Checks::MapFollowedByFlatten::Documentation,
-       Pippi::Checks::AssertWithNil::Documentation,
-      ].sort {|a,b| a.name <=> b.name }.each do |clz|
+       Pippi::Checks::AssertWithNil::Documentation
+      ].sort { |a, b| a.name <=> b.name }.each do |clz|
         obj = clz.new
-        str << %Q{
+        str << %(
 ### #{clz.name.to_s.split('::')[2]}
 
 #{obj.description}
@@ -27,15 +27,16 @@ Instead, consider doing this:
 \`\`\`ruby
 #{obj.instead_use}
 \`\`\`
-}
+
+)
       end
-      File.open("doc/docs.md", "w") {|f| f.syswrite(str) }
+      File.open('doc/docs.md', 'w') { |f| f.syswrite(str) }
     end
   end
 end
 
 namespace :pippi do
-  desc "Generate check documentation"
+  desc 'Generate check documentation'
   task :generate_docs do
     Pippi::Documentation.new.generate
   end

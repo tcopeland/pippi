@@ -1,7 +1,5 @@
 module Pippi
-
   class Report
-
     attr_reader :problems
 
     def initialize
@@ -13,15 +11,13 @@ module Pippi
     end
 
     def remove(lineno, path, clazz)
-      @problems.reject! {|p| p.line_number == lineno && p.file_path == path && p.check_class == clazz }
+      @problems.reject! { |p| p.line_number == lineno && p.file_path == path && p.check_class == clazz }
     end
 
     private
 
     def duplicate_report?(candidate)
-      !problems.detect {|existing| existing.eql?(candidate) }.nil?
+      !problems.find { |existing| existing.eql?(candidate) }.nil?
     end
-
   end
-
 end

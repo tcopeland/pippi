@@ -1,9 +1,7 @@
 module Pippi::Checks
-
   class SelectFollowedByFirst < Check
-
     module MyFirst
-      def first(elements=nil)
+      def first(elements = nil)
         unless elements
           self.class._pippi_check_select_followed_by_first.add_problem
         end
@@ -33,8 +31,8 @@ module Pippi::Checks
     def decorate
       Array.class_exec(self) do |my_check|
         @_pippi_check_select_followed_by_first = my_check
-        def self._pippi_check_select_followed_by_first
-          @_pippi_check_select_followed_by_first
+        class << self
+          attr_reader :_pippi_check_select_followed_by_first
         end
       end
       Array.prepend MySelect
@@ -44,14 +42,14 @@ module Pippi::Checks
       def description
         "Don't use select followed by first; use detect instead"
       end
+
       def sample
-        "[1,2,3].select {|x| x > 1 }.first"
+        '[1,2,3].select {|x| x > 1 }.first'
       end
+
       def instead_use
-        "[1,2,3].detect {|x| x > 1 }"
+        '[1,2,3].detect {|x| x > 1 }'
       end
     end
-
   end
-
 end

@@ -1,9 +1,7 @@
 module Pippi::Checks
-
   class MapFollowedByFlatten < Check
-
     module MyFlatten
-      def flatten(depth=nil)
+      def flatten(depth = nil)
         if depth && depth == 1
           self.class._pippi_check_map_followed_by_flatten.add_problem
         end
@@ -34,8 +32,8 @@ module Pippi::Checks
       Array.class_exec(self) do |my_check|
         # How to do this without a class instance variable?
         @_pippi_check_map_followed_by_flatten = my_check
-        def self._pippi_check_map_followed_by_flatten
-          @_pippi_check_map_followed_by_flatten
+        class << self
+          attr_reader :_pippi_check_map_followed_by_flatten
         end
       end
       Array.prepend MyMap
@@ -45,14 +43,14 @@ module Pippi::Checks
       def description
         "Don't use map followed by flatten; use flat_map instead"
       end
+
       def sample
-        "[1,2,3].map {|x| [x,x+1] }.flatten"
+        '[1,2,3].map {|x| [x,x+1] }.flatten'
       end
+
       def instead_use
-        "[1,2,3].flat_map {|x| [x, x+1]}"
+        '[1,2,3].flat_map {|x| [x, x+1]}'
       end
     end
-
   end
-
 end

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'pippi/context'
 require 'pippi/check_set_mapper'
 require 'pippi/report'
-require "pippi/checks/check"
+require 'pippi/checks/check'
 require 'pippi/problem'
 require 'pippi/check_loader'
 require 'pippi/exec_runner'

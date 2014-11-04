@@ -1,6 +1,5 @@
 module Pippi
   class Problem
-
     attr_accessor :file_path, :line_number, :check_class
 
     def initialize(opts)

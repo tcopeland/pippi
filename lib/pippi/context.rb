@@ -1,17 +1,15 @@
 module Pippi
-
   class Context
-
     class DebugLogger
       def warn(str)
-        File.open("pippi_debug.log", "a") do |f|
+        File.open('pippi_debug.log', 'a') do |f|
           f.syswrite("#{str}\n")
         end
       end
     end
 
     class NullLogger
-      def warn(str)
+      def warn(_str)
       end
     end
 
@@ -20,12 +18,10 @@ module Pippi
     def initialize
       @report = Pippi::Report.new
       @debug_logger = if ENV['PIPPI_DEBUG']
-        Pippi::Context::DebugLogger.new
+                        Pippi::Context::DebugLogger.new
       else
         Pippi::Context::NullLogger.new
       end
     end
-
   end
-
 end

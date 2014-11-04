@@ -1,7 +1,5 @@
 module Pippi::Checks
-
   class SelectFollowedBySize < Check
-
     module MySize
       def size
         self.class._pippi_check_select_followed_by_size.add_problem
@@ -34,8 +32,8 @@ module Pippi::Checks
     def decorate
       Array.class_exec(self) do |my_check|
         @_pippi_check_select_followed_by_size = my_check
-        def self._pippi_check_select_followed_by_size
-          @_pippi_check_select_followed_by_size
+        class << self
+          attr_reader :_pippi_check_select_followed_by_size
         end
       end
       Array.prepend MySelect
@@ -45,14 +43,14 @@ module Pippi::Checks
       def description
         "Don't use select followed by size; use count instead"
       end
+
       def sample
-        "[1,2,3].select {|x| x > 1 }.size"
+        '[1,2,3].select {|x| x > 1 }.size'
       end
+
       def instead_use
-        "[1,2,3].count {|x| x > 1 }"
+        '[1,2,3].count {|x| x > 1 }'
       end
     end
-
   end
-
 end
