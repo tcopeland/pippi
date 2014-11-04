@@ -1,10 +1,55 @@
 # Pippi
 
-[![Build Status](http://img.shields.io/travis/tcopeland/pippi.svg)](http://travis-ci.org/tcopeland/pippi)
-
 Pippi is a utility for finding suboptimal Ruby class API usage.
 
-[Here's a project overview](http://thomasleecopeland.com/2014/10/22/finding-suboptimal-api-usage.html).
+Consider this little array:
+
+```ruby
+[1,2,3]
+```
+
+Now suppose we want to find the first element in that array that's greater than one. We can use Array#select and then use Array#first on the result:
+
+```ruby
+[1,2,3].select {|x| x > 1 }.first
+```
+
+Of course that's terribly inefficient. Since we only need one element we don't need to select all elements that match the predicate. We should use Array#detect instead:
+
+```ruby
+[1,2,3].detect {|x| x > 1}
+```
+
+This is an example of refactoring to use the Ruby standard library. These are small optimizations, but they can add up. More importantly, they communicate the intent of the programmer; the use of Array#detect makes it clear that we're just looking for the first item to match the predicate.
+
+This sort of thing can be be found during a code review, or maybe when you're just poking around the code. But why not have a tool find it instead? Thus, pippi. Pippi observes code while it's running - by hooking into your test suite execution - and reports misuse of class-level APIs. Currently pippi checks for "select followed by first", "select followed by size", "reverse followed by each", and "map followed by flatten". No doubt folks will think of other checks that can be added.
+
+Here's an important caveat: pippi is not, and more importantly cannot, be free of false positives. That's because of the halting problem. Pippi finds suboptimal API usage based on data flows as driven by a project's test suite. There may be alternate data flows where this API usage is correct. For example, in the code below, if rand < 0.5 is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
+
+```ruby
+x = [1,2,3].select {|y| y > 1 }
+x.reject! {|y| y > 2} if rand < 0.5
+x.first
+```
+
+There are various techniques that eliminate many of these false positives. For example, after flagging an issue, pippi watches subsequent method invocations and if those indicate the initial problem report was in error it'll remove the problem from the report.
+
+There are many nifty Ruby static analysis tools - flay, reek, flog, etc. This is not like those. It doesn't parse source code; it doesn't examine an abstract syntax tree or even sequences of MRI instructions. So it cannot find the types of issues that those tools can find. Instead, it's focused on runtime analysis; that is, method calls and method call sequences.
+
+Note that pippi is entirely dependent on the test suite to execute code in order to find problems. If a project's test code coverage is small, pippi probably won't find much.
+
+Here's how pippi stacks up using the [Aaron Quint](https://twitter.com/aq) [Ruby Performance Character Profiles](https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s) system:
+
+* Specificity - very specific, finds actual detailed usages of bad code
+* Impact - very impactful, slows things down lots
+* Difficulty of Operator Use - easy to install, just a new gemfile entry
+* Readability - results are easy to read
+* Realtimedness - finds stuff right away
+* Special Abilities - ?
+
+Finally, why "pippi"? Because Pippi Longstocking was a Thing-Finder, and pippi finds things.
+
+[![Build Status](http://img.shields.io/travis/tcopeland/pippi.svg)](http://travis-ci.org/tcopeland/pippi)
 
 ## Usage
 
