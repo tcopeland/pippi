@@ -24,6 +24,8 @@ A change like this is a small optimization, but they can add up.  More important
 
 This sort of thing can be be found during a code review, or maybe when you're just poking around the code. But why not have a tool find it instead? Thus, pippi. Pippi observes code while it's running - by hooking into your test suite execution - and reports misuse of class-level APIs.
 
+There are many nifty Ruby static analysis tools - flay, reek, flog, etc. This is not like those. It doesn't parse source code; it doesn't examine an abstract syntax tree or even sequences of MRI instructions. So it cannot find the types of issues that those tools can find. Instead, it's focused on runtime analysis; that is, method calls and method call sequences.
+
 Here's an important caveat: pippi is not, and more importantly cannot, be free of false positives. That's because of the halting problem. Pippi finds suboptimal API usage based on data flows as driven by a project's test suite. There may be alternate data flows where this API usage is correct. For example, in the code below, if rand < 0.5 is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
 
 ```ruby
@@ -34,9 +36,7 @@ x.first
 
 There are various techniques that eliminate many of these false positives. For example, after flagging an issue, pippi watches subsequent method invocations and if those indicate the initial problem report was in error it'll remove the problem from the report.
 
-There are many nifty Ruby static analysis tools - flay, reek, flog, etc. This is not like those. It doesn't parse source code; it doesn't examine an abstract syntax tree or even sequences of MRI instructions. So it cannot find the types of issues that those tools can find. Instead, it's focused on runtime analysis; that is, method calls and method call sequences.
-
-Note that pippi is entirely dependent on the test suite to execute code in order to find problems. If a project's test code coverage is small, pippi probably won't find much.
+Pippi is entirely dependent on the test suite to execute code in order to find problems. If a project's test code coverage is small, pippi probably won't find much.
 
 Here's how pippi stacks up using the [Aaron Quint](https://twitter.com/aq) [Ruby Performance Character Profiles](https://www.youtube.com/watch?v=cOaVIeX6qGg&t=8m50s) system:
 
