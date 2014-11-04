@@ -5,6 +5,7 @@ module Pippi
     attr_accessor :codefile, :check_name, :code_to_eval, :output_file_name
 
     def initialize(args)
+      check_args(args)
       @codefile = args[0]
       @check_name = args[1]
       @code_to_eval = args[2]
@@ -26,6 +27,18 @@ module Pippi
         ctx.report.problems.each do |problem|
           outfile.syswrite("#{problem.to_text}\n")
         end
+      end
+    end
+
+    private
+
+    def check_args(args)
+      begin
+        raise ArgumentError if args.size != 4
+      rescue ArgumentError => e
+        puts "ERROR: wrong number of arguments"
+        puts "Use: pippi code_file check_name eval_string output_file"
+        exit 1
       end
     end
 
