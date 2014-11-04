@@ -8,7 +8,7 @@ Consider this little array:
 [1,2,3]
 ```
 
-Now suppose we want to find the first element in that array that's greater than one. We can use Array#select and then use Array#first on the result:
+Now suppose we want to find the first element in that array that's greater than one. We can use Array#select, which returns another Array, and then use Array#first:
 
 ```ruby
 [1,2,3].select {|x| x > 1 }.first
@@ -20,9 +20,9 @@ Of course that's terribly inefficient. Since we only need one element we don't n
 [1,2,3].detect {|x| x > 1}
 ```
 
-This is an example of refactoring to use the Ruby standard library. These are small optimizations, but they can add up. More importantly, they communicate the intent of the programmer; the use of Array#detect makes it clear that we're just looking for the first item to match the predicate.
+A change like this is a small optimization, but they can add up.  More importantly, they communicate the intent of the programmer; the use of Array#detect makes it clear that we're just looking for the first item to match the predicate.
 
-This sort of thing can be be found during a code review, or maybe when you're just poking around the code. But why not have a tool find it instead? Thus, pippi. Pippi observes code while it's running - by hooking into your test suite execution - and reports misuse of class-level APIs. Currently pippi checks for "select followed by first", "select followed by size", "reverse followed by each", and "map followed by flatten". No doubt folks will think of other checks that can be added.
+This sort of thing can be be found during a code review, or maybe when you're just poking around the code. But why not have a tool find it instead? Thus, pippi. Pippi observes code while it's running - by hooking into your test suite execution - and reports misuse of class-level APIs.
 
 Here's an important caveat: pippi is not, and more importantly cannot, be free of false positives. That's because of the halting problem. Pippi finds suboptimal API usage based on data flows as driven by a project's test suite. There may be alternate data flows where this API usage is correct. For example, in the code below, if rand < 0.5 is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
 
