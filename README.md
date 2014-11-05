@@ -73,7 +73,20 @@ Here's a [demo Rails application](https://github.com/tcopeland/pippi_demo#pippi-
 
 ### Rails with rspec
 
-TODO and FIXME
+* Add `gem 'pippi'` to the `test` group in your project's `Gemfile`
+* Add this to the bottom of `spec_helper.rb`:
+
+```ruby
+if ENV['USE_PIPPI'].present?
+  Pippi::AutoRunner.new(:checkset => ENV['PIPPI_CHECKSET'] || "basic")
+end
+```
+* Run it:
+
+```text
+USE_PIPPI=true bundle exec rake spec && cat log/pippi.log
+```
+
 
 ### From the command line:
 
