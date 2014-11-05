@@ -15,6 +15,7 @@ Instead, consider doing this:
 x = nil ; assert_nil(x)
 ```
 
+
 ### MapFollowedByFlatten
 
 Don't use map followed by flatten; use flat_map instead
@@ -30,6 +31,7 @@ Instead, consider doing this:
 ```ruby
 [1,2,3].flat_map {|x| [x, x+1]}
 ```
+
 
 ### ReverseFollowedByEach
 
@@ -47,6 +49,7 @@ Instead, consider doing this:
 [1,2,3].reverse_each {|x| x+1 }
 ```
 
+
 ### SelectFollowedByFirst
 
 Don't use select followed by first; use detect instead
@@ -63,6 +66,7 @@ Instead, consider doing this:
 [1,2,3].detect {|x| x > 1 }
 ```
 
+
 ### SelectFollowedBySize
 
 Don't use select followed by size; use count instead
@@ -78,3 +82,4 @@ Instead, consider doing this:
 ```ruby
 [1,2,3].count {|x| x > 1 }
 ```
+

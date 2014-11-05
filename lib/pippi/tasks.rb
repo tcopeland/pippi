@@ -4,12 +4,7 @@ module Pippi
   class Documentation
     def generate
       str = ''
-      [Pippi::Checks::SelectFollowedBySize::Documentation,
-       Pippi::Checks::SelectFollowedByFirst::Documentation,
-       Pippi::Checks::ReverseFollowedByEach::Documentation,
-       Pippi::Checks::MapFollowedByFlatten::Documentation,
-       Pippi::Checks::AssertWithNil::Documentation
-      ].sort { |a, b| a.name <=> b.name }.each do |clz|
+      Pippi::CheckSetMapper.new("").predefined_sets.values.flatten.map {|n| Object.const_get("Pippi::Checks::#{n}::Documentation") }.sort { |a, b| a.name <=> b.name }.each do |clz|
         obj = clz.new
         str << %(
 ### #{clz.name.to_s.split('::')[2]}
