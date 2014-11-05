@@ -41,11 +41,11 @@ module Pippi::Checks
 
     class Documentation
       def description
-        "Don't use map followed by flatten; use flat_map instead"
+        "Don't use map followed by flatten(1); use flat_map instead"
       end
 
       def sample
-        '[1,2,3].map {|x| [x,x+1] }.flatten'
+        '[1,2,3].map {|x| [x,x+1] }.flatten(1)'
       end
 
       def instead_use
