@@ -4,10 +4,12 @@ module Pippi
   class Documentation
     def generate
       str = ''
-      Pippi::CheckSetMapper.new("").predefined_sets.values.flatten.map {|n| Object.const_get("Pippi::Checks::#{n}::Documentation") }.sort { |a, b| a.name <=> b.name }.each do |clz|
-        obj = clz.new
-        str << %(
-### #{clz.name.to_s.split('::')[2]}
+      Pippi::CheckSetMapper.new("").predefined_sets.sort.select {|k,v| v.any? }.each do |checkset_name, checks|
+        str << "### #{checkset_name}\n"
+        checks.sort.each do |check|
+          obj = Object.const_get("Pippi::Checks::#{check}::Documentation").new
+          str << %(
+#### #{check}
 
 #{obj.description}
 
@@ -22,8 +24,8 @@ Instead, consider doing this:
 \`\`\`ruby
 #{obj.instead_use}
 \`\`\`
-
 )
+        end
       end
       File.open('doc/docs.md', 'w') { |f| f.syswrite(str) }
     end

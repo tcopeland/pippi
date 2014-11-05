@@ -69,6 +69,13 @@ end
 USE_PIPPI=true bundle exec rake test:units && cat log/pippi.log
 ```
 
+* You can also select a different checkset:
+
+```text
+USE_PIPPI=true PIPPI_CHECKSET=training bundle exec rake test:units && cat log/pippi.log
+```
+
+
 Here's a [demo Rails application](https://github.com/tcopeland/pippi_demo#pippi-demo).
 
 ### Rails with rspec
@@ -103,59 +110,15 @@ bundle exec ruby -rpippi/auto_runner -e "MyClass.new.exercise_some_code"
 ```
 
 
-
 ## Checksets
 
 Pippi has the concept of "checksets" which are, well, sets of checks.  The current checksets are listed below.
 
 Maybe we should have a dedicated "test" checkset?  Let me know what you think at https://twitter.com/tcopeland, thanks!
 
-### Basic
+### basic
 
-* SelectFollowedByFirst
-* SelectFollowedBySize
-* ReverseFollowedByEach
-
-### Buggy
-
-* AssertWithNil
-* MapFollowedByFlatten
-
-## Checks
-
-### AssertWithNil
-
-Don't use assert_equal with nil as a first argument; use assert_nil instead
-
-For example, rather than doing this:
-
-```ruby
-x = nil ; assert_equal(nil, x)
-```
-
-Instead, consider doing this:
-
-```ruby
-x = nil ; assert_nil(x)
-```
-
-### MapFollowedByFlatten
-
-Don't use map followed by flatten; use flat_map instead
-
-For example, rather than doing this:
-
-```ruby
-[1,2,3].map {|x| [x,x+1] }.flatten
-```
-
-Instead, consider doing this:
-
-```ruby
-[1,2,3].flat_map {|x| [x, x+1]}
-```
-
-### ReverseFollowedByEach
+#### ReverseFollowedByEach
 
 Don't use each followed by reverse; use reverse_each instead
 
@@ -171,7 +134,7 @@ Instead, consider doing this:
 [1,2,3].reverse_each {|x| x+1 }
 ```
 
-### SelectFollowedByFirst
+#### SelectFollowedByFirst
 
 Don't use select followed by first; use detect instead
 
@@ -187,7 +150,7 @@ Instead, consider doing this:
 [1,2,3].detect {|x| x > 1 }
 ```
 
-### SelectFollowedBySize
+#### SelectFollowedBySize
 
 Don't use select followed by size; use count instead
 
@@ -201,6 +164,39 @@ Instead, consider doing this:
 
 ```ruby
 [1,2,3].count {|x| x > 1 }
+```
+### buggy
+
+#### AssertWithNil
+
+Don't use assert_equal with nil as a first argument; use assert_nil instead
+
+For example, rather than doing this:
+
+```ruby
+x = nil ; assert_equal(nil, x)
+```
+
+Instead, consider doing this:
+
+```ruby
+x = nil ; assert_nil(x)
+```
+
+#### MapFollowedByFlatten
+
+Don't use map followed by flatten; use flat_map instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].map {|x| [x,x+1] }.flatten
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].flat_map {|x| [x, x+1]}
 ```
 
 ## Ideas for other problems to detect:

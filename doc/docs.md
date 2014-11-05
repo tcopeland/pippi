@@ -1,39 +1,6 @@
+### basic
 
-### AssertWithNil
-
-Don't use assert_equal with nil as a first argument; use assert_nil instead
-
-For example, rather than doing this:
-
-```ruby
-x = nil ; assert_equal(nil, x)
-```
-
-Instead, consider doing this:
-
-```ruby
-x = nil ; assert_nil(x)
-```
-
-
-### MapFollowedByFlatten
-
-Don't use map followed by flatten; use flat_map instead
-
-For example, rather than doing this:
-
-```ruby
-[1,2,3].map {|x| [x,x+1] }.flatten
-```
-
-Instead, consider doing this:
-
-```ruby
-[1,2,3].flat_map {|x| [x, x+1]}
-```
-
-
-### ReverseFollowedByEach
+#### ReverseFollowedByEach
 
 Don't use each followed by reverse; use reverse_each instead
 
@@ -49,8 +16,7 @@ Instead, consider doing this:
 [1,2,3].reverse_each {|x| x+1 }
 ```
 
-
-### SelectFollowedByFirst
+#### SelectFollowedByFirst
 
 Don't use select followed by first; use detect instead
 
@@ -66,8 +32,7 @@ Instead, consider doing this:
 [1,2,3].detect {|x| x > 1 }
 ```
 
-
-### SelectFollowedBySize
+#### SelectFollowedBySize
 
 Don't use select followed by size; use count instead
 
@@ -82,4 +47,36 @@ Instead, consider doing this:
 ```ruby
 [1,2,3].count {|x| x > 1 }
 ```
+### buggy
 
+#### AssertWithNil
+
+Don't use assert_equal with nil as a first argument; use assert_nil instead
+
+For example, rather than doing this:
+
+```ruby
+x = nil ; assert_equal(nil, x)
+```
+
+Instead, consider doing this:
+
+```ruby
+x = nil ; assert_nil(x)
+```
+
+#### MapFollowedByFlatten
+
+Don't use map followed by flatten; use flat_map instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].map {|x| [x,x+1] }.flatten
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].flat_map {|x| [x, x+1]}
+```
