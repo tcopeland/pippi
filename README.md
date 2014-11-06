@@ -81,13 +81,15 @@ Here's a [demo Rails application](https://github.com/tcopeland/pippi_demo#pippi-
 ### Rails with rspec
 
 * Add `gem 'pippi'` to the `test` group in your project's `Gemfile`
-* Add this to the bottom of `spec_helper.rb`:
+* Add this to the top of `spec/spec_helper.rb`:
 
 ```ruby
 if ENV['USE_PIPPI'].present?
+  require 'pippi'
   Pippi::AutoRunner.new(:checkset => ENV['PIPPI_CHECKSET'] || "basic")
 end
 ```
+
 * Run it:
 
 ```text
