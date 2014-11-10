@@ -96,6 +96,14 @@ end
 USE_PIPPI=true bundle exec rake spec && cat log/pippi.log
 ```
 
+### As part of a continuous integration job
+
+[Dan Kohn](https://github.com/dankohn) suggests you could use something like:
+
+```bash
+if grep -v gem < log/pippi.log; then echo "$(wc -l < log/pippi.log) Pippi flaws found" && false; else echo 'No pippi flaws found'; fi
+```
+
 
 ### From the command line:
 
