@@ -24,6 +24,7 @@ module Pippi
           "SelectFollowedBySize",
           "SelectFollowedByEmpty",
           "ReverseFollowedByEach",
+          "SelectFollowedBySelect"
         ],
         "training" => [
         ],
