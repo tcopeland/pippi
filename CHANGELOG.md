@@ -1,16 +1,25 @@
-Nov 5, 2014 - 0.0.5:
-Added SelectFollowedByEmpty
+## 0.0.6 (2014-11-18)
 
-Oct 30, 2014 - 0.0.4:
-Bugfixes around method delegation
+ * [NEW] Added SelectFollowedBySelect
 
-Oct 22, 2014 - 0.0.3:
-Moved AssertWithNil to "buggy" checkset until I can figure out issues.
+## 0.0.5 (2014-11-05)
 
-Oct 22, 2014 - 0.0.2:
-Added AssertWithNil
+ * [NEW] Added SelectFollowedByEmpty
 
-Oct 22, 2014 - 0.0.1:
-Initial release.
+## 0.0.4 (2014-10-30)
+
+ * [FIXED] Bugfixes around method delegation
+
+## 0.0.3 (2014-10-22)
+
+ * [CHANGED] Moved AssertWithNil to "buggy" checkset until I can figure out issues.
+
+## 0.0.2 (2014-10-22)
+
+ * [NEW] Added AssertWithNil
+
+## 0.0.1 (2014-10-22)
+
+ * [NEW] Initial release.
 
 

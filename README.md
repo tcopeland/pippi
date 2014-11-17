@@ -104,7 +104,6 @@ USE_PIPPI=true bundle exec rake spec && cat log/pippi.log
 if grep -v gem < log/pippi.log; then echo "$(wc -l < log/pippi.log) Pippi flaws found" && false; else echo 'No pippi flaws found'; fi
 ```
 
-
 ### From the command line:
 
 Assuming you're using bundler:
@@ -174,6 +173,22 @@ Instead, consider doing this:
 [1,2,3].detect {|x| x > 1 }
 ```
 
+#### SelectFollowedBySelect
+
+Don't use consecutive select blocks; use a single select instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].select {|x| x > 1 }.select {|x| x > 2 }
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].select {|x| x > 2 }
+```
+
 #### SelectFollowedBySize
 
 Don't use select followed by size; use count instead
@@ -209,12 +224,12 @@ x = nil ; assert_nil(x)
 
 #### MapFollowedByFlatten
 
-Don't use map followed by flatten; use flat_map instead
+Don't use map followed by flatten(1); use flat_map instead
 
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].map {|x| [x,x+1] }.flatten
+[1,2,3].map {|x| [x,x+1] }.flatten(1)
 ```
 
 Instead, consider doing this:
@@ -222,6 +237,7 @@ Instead, consider doing this:
 ```ruby
 [1,2,3].flat_map {|x| [x, x+1]}
 ```
+
 ## Ideas for other problems to detect:
 
 ```ruby
@@ -316,6 +332,7 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 * Commit, push
 * `bundle exec gem build pippi.gemspec`
 * `gem push pippi-x.gem`
+* Update pippi_demo
 
 ## Credits
 

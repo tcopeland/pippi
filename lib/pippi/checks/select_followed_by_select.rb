@@ -34,7 +34,7 @@ module Pippi::Checks
 
     class Documentation
       def description
-        "Don't use select followed by select; use a single select instead"
+        "Don't use consecutive select blocks; use a single select instead"
       end
       def sample
         "[1,2,3].select {|x| x > 1 }.select {|x| x > 2 }"
