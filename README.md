@@ -1,5 +1,7 @@
 # Pippi
 
+[![Build Status](http://img.shields.io/travis/tcopeland/pippi.svg)](http://travis-ci.org/tcopeland/pippi)
+
 Pippi is a utility for finding suboptimal Ruby class API usage.
 
 Consider this little array:
@@ -48,8 +50,6 @@ Here's how pippi stacks up using the [Aaron Quint](https://twitter.com/aq) [Ruby
 * Special Abilities - ?
 
 Finally, why "pippi"? Because Pippi Longstocking was a Thing-Finder, and pippi finds things.
-
-[![Build Status](http://img.shields.io/travis/tcopeland/pippi.svg)](http://travis-ci.org/tcopeland/pippi)
 
 ## Usage
 
