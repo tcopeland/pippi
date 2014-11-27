@@ -19,8 +19,8 @@ module Pippi::Checks
           def self._pippi_check_assert_with_nil
             ancestors.find { |x| x == ActiveSupport::TestCase }._pippi_other_check_assert_with_nil
           end
+          prepend Pippi::Checks::AssertWithNil::MyAssertEqual
         end
-        ActiveSupport::TestCase.prepend Pippi::Checks::AssertWithNil::MyAssertEqual
       end
     end
 

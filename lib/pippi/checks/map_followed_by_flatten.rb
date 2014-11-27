@@ -35,8 +35,8 @@ module Pippi::Checks
         class << self
           attr_reader :_pippi_check_map_followed_by_flatten
         end
+        prepend MyMap
       end
-      Array.prepend MyMap
     end
 
     class Documentation

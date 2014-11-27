@@ -34,8 +34,8 @@ module Pippi::Checks
         class << self
           attr_reader :_pippi_check_select_followed_by_first
         end
+        prepend MySelect
       end
-      Array.prepend MySelect
     end
 
     class Documentation

@@ -34,8 +34,8 @@ module Pippi::Checks
         def self._pippi_check_select_followed_by_empty
           @_pippi_check_select_followed_by_empty
         end
+        prepend MySelect
       end
-      Array.prepend MySelect
     end
 
     class Documentation

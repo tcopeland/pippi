@@ -28,8 +28,8 @@ module Pippi::Checks
         def self._pippi_check_select_followed_by_select
           @_pippi_check_select_followed_by_select
         end
+        prepend MyFirstSelect
       end
-      Array.prepend MyFirstSelect
     end
 
     class Documentation

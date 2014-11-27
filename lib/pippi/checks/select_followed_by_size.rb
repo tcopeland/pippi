@@ -31,8 +31,8 @@ module Pippi::Checks
         class << self
           attr_reader :_pippi_check_select_followed_by_size
         end
+        prepend MySelect
       end
-      Array.prepend MySelect
     end
 
     class Documentation

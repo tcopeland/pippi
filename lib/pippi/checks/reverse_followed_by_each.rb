@@ -13,7 +13,7 @@ module Pippi::Checks
         if self.class._pippi_check_reverse_followed_by_each.nil?
           # Ignore Array subclasses since reverse or each may have difference meanings
         else
-          result.singleton_class.prepend MyEach
+          result.singleton_class.class_eval { prepend MyEach }
           self.class._pippi_check_reverse_followed_by_each.array_mutator_methods.each do |this_means_its_ok_sym|
             result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_reverse_followed_by_each.its_ok_watcher_proc(MyEach, :each))
           end
@@ -29,8 +29,8 @@ module Pippi::Checks
         class << self
           attr_reader :_pippi_check_reverse_followed_by_each
         end
+        prepend MyReverse
       end
-      Array.prepend MyReverse
     end
 
     class Documentation
