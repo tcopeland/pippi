@@ -337,6 +337,7 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 ## Credits
 
 * Christopher Schramm([@cschramm](https://github.com/cschramm)) bugfixes in fault proc clearing
+* Enrique Delgado: Documentation fixes
 * [Evan Phoenix](https://twitter.com/evanphx)([@evanphx](https://github.com/evanphx)) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
 * Hubert Dąbrowski: Ruby 2.0.0 fixes
 * [Igor Kapkov](https://twitter.com/igasgeek)([@igas](https://github.com/igas)) documentation fixes
