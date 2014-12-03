@@ -22,6 +22,7 @@ module Pippi
         "basic" => [
           "SelectFollowedByFirst",
           "SelectFollowedBySize",
+          "SelectFollowedByAny",
           "SelectFollowedByEmpty",
           "ReverseFollowedByEach",
           "SelectFollowedBySelect"
