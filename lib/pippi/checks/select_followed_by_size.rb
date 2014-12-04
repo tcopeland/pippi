@@ -3,8 +3,9 @@ module Pippi::Checks
     module MySize
       def size
         self.class._pippi_check_select_followed_by_size.add_problem
+        problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
         self.class._pippi_check_select_followed_by_size.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
-          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.clear_fault_proc(self.class._pippi_check_select_followed_by_size))
+          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_size.clear_fault_proc(self.class._pippi_check_select_followed_by_size, problem_location))
         end
         super()
       end

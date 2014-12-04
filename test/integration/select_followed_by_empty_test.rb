@@ -37,6 +37,15 @@ tmp.empty?
 tmp = tmp.reject{|l| l.nil? }
 tmp.map {|x| 1 }
 EOS
-    assert_problems str
+    assert_no_problems str
+  end
+
+  def test_clear_fault_proc_should_attempt_to_clear_fault_using_line_of_fault_not_line_of_subsequent_callzz
+    str = <<-EOS
+tmp = [1,2,3].select {|x| x > 4 }
+tmp.empty?
+tmp.first
+EOS
+  assert_no_problems str
   end
 end

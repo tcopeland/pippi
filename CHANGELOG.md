@@ -1,3 +1,8 @@
+## 0.0.8 (2014-??-??)
+
+ * [FIXED] False positives reduced
+
+
 ## 0.0.7 (2014-12-01)
 
  * [FIXED] Support for Ruby 2.0

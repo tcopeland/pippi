@@ -11,7 +11,7 @@ module Pippi::Checks
     end
 
     def method_names_that_indicate_this_is_being_used_as_a_collection
-      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!, :collect, :compact, :flatten, :map, :reject, :reverse, :rotate, :select, :shuffle, :slice, :sort, :sort_by, :uniq]
+      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!, :collect, :compact, :first, :flatten, :join, :last, :map, :reject, :reverse, :rotate, :select, :shuffle, :slice, :sort, :sort_by, :uniq]
     end
 
     def add_problem
@@ -19,9 +19,8 @@ module Pippi::Checks
       ctx.report.add(Pippi::Problem.new(line_number: problem_location.lineno, file_path: problem_location.path, check_class: self.class))
     end
 
-    def clear_fault_proc(clz)
+    def clear_fault_proc(clz, problem_location)
       proc do |*args, &blk|
-        problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
         clz.clear_fault(problem_location.lineno, problem_location.path)
         super(*args, &blk)
       end

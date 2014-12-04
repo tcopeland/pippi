@@ -5,8 +5,9 @@ module Pippi::Checks
     module MyEmpty
       def empty?(&blk)
         self.class._pippi_check_select_followed_by_empty.add_problem
+        problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
         self.class._pippi_check_select_followed_by_empty.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
-          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_empty.clear_fault_proc(self.class._pippi_check_select_followed_by_empty))
+          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_empty.clear_fault_proc(self.class._pippi_check_select_followed_by_empty, problem_location))
         end
         super
       end

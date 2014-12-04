@@ -36,7 +36,7 @@ tmp.size
 tmp = tmp.reject{|l| l.nil? }
 tmp.map {|x| 1 }
 EOS
-    assert_problems str
+    assert_no_problems str
   end
 
   def test_clear_fault_proc_doesnt_try_to_remove_singleton_method_twice
