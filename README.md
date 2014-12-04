@@ -346,7 +346,7 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 * Tie off Changelog notes
 * Regenerate docs with `pippi:generate_docs`, copy and paste that into README
 * Commit, push
-* Tag the release
+* Tag the release (e.g., `git tag -a v0.0.8 -m 'v0.0.8' && git push origin v0.0.8`)
 * `bundle exec gem build pippi.gemspec`
 * `gem push pippi-x.gem`
 * Update pippi_demo
