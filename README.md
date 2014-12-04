@@ -141,6 +141,22 @@ Instead, consider doing this:
 [1,2,3].reverse_each {|x| x+1 }
 ```
 
+#### SelectFollowedByAny
+
+Don't use select followed by any?; use any? with a block instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].select {|x| x > 1 }.any?
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].any? {|x| x > 1 }
+```
+
 #### SelectFollowedByEmpty
 
 Don't use select followed by empty?; use none? instead
