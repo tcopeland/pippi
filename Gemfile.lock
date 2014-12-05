@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pippi (0.0.8)
+    pippi (0.0.9)
 
 GEM
   remote: https://rubygems.org/

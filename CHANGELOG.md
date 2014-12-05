@@ -1,4 +1,4 @@
-## 0.0.9 (2014-12-??)
+## 0.0.9 (2014-12-04)
 
 * [FIXED] False positives reduced
 
