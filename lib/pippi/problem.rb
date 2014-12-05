@@ -19,5 +19,9 @@ module Pippi
       check_class == other.check_class &&
       line_number == other.line_number
     end
+
+    def to_s
+      "#{file_path},#{check_class.name.split('::').last},#{line_number}"
+    end
   end
 end

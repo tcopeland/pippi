@@ -1,3 +1,7 @@
+## 0.0.9 (2014-12-??)
+
+* [FIXED] False positives reduced
+
 ## 0.0.8 (2014-12-04)
 
  * [NEW] Added SelectFollowedByAny
