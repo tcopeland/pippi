@@ -29,6 +29,9 @@ module Pippi
         ],
         "training" => [
         ],
+        "research" => [
+          "MethodSequenceFinder",
+        ],
         "buggy" => [
           "AssertWithNil",
           "MapFollowedByFlatten",

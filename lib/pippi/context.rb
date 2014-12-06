@@ -1,5 +1,8 @@
 module Pippi
   class Context
+
+    attr_accessor :checks
+
     class DebugLogger
       def warn(str)
         File.open('pippi_debug.log', 'a') do |f|
