@@ -2,41 +2,13 @@ module Pippi::Checks
 
   class SelectFollowedByAny < Check
 
-    module MyAny
-      def any?(&blk)
-        self.class._pippi_check_select_followed_by_any.add_problem
-        problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-        self.class._pippi_check_select_followed_by_any.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
-          define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_any.clear_fault_proc(self.class._pippi_check_select_followed_by_any, problem_location))
-        end
-        super
-      end
-    end
-
-    module MySelect
-      def select(&blk)
-        result = super
-        if self.class._pippi_check_select_followed_by_any.nil?
-          # Ignore Array subclasses since select or any may have difference meanings
-          # elsif defined?(ActiveRecord::Relation) && self.class.kind_of?(ActiveRecord::Relation) # maybe also this
-        else
-          result.extend MyAny
-          self.class._pippi_check_select_followed_by_any.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_any.its_ok_watcher_proc(MyAny, :any?))
-          end
-        end
-        result
-      end
-    end
-
     def decorate
-      Array.class_exec(self) do |my_check|
-        @_pippi_check_select_followed_by_any = my_check
-        def self._pippi_check_select_followed_by_any
-          @_pippi_check_select_followed_by_any
-        end
-        prepend MySelect
-      end
+      @mycheck.decorate
+    end
+
+    def initialize(ctx)
+      super
+      @mycheck = MethodSequenceChecker.new(self, Array, "select", "any?", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, true)
     end
 
     class Documentation

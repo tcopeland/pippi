@@ -2,34 +2,13 @@ module Pippi::Checks
 
   class SelectFollowedBySelect < Check
 
-    module MySecondSelect
-      def select(&blk)
-        self.class._pippi_check_select_followed_by_select.add_problem
-        super
-      end
-    end
-
-    module MyFirstSelect
-      def select(&blk)
-        result = super
-        if !self.class._pippi_check_select_followed_by_select.nil?
-          result.extend MySecondSelect
-          self.class._pippi_check_select_followed_by_select.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_select.its_ok_watcher_proc(MySecondSelect, :select))
-          end
-        end
-        result
-      end
-    end
-
     def decorate
-      Array.class_exec(self) do |my_check|
-        @_pippi_check_select_followed_by_select = my_check
-        def self._pippi_check_select_followed_by_select
-          @_pippi_check_select_followed_by_select
-        end
-        prepend MyFirstSelect
-      end
+      @mycheck.decorate
+    end
+
+    def initialize(ctx)
+      super
+      @mycheck = MethodSequenceChecker.new(self, Array, "select", "select", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, false)
     end
 
     class Documentation

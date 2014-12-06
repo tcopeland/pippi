@@ -320,7 +320,8 @@ end
 
 * Clean up this initial hacked out metaprogramming
 * Do more checks
-* Make writing rules nicer, without some much dorking around with methods.  "select followed by first" could be specified with something like "Array#select => #first" and the rest left up to the framework.
+* Finish refactoring duplicated code into MethodSequenceChecker
+* Use MethodSequenceFinder to do something with String
 
 ## Developing
 

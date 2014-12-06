@@ -1,4 +1,6 @@
 module Pippi::Checks
+
+  # TODO make this use MethodSequenceChecker
   class ReverseFollowedByEach < Check
     module MyEach
       def each

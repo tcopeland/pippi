@@ -1,4 +1,6 @@
 module Pippi::Checks
+
+  # TODO make this use MethodSequenceChecker
   class MapFollowedByFlatten < Check
     module MyFlatten
       def flatten(depth = nil)

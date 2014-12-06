@@ -1,5 +1,7 @@
 module Pippi::Checks
   class SelectFollowedByFirst < Check
+
+    # TODO make this use MethodSequenceChecker
     module MyFirst
       def first(elements = nil)
         unless elements
