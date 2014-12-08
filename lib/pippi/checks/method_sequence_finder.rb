@@ -1,10 +1,10 @@
 module Pippi::Checks
 
   module MyModule
-    def map(&blk)
+    def split(&blk)
       result = super
       if self.class._pippi_method_call_sequences
-        methods_to_track.each do |track_this|
+        array_methods_to_track.each do |track_this|
           result.define_singleton_method(track_this, track_it_proc(track_this))
         end
       end
@@ -23,8 +23,12 @@ module Pippi::Checks
         end
       end
     end
+    
+    def string_methods_to_track
+      [:ascii_only?, :b, :between?, :bytes, :bytesize, :byteslice, :capitalize, :capitalize!, :casecmp, :center, :chars, :chomp, :chomp!, :chop, :chop!, :chr, :clear, :codepoints, :concat, :count, :crypt, :delete, :delete!, :downcase, :downcase!, :dump, :each_byte, :each_char, :each_codepoint, :each_line, :empty?, :encode, :encode!, :encoding, :end_with?, :force_encoding, :getbyte, :gsub, :gsub!, :hex, :index, :insert, :intern, :length, :lines, :ljust, :lstrip, :lstrip!, :match, :next, :next!, :oct, :ord, :partition, :replace, :reverse, :reverse!, :rindex, :rjust, :rpartition, :rstrip, :rstrip!, :scan, :scrub, :scrub!, :setbyte, :size, :slice, :slice!, :split, :squeeze, :squeeze!, :start_with?, :strip, :strip!, :sub, :sub!, :succ, :succ!, :sum, :swapcase, :swapcase!, :to_c, :to_f, :to_i, :to_r, :to_str, :to_sym, :tr, :tr!, :tr_s, :tr_s!, :unpack, :upcase, :upcase!, :upto, :valid_encoding?]      
+    end
 
-    def methods_to_track
+    def array_methods_to_track
       [:all?, :any?, :assoc, :at, :bsearch, :chunk, :clear, :collect, :collect!, :collect_concat, :combination, :compact, :compact!, :concat, :count, :cycle, :delete, :delete_at, :delete_if, :detect, :drop, :drop_while, :each, :each_cons, :each_entry, :each_index, :each_slice, :each_with_index, :each_with_object, :empty?, :entries, :fetch, :fill, :find, :find_all, :find_index, :first, :flat_map, :flatten, :flatten!, :grep, :group_by, :histogram, :index, :inject, :insert, :join, :keep_if, :last, :lazy, :length, :map, :map!, :max, :max_by, :member?, :min, :min_by, :minmax, :minmax_by, :none?, :one?, :pack, :partition, :permutation, :pop, :product, :push, :rassoc, :reduce, :reject, :reject!, :repeated_combination, :repeated_permutation, :replace, :reverse, :reverse!, :reverse_each, :rindex, :rotate, :rotate!, :sample, :select, :select!, :shift, :shuffle, :shuffle!, :size, :slice, :slice!, :slice_before, :sort, :sort!, :sort_by, :sort_by!, :take, :take_while, :to_a, :to_ary, :to_h, :transpose, :uniq, :uniq!, :unshift, :values_at, :zip]
     end
   end
@@ -48,10 +52,11 @@ module Pippi::Checks
       end
     end
 
-    attr_reader :sequences
+    attr_reader :sequences, :clazz_to_decorate
 
     def initialize(ctx)
       super
+      @clazz_to_decorate = String
       @sequences = Set.new
     end
 
@@ -66,7 +71,7 @@ module Pippi::Checks
     end
 
     def decorate
-      Array.class_exec(self) do |my_check|
+      clazz_to_decorate.class_exec(self) do |my_check|
         @_pippi_method_call_sequences = my_check
         class << self
           attr_reader :_pippi_method_call_sequences

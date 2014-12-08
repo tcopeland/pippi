@@ -1,3 +1,7 @@
+## 0.0.10 (2014-12-??)
+
+* [NEW] Added SelectFollowedByNone
+
 ## 0.0.9 (2014-12-04)
 
 * [FIXED] False positives reduced

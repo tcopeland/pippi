@@ -23,6 +23,7 @@ module Pippi
           "SelectFollowedByFirst",
           "SelectFollowedBySize",
           "SelectFollowedByAny",
+          "SelectFollowedByNone",
           "SelectFollowedByEmpty",
           "ReverseFollowedByEach",
           "SelectFollowedBySelect"
