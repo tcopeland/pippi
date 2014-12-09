@@ -189,6 +189,22 @@ Instead, consider doing this:
 [1,2,3].detect {|x| x > 1 }
 ```
 
+#### SelectFollowedByNone
+
+Don't use select followed by none?; use none? with a block instead
+
+For example, rather than doing this:
+
+```ruby
+[1,2,3].select {|x| x > 1 }.none?
+```
+
+Instead, consider doing this:
+
+```ruby
+[1,2,3].none? {|x| x > 1 }
+```
+
 #### SelectFollowedBySelect
 
 Don't use consecutive select blocks; use a single select instead
@@ -257,8 +273,6 @@ Instead, consider doing this:
 ## Ideas for other problems to detect:
 
 ```ruby
-# Don't use select followed by compact, use select with the nil inside the block
-
 # unnecessary assignment since String#strip! mutates receiver
 # wrong
 x = x.strip!

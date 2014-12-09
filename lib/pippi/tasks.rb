@@ -4,7 +4,7 @@ module Pippi
   class Documentation
     def generate
       str = ''
-      Pippi::CheckSetMapper.new("").predefined_sets.sort.select {|k,v| v.any? }.each do |checkset_name, checks|
+      Pippi::CheckSetMapper.new("").predefined_sets.sort.select {|k,v| k != "research" && v.any? }.each do |checkset_name, checks|
         str << "### #{checkset_name}\n"
         checks.sort.each do |check|
           obj = Object.const_get("Pippi::Checks::#{check}::Documentation").new

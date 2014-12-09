@@ -1,4 +1,4 @@
-## 0.0.10 (2014-12-??)
+## 0.0.10 (2014-12-09)
 
 * [NEW] Added SelectFollowedByNone
 
