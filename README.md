@@ -49,7 +49,7 @@ Here's how pippi stacks up using the [Aaron Quint](https://twitter.com/aq) [Ruby
 * Realtimedness - finds stuff right away
 * Special Abilities - ?
 
-Finally, why "pippi"? Because Pippi Longstocking was a Thing-Finder, and pippi finds things.
+Finally, why "pippi"? Because Pippi Longstocking was a <a href="http://www.laredoisd.org/cdbooks/NOVELS/Pippi%20Longstocking/CH02.txt">Thing-Finder</a>, and pippi finds things.
 
 ## Usage
 
