@@ -24,19 +24,23 @@ class MethodSequenceChecker
       end
 
       # e.g., "size" in "select followed by size"
-      second_method_decorator = Module.new do
-        define_method(method_sequence_check_instance.method2) do |*args, &blk|
-          self.class.instance_variable_get(name).add_problem
-          if method_sequence_check_instance.should_check_subsequent_calls && method_sequence_check_instance.clazz_to_decorate == Array
-            problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-            self.class.instance_variable_get(name).method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
-              define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).clear_fault_proc(self.class.instance_variable_get(name), problem_location))
+      second_method_decorator = if method_sequence_check_instance.second_method_arity_type.kind_of?(Module)
+        method_sequence_check_instance.second_method_arity_type
+      else
+        Module.new do
+          define_method(method_sequence_check_instance.method2) do |*args, &blk|
+            self.class.instance_variable_get(name).add_problem
+            if method_sequence_check_instance.should_check_subsequent_calls && method_sequence_check_instance.clazz_to_decorate == Array
+              problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
+              self.class.instance_variable_get(name).method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
+                define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).clear_fault_proc(self.class.instance_variable_get(name), problem_location))
+              end
             end
-          end
-          if method_sequence_check_instance.second_method_arity_type == ARITY_TYPE_BLOCK_ARG
-            super(&blk)
-          elsif method_sequence_check_instance.second_method_arity_type == ARITY_TYPE_NONE
-            super()
+            if method_sequence_check_instance.second_method_arity_type == ARITY_TYPE_BLOCK_ARG
+              super(&blk)
+            elsif method_sequence_check_instance.second_method_arity_type == ARITY_TYPE_NONE
+              super()
+            end
           end
         end
       end

@@ -1,11 +1,10 @@
 module Pippi::Checks
   class SelectFollowedByFirst < Check
 
-    # TODO make this use MethodSequenceChecker
-    module MyFirst
+    module MyModule
       def first(elements = nil)
         unless elements
-          self.class._pippi_check_select_followed_by_first.add_problem
+          self.class._pippi_check_selectfollowedbyfirst.add_problem
         end
         if elements
           super(elements)
@@ -15,29 +14,13 @@ module Pippi::Checks
       end
     end
 
-    module MySelect
-      def select(&blk)
-        result = super
-        if self.class._pippi_check_select_followed_by_first.nil?
-          # Ignore Array subclasses since select or first may have difference meanings
-        else
-          result.extend MyFirst
-          self.class._pippi_check_select_followed_by_first.array_mutator_methods.each do |this_means_its_ok_sym|
-            result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_select_followed_by_first.its_ok_watcher_proc(MyFirst, :first))
-          end
-        end
-        result
-      end
+    def decorate
+      @mycheck.decorate
     end
 
-    def decorate
-      Array.class_exec(self) do |my_check|
-        @_pippi_check_select_followed_by_first = my_check
-        class << self
-          attr_reader :_pippi_check_select_followed_by_first
-        end
-        prepend MySelect
-      end
+    def initialize(ctx)
+      super
+      @mycheck = MethodSequenceChecker.new(self, Array, "select", "first", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MyModule, true)
     end
 
     class Documentation
