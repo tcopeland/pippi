@@ -61,6 +61,8 @@ Finally, why "pippi"? Because Pippi Longstocking was a <a href="http://www.lared
 ```ruby
 if ENV['USE_PIPPI'].present?
   Pippi::AutoRunner.new(:checkset => ENV['PIPPI_CHECKSET'] || "basic")
+  # you can also pass in an IO:
+  # Pippi::AutoRunner.new(:checkset => "basic", :io => $stdout)
 end
 ```
 * Run it:
@@ -373,6 +375,7 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 * [Evan Phoenix](https://twitter.com/evanphx)([@evanphx](https://github.com/evanphx)) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.
 * Hubert Dąbrowski: Ruby 2.0.0 fixes
 * [Igor Kapkov](https://twitter.com/igasgeek)([@igas](https://github.com/igas)) documentation fixes
+* [Josh Bodah](https://github.com/jbodah): Better logging support
 * [LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
 * [Michael Bernstein](https://twitter.com/mrb_bk)([@mrb](https://github.com/mrb)) (of [CodeClimate](https://codeclimate.com/) fame) for an inspirational discussion of code anaysis in general.
 * [Olle Jonsson](https://twitter.com/olleolleolle)([@olleolleolle](https://github.com/olleolleolle)) rubocop fixes
