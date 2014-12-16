@@ -18,12 +18,6 @@ class MethodSequenceCheckerTest < MiniTest::Test
     def size ; 0 ; end
   end
 
-  module MyModule
-    def size
-      raise "boom"
-    end
-  end
-
   def test_decorate_should_add_accessor_to_decorated_class
     check = TestCheck.new(nil)
     m = MethodSequenceChecker.new(check, SomeClass, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
@@ -40,8 +34,13 @@ class MethodSequenceCheckerTest < MiniTest::Test
   end
 
   def test_accept_a_module_in_place_of_the_second_arity_type
+    mymodule = Module.new do
+      def size
+        raise "boom"
+      end
+    end
     check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, SomeClass3, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MyModule, false)
+    m = MethodSequenceChecker.new(check, SomeClass3, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, mymodule, false)
     m.decorate
     assert_equal("boom", assert_raises(RuntimeError) do
       SomeClass3.new.select {|x| }.size
