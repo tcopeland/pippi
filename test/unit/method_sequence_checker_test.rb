@@ -2,8 +2,7 @@ require "test_helper"
 
 class MethodSequenceCheckerTest < MiniTest::Test
 
-  class TestCheck < Pippi::Checks::Check
-  end
+  class TestCheck < Pippi::Checks::Check ; end
 
   def setup
     @clz_to_be_checked = Class.new do
