@@ -5,32 +5,26 @@ class MethodSequenceCheckerTest < MiniTest::Test
   class TestCheck < Pippi::Checks::Check
   end
 
-  class SomeClass
-    def select(&blk) ; [] ; end
-    def size ; 0 ; end
-  end
-  class SomeClass2
-    def select(&blk) ; [] ; end
-    def size ; 0 ; end
-  end
-  class SomeClass3
-    def select(&blk) ; [] ; end
-    def size ; 0 ; end
+  def setup
+    @clz_to_be_checked = Class.new do
+      def select(&blk) ; [] ; end
+      def size ; 0 ; end
+    end
   end
 
   def test_decorate_should_add_accessor_to_decorated_class
     check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, SomeClass, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
     m.decorate
-    assert SomeClass._pippi_check_testcheck.kind_of?(TestCheck)
+    assert @clz_to_be_checked._pippi_check_testcheck.kind_of?(TestCheck)
   end
 
   def test_decorate_should_add_a_module_that_decorates_the_first_method
     check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, SomeClass2, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
-    assert_equal SomeClass2.ancestors[0], SomeClass2
+    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    assert_equal @clz_to_be_checked.ancestors[0], @clz_to_be_checked
     m.decorate
-    assert SomeClass2.ancestors[0] != SomeClass2
+    assert @clz_to_be_checked.ancestors[0] != @clz_to_be_checked
   end
 
   def test_accept_a_module_in_place_of_the_second_arity_type
@@ -40,10 +34,10 @@ class MethodSequenceCheckerTest < MiniTest::Test
       end
     end
     check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, SomeClass3, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, mymodule, false)
+    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, mymodule, false)
     m.decorate
     assert_equal("boom", assert_raises(RuntimeError) do
-      SomeClass3.new.select {|x| }.size
+      @clz_to_be_checked.new.select {|x| }.size
     end.message)
   end
 
