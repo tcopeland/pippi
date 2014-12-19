@@ -1,3 +1,7 @@
+## 0.0.11 (2014-??-??)
+
+* [NEW] More logging options
+
 ## 0.0.10 (2014-12-09)
 
 * [NEW] Added SelectFollowedByNone
