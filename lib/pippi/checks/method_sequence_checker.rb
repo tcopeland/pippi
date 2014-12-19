@@ -48,7 +48,7 @@ class MethodSequenceChecker
         end
       end
 
-      # e.g., "select" in "select followed ARITY_TYPE_NONEze"
+      # e.g., "select" in "select followed by size"
      first_method_decorator = Module.new do
         define_method(method_sequence_check_instance.method1) do |*args, &blk|
           result = if method_sequence_check_instance.first_method_arity_type == ARITY_TYPE_BLOCK_ARG

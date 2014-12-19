@@ -47,5 +47,19 @@ class MethodSequenceCheckerTest < MiniTest::Test
     m.decorate
     @clz_to_be_checked.new.select {|x| x }.size
     assert ctx.report.problems.one?
+    problem = ctx.report.problems.first
+    assert_match /method_sequence_checker_test.rb/, problem.file_path
+    assert_match /TestCheck/, problem.check_class.name
+    assert problem.line_number > 0
   end
+
+  def test_no_problem_added_if_method_sequence_not_detected
+    ctx = Pippi::Context.new
+    check = TestCheck.new(ctx)
+    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    m.decorate
+    @clz_to_be_checked.new.select {|x| x }.select
+    assert ctx.report.problems.none?
+  end
+
 end
