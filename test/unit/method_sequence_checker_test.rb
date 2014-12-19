@@ -6,7 +6,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
 
   def setup
     @clz_to_be_checked = Class.new do
-      def select(&blk) ; [] ; end
+      def select(&blk) ; self ; end
       def size ; 0 ; end
     end
   end
@@ -40,4 +40,12 @@ class MethodSequenceCheckerTest < MiniTest::Test
     end.message)
   end
 
+  def test_add_a_problem_if_method_sequence_is_detectedzz
+    ctx = Pippi::Context.new
+    check = TestCheck.new(ctx)
+    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    m.decorate
+    @clz_to_be_checked.new.select {|x| x }.size
+    assert ctx.report.problems.one?
+  end
 end

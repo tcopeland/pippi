@@ -29,6 +29,9 @@ class MethodSequenceChecker
       else
         Module.new do
           define_method(method_sequence_check_instance.method2) do |*args, &blk|
+            # Using "self.class" implies that the first method invocation returns the same type as the receiver
+            # e.g., Array#select returns an Array.  Would need to further parameterize this to get
+            # different behavior.
             self.class.instance_variable_get(name).add_problem
             if method_sequence_check_instance.should_check_subsequent_calls && method_sequence_check_instance.clazz_to_decorate == Array
               problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
