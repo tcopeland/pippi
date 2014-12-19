@@ -40,7 +40,7 @@ EOS
     assert_no_problems str
   end
 
-  def test_clear_fault_proc_should_attempt_to_clear_fault_using_line_of_fault_not_line_of_subsequent_callzz
+  def test_clear_fault_proc_should_attempt_to_clear_fault_using_line_of_fault_not_line_of_subsequent_call
     str = <<-EOS
 tmp = [1,2,3].select {|x| x > 4 }
 tmp.any?

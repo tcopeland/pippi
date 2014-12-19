@@ -40,7 +40,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
     end.message)
   end
 
-  def test_add_a_problem_if_method_sequence_is_detectedzz
+  def test_add_a_problem_if_method_sequence_is_detected
     ctx = Pippi::Context.new
     check = TestCheck.new(ctx)
     m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
