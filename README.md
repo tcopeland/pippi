@@ -7,19 +7,19 @@ Pippi is a utility for finding suboptimal Ruby class API usage.
 Consider this little array:
 
 ```ruby
-[1,2,3]
+[1, 2, 3]
 ```
 
 Now suppose we want to find the first element in that array that's greater than one. We can use Array#select, which returns another Array, and then use Array#first:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.first
+[1, 2, 3].select { |x| x > 1 }.first
 ```
 
 Of course that's terribly inefficient. Since we only need one element we don't need to select all elements that match the predicate. We should use Array#detect instead:
 
 ```ruby
-[1,2,3].detect {|x| x > 1}
+[1, 2, 3].detect { |x| x > 1 }
 ```
 
 A change like this is a small optimization, but they can add up.  More importantly, they communicate the intent of the programmer; the use of Array#detect makes it clear that we're just looking for the first item to match the predicate.
@@ -31,8 +31,8 @@ There are many nifty Ruby static analysis tools - flay, reek, flog, etc. This is
 Here's an important caveat: pippi is not, and more importantly cannot, be free of false positives. That's because of the halting problem. Pippi finds suboptimal API usage based on data flows as driven by a project's test suite. There may be alternate data flows where this API usage is correct. For example, in the code below, if rand < 0.5 is true, then the Array will be mutated and the program cannot correctly be simplified by replacing "select followed by first" with "detect":
 
 ```ruby
-x = [1,2,3].select {|y| y > 1 }
-x.reject! {|y| y > 2} if rand < 0.5
+x = [1, 2, 3].select { |y| y > 1 }
+x.reject! { |y| y > 2 } if rand < 0.5
 x.first
 ```
 
@@ -134,13 +134,13 @@ Don't use each followed by reverse; use reverse_each instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].reverse.each {|x| x+1 }
+[1, 2, 3].reverse.each { |x| x + 1 }
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].reverse_each {|x| x+1 }
+[1, 2, 3].reverse_each { |x| x + 1 }
 ```
 
 #### SelectFollowedByAny
@@ -150,13 +150,13 @@ Don't use select followed by any?; use any? with a block instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.any?
+[1, 2, 3].select { |x| x > 1 }.any?
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].any? {|x| x > 1 }
+[1, 2, 3].any? { |x| x > 1 }
 ```
 
 #### SelectFollowedByEmpty
@@ -166,13 +166,13 @@ Don't use select followed by empty?; use none? instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.empty?
+[1, 2, 3].select { |x| x > 1 }.empty?
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].none? {|x| x > 1 }
+[1, 2, 3].none? { |x| x > 1 }
 ```
 
 #### SelectFollowedByFirst
@@ -182,13 +182,13 @@ Don't use select followed by first; use detect instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.first
+[1, 2, 3].select { |x| x > 1 }.first
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].detect {|x| x > 1 }
+[1, 2, 3].detect { |x| x > 1 }
 ```
 
 #### SelectFollowedByNone
@@ -198,13 +198,13 @@ Don't use select followed by none?; use none? with a block instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.none?
+[1, 2, 3].select { |x| x > 1 }.none?
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].none? {|x| x > 1 }
+[1, 2, 3].none? { |x| x > 1 }
 ```
 
 #### SelectFollowedBySelect
@@ -214,13 +214,13 @@ Don't use consecutive select blocks; use a single select instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.select {|x| x > 2 }
+[1, 2, 3].select { |x| x > 1 }.select { |x| x > 2 }
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 2 }
+[1, 2, 3].select { |x| x > 2 }
 ```
 
 #### SelectFollowedBySize
@@ -230,13 +230,13 @@ Don't use select followed by size; use count instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].select {|x| x > 1 }.size
+[1 ,2, 3].select { |x| x > 1 }.size
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].count {|x| x > 1 }
+[1, 2, 3].count { |x| x > 1 }
 ```
 ### buggy
 
@@ -263,13 +263,13 @@ Don't use map followed by flatten(1); use flat_map instead
 For example, rather than doing this:
 
 ```ruby
-[1,2,3].map {|x| [x,x+1] }.flatten(1)
+[1, 2, 3].map { |x| [x, x + 1] }.flatten(1)
 ```
 
 Instead, consider doing this:
 
 ```ruby
-[1,2,3].flat_map {|x| [x, x+1]}
+[1, 2, 3].flat_map { |x| [x, x + 1] }
 ```
 
 ## Ideas for other problems to detect:
