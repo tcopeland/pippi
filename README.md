@@ -83,7 +83,7 @@ Here's a [demo Rails application](https://github.com/tcopeland/pippi_demo#pippi-
 ### Rails with rspec
 
 * Add `gem 'pippi'` to the `test` group in your project's `Gemfile`
-* Add this to `spec/spec_helper.rb`, just below the `require 'rspec/rails'` line (if there is one):
+* Add this to `spec/spec_helper.rb` or `spec/rails_helper.rb`, just below the `require 'rspec/rails'` line (if there is one):
 
 ```ruby
 if ENV['USE_PIPPI'].present?
