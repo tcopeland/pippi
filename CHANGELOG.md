@@ -1,3 +1,7 @@
+## 0.0.12 (2015-02-16)
+
+* (NEW) Changed output format to work better with IDEs
+
 ## 0.0.11 (2014-12-19)
 
 * [NEW] More logging options

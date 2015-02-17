@@ -377,5 +377,6 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 * [Igor Kapkov](https://twitter.com/igasgeek)([@igas](https://github.com/igas)) documentation fixes
 * [Josh Bodah](https://github.com/jbodah): Better logging support
 * [LivingSocial](https://www.livingsocial.com/) for letting me develop and open source this utility.
+* Martin Spickermann: Better output format
 * [Michael Bernstein](https://twitter.com/mrb_bk)([@mrb](https://github.com/mrb)) (of [CodeClimate](https://codeclimate.com/) fame) for an inspirational discussion of code anaysis in general.
 * [Olle Jonsson](https://twitter.com/olleolleolle)([@olleolleolle](https://github.com/olleolleolle)) rubocop fixes
