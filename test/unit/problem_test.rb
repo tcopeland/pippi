@@ -18,4 +18,9 @@ class ProblemTest < MiniTest::Test
     p4 = Pippi::Problem.new(file_path: 'foo', line_number: 42, check_class: 'Array')
     assert !p1.eql?(p4)
   end
+
+  def test_to_text_has_expected_format
+    p = Pippi::Problem.new(file_path: 'foo/bar.rb', line_number: 42, check_class: String)
+    assert_equal p.to_text, 'foo/bar.rb:42,String'
+  end
 end

@@ -10,7 +10,7 @@ module Pippi
 
     # TODO probably need various reporting formats
     def to_text
-      "#{file_path},#{check_class.name.split('::').last},#{line_number}"
+      "#{file_path}:#{line_number},#{demodulized_check_class_name}"
     end
 
     # TODO correct method?
@@ -21,7 +21,13 @@ module Pippi
     end
 
     def to_s
-      "#{file_path},#{check_class.name.split('::').last},#{line_number}"
+      "#{file_path}:#{line_number},#{demodulized_check_class_name}"
     end
+
+  private
+    def demodulized_check_class_name
+      check_class.name.split('::').last
+    end
+
   end
 end
