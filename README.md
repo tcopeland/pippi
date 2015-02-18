@@ -370,6 +370,7 @@ rm -rf pippi_debug.log pippi.log .bundle/gems/pippi-0.0.1/ .bundle/cache/pippi-0
 
 ## Credits
 
+* [Andrew Kozin](https://twitter.com/nepalez): fixes to :io option
 * Christopher Schramm([@cschramm](https://github.com/cschramm)) bugfixes in fault proc clearing
 * Enrique Delgado: Documentation fixes
 * [Evan Phoenix](https://twitter.com/evanphx)([@evanphx](https://github.com/evanphx)) for the idea of watching method invocations at runtime using metaprogramming rather than using `Tracepoint`.

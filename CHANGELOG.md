@@ -1,3 +1,7 @@
+## 0.0.13 (2015-02-17)
+
+* (FIXED) :io option was still opening default file
+
 ## 0.0.12 (2015-02-16)
 
 * (NEW) Changed output format to work better with IDEs
