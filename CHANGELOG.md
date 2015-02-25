@@ -1,10 +1,16 @@
+## 0.0.14 (2015-04-23)
+
+* [NEW] Added Rails checkset with first rule StripFollowedByEmpty
+* [FIXED] Docs fixes
+* [FIXED] Missing require when using pippi outside Rails
+
 ## 0.0.13 (2015-02-17)
 
-* (FIXED) :io option was still opening default file
+* [FIXED] :io option was still opening default file
 
 ## 0.0.12 (2015-02-16)
 
-* (NEW) Changed output format to work better with IDEs
+* [NEW] Changed output format to work better with IDEs
 
 ## 0.0.11 (2014-12-19)
 

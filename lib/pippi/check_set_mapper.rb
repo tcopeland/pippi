@@ -28,6 +28,9 @@ module Pippi
           "ReverseFollowedByEach",
           "SelectFollowedBySelect"
         ],
+        "rails" => [
+          "StripFollowedByEmpty"
+        ],
         "training" => [
         ],
         "research" => [

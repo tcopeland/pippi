@@ -3,7 +3,7 @@ class MethodSequenceChecker
   ARITY_TYPE_BLOCK_ARG = 1
   ARITY_TYPE_NONE = 2
 
-  attr_reader :check, :clazz_to_decorate, :method1, :method2, :first_method_arity_type, :second_method_arity_type, :should_check_subsequent_calls
+  attr_reader :check, :clazz_to_decorate, :method1, :method2, :first_method_arity_type, :second_method_arity_type, :should_check_subsequent_calls, :return_type
 
   def initialize(check, clazz_to_decorate, method1, method2, first_method_arity_type, second_method_arity_type, should_check_subsequent_calls)
     @check = check
@@ -33,7 +33,7 @@ class MethodSequenceChecker
             # e.g., Array#select returns an Array.  Would need to further parameterize this to get
             # different behavior.
             self.class.instance_variable_get(name).add_problem
-            if method_sequence_check_instance.should_check_subsequent_calls && method_sequence_check_instance.clazz_to_decorate == Array
+            if method_sequence_check_instance.should_check_subsequent_calls && method_sequence_check_instance.clazz_to_decorate == self.class
               problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
               self.class.instance_variable_get(name).method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
                 define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).clear_fault_proc(self.class.instance_variable_get(name), problem_location))
@@ -58,7 +58,7 @@ class MethodSequenceChecker
           end
           if self.class.instance_variable_get(name)
             result.extend second_method_decorator
-            self.class.instance_variable_get(name).array_mutator_methods.each do |this_means_its_ok_sym|
+            self.class.instance_variable_get(name).mutator_methods(result.class).each do |this_means_its_ok_sym|
               result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.method2))
             end
           end

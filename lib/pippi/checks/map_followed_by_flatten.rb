@@ -22,7 +22,7 @@ module Pippi::Checks
           # Ignore Array subclasses since map or flatten may have difference meanings
         else
           result.extend MyFlatten
-          self.class._pippi_check_map_followed_by_flatten.array_mutator_methods.each do |this_means_its_ok_sym|
+          self.class._pippi_check_map_followed_by_flatten.mutator_methods.each do |this_means_its_ok_sym|
             result.define_singleton_method(this_means_its_ok_sym, self.class._pippi_check_map_followed_by_flatten.its_ok_watcher_proc(MyFlatten, :flatten))
           end
         end

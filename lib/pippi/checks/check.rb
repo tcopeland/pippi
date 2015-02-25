@@ -6,8 +6,12 @@ module Pippi::Checks
       @ctx = ctx
     end
 
-    def array_mutator_methods
-      [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!]
+    def mutator_methods(the_type=Array)
+      if the_type == String
+        [:insert, :<<]
+      else
+        [:collect!, :compact!, :flatten!, :map!, :reject!, :reverse!, :rotate!, :select!, :shuffle!, :slice!, :sort!, :sort_by!, :uniq!]
+      end
     end
 
     def method_names_that_indicate_this_is_being_used_as_a_collection

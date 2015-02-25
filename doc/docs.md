@@ -2,7 +2,7 @@
 
 #### ReverseFollowedByEach
 
-Don't use each followed by reverse; use reverse_each instead
+Don't use reverse followed by each; use reverse_each instead
 
 For example, rather than doing this:
 
@@ -143,4 +143,21 @@ Instead, consider doing this:
 
 ```ruby
 [1,2,3].flat_map {|x| [x, x+1]}
+```
+### rails
+
+#### StripFollowedByEmpty
+
+Don't use String#strip followed by empty?; use String#blank? instead
+
+For example, rather than doing this:
+
+```ruby
+'   '.strip.empty?
+```
+
+Instead, consider doing this:
+
+```ruby
+'   '.blank?
 ```
