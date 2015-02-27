@@ -1,3 +1,5 @@
+require 'set'
+
 module Pippi
   class Report
     attr_reader :problems, :removed
