@@ -129,7 +129,7 @@ Pippi has the concept of "checksets" which are, well, sets of checks.  The curre
 
 #### ReverseFollowedByEach
 
-Don't use each followed by reverse; use reverse_each instead
+Don't use reverse followed by each; use reverse_each instead
 
 For example, rather than doing this:
 
