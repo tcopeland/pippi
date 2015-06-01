@@ -12,15 +12,27 @@ class MethodSequenceCheckerTest < MiniTest::Test
   end
 
   def test_decorate_should_add_accessor_to_decorated_class
-    check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    check_descriptor = CheckDescriptor.new(TestCheck.new(nil))
+    check_descriptor.clazz_to_decorate = @clz_to_be_checked
+    check_descriptor.method1 = "select"
+    check_descriptor.method2 = "size"
+    check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+    check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+    check_descriptor.should_check_subsequent_calls = false
+    m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
     assert @clz_to_be_checked._pippi_check_testcheck.kind_of?(TestCheck)
   end
 
   def test_decorate_should_add_a_module_that_decorates_the_first_method
-    check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    check_descriptor = CheckDescriptor.new(TestCheck.new(nil))
+    check_descriptor.clazz_to_decorate = @clz_to_be_checked
+    check_descriptor.method1 = "select"
+    check_descriptor.method2 = "size"
+    check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+    check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+    check_descriptor.should_check_subsequent_calls = false
+    m = MethodSequenceChecker.new(check_descriptor)
     assert_equal @clz_to_be_checked.ancestors[0], @clz_to_be_checked
     m.decorate
     assert @clz_to_be_checked.ancestors[0] != @clz_to_be_checked
@@ -32,8 +44,14 @@ class MethodSequenceCheckerTest < MiniTest::Test
         raise "boom"
       end
     end
-    check = TestCheck.new(nil)
-    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, mymodule, false)
+    check_descriptor = CheckDescriptor.new(TestCheck.new(nil))
+    check_descriptor.clazz_to_decorate = @clz_to_be_checked
+    check_descriptor.method1 = "select"
+    check_descriptor.method2 = "size"
+    check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+    check_descriptor.second_method_arity_type = mymodule
+    check_descriptor.should_check_subsequent_calls = false
+    m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
     assert_equal("boom", assert_raises(RuntimeError) do
       @clz_to_be_checked.new.select {|x| }.size
@@ -42,8 +60,14 @@ class MethodSequenceCheckerTest < MiniTest::Test
 
   def test_add_a_problem_if_method_sequence_is_detected
     ctx = Pippi::Context.new
-    check = TestCheck.new(ctx)
-    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    check_descriptor = CheckDescriptor.new(TestCheck.new(ctx))
+    check_descriptor.clazz_to_decorate = @clz_to_be_checked
+    check_descriptor.method1 = "select"
+    check_descriptor.method2 = "size"
+    check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+    check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+    check_descriptor.should_check_subsequent_calls = false
+    m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
     @clz_to_be_checked.new.select {|x| x }.size
     assert ctx.report.problems.one?
@@ -55,8 +79,14 @@ class MethodSequenceCheckerTest < MiniTest::Test
 
   def test_no_problem_added_if_method_sequence_not_detected
     ctx = Pippi::Context.new
-    check = TestCheck.new(ctx)
-    m = MethodSequenceChecker.new(check, @clz_to_be_checked, "select", "size", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_NONE, false)
+    check_descriptor = CheckDescriptor.new(TestCheck.new(ctx))
+    check_descriptor.clazz_to_decorate = @clz_to_be_checked
+    check_descriptor.method1 = "select"
+    check_descriptor.method2 = "size"
+    check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+    check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+    check_descriptor.should_check_subsequent_calls = false
+    m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
     @clz_to_be_checked.new.select {|x| x }.select
     assert ctx.report.problems.none?

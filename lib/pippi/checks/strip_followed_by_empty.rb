@@ -10,7 +10,13 @@ module Pippi::Checks
 
     def initialize(ctx)
       super
-      @mycheck = MethodSequenceChecker.new(self, String, "strip", "empty?", MethodSequenceChecker::ARITY_TYPE_NONE, MethodSequenceChecker::ARITY_TYPE_NONE, true)
+      check_descriptor = CheckDescriptor.new(self)
+      check_descriptor.clazz_to_decorate = String
+      check_descriptor.method1 = "strip"
+      check_descriptor.method2 = "empty?"
+      check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+      check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+      @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 
     class Documentation

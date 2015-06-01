@@ -20,7 +20,13 @@ module Pippi::Checks
 
     def initialize(ctx)
       super
-      @mycheck = MethodSequenceChecker.new(self, Array, "select", "first", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MyModule, true)
+      check_descriptor = CheckDescriptor.new(self)
+      check_descriptor.clazz_to_decorate = Array
+      check_descriptor.method1 = "select"
+      check_descriptor.method2 = "first"
+      check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+      check_descriptor.second_method_arity_type = MyModule
+      @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 
     class Documentation

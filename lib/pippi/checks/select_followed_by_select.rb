@@ -8,7 +8,14 @@ module Pippi::Checks
 
     def initialize(ctx)
       super
-      @mycheck = MethodSequenceChecker.new(self, Array, "select", "select", MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG, false)
+      check_descriptor = CheckDescriptor.new(self)
+      check_descriptor.clazz_to_decorate = Array
+      check_descriptor.method1 = "select"
+      check_descriptor.method2 = "select"
+      check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+      check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
+      check_descriptor.should_check_subsequent_calls = false
+      @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 
     class Documentation
