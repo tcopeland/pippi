@@ -14,8 +14,8 @@ class MethodSequenceCheckerTest < MiniTest::Test
   def test_decorate_should_add_accessor_to_decorated_class
     check_descriptor = CheckDescriptor.new(TestCheck.new(nil))
     check_descriptor.clazz_to_decorate = @clz_to_be_checked
-    check_descriptor.first_method_descriptor = MethodDescriptor.new("select", MethodDescriptor::ARITY_TYPE_BLOCK_ARG)
-    check_descriptor.second_method_descriptor = MethodDescriptor.new("size", MethodDescriptor::ARITY_TYPE_NONE)
+    check_descriptor.first_method_descriptor = MethodDescriptor.new("select")
+    check_descriptor.second_method_descriptor = MethodDescriptor.new("size")
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
@@ -25,8 +25,8 @@ class MethodSequenceCheckerTest < MiniTest::Test
   def test_decorate_should_add_a_module_that_decorates_the_first_method
     check_descriptor = CheckDescriptor.new(TestCheck.new(nil))
     check_descriptor.clazz_to_decorate = @clz_to_be_checked
-    check_descriptor.first_method_descriptor = MethodDescriptor.new("select", MethodDescriptor::ARITY_TYPE_BLOCK_ARG)
-    check_descriptor.second_method_descriptor = MethodDescriptor.new("size", MethodDescriptor::ARITY_TYPE_NONE)
+    check_descriptor.first_method_descriptor = MethodDescriptor.new("select")
+    check_descriptor.second_method_descriptor = MethodDescriptor.new("size")
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     assert_equal @clz_to_be_checked.ancestors[0], @clz_to_be_checked
@@ -42,7 +42,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
     end
     check_descriptor = CheckDescriptor.new(TestCheck.new(nil))
     check_descriptor.clazz_to_decorate = @clz_to_be_checked
-    check_descriptor.first_method_descriptor = MethodDescriptor.new("select", MethodDescriptor::ARITY_TYPE_BLOCK_ARG)
+    check_descriptor.first_method_descriptor = MethodDescriptor.new("select")
     check_descriptor.second_method_descriptor = MethodDescriptor.new("size", mymodule)
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
@@ -56,8 +56,8 @@ class MethodSequenceCheckerTest < MiniTest::Test
     ctx = Pippi::Context.new
     check_descriptor = CheckDescriptor.new(TestCheck.new(ctx))
     check_descriptor.clazz_to_decorate = @clz_to_be_checked
-    check_descriptor.first_method_descriptor = MethodDescriptor.new("select", MethodDescriptor::ARITY_TYPE_BLOCK_ARG)
-    check_descriptor.second_method_descriptor = MethodDescriptor.new("size", MethodDescriptor::ARITY_TYPE_NONE)
+    check_descriptor.first_method_descriptor = MethodDescriptor.new("select")
+    check_descriptor.second_method_descriptor = MethodDescriptor.new("size")
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
@@ -73,8 +73,8 @@ class MethodSequenceCheckerTest < MiniTest::Test
     ctx = Pippi::Context.new
     check_descriptor = CheckDescriptor.new(TestCheck.new(ctx))
     check_descriptor.clazz_to_decorate = @clz_to_be_checked
-    check_descriptor.first_method_descriptor = MethodDescriptor.new("select", MethodDescriptor::ARITY_TYPE_BLOCK_ARG)
-    check_descriptor.second_method_descriptor = MethodDescriptor.new("size", MethodDescriptor::ARITY_TYPE_NONE)
+    check_descriptor.first_method_descriptor = MethodDescriptor.new("select")
+    check_descriptor.second_method_descriptor = MethodDescriptor.new("size")
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate

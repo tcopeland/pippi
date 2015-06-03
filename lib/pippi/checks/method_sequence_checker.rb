@@ -15,38 +15,33 @@ class MethodSequenceChecker
       end
 
       # e.g., "size" in "select followed by size"
-      second_method_decorator = if method_sequence_check_instance.check_descriptor.second_method_descriptor.module?
-        method_sequence_check_instance.check_descriptor.second_method_descriptor.arity
+      second_method_decorator = if method_sequence_check_instance.check_descriptor.second_method_descriptor.decorator
+        method_sequence_check_instance.check_descriptor.second_method_descriptor.decorator
       else
         Module.new do
-          define_method(method_sequence_check_instance.check_descriptor.second_method_descriptor.name) do |*args, &blk|
+          descriptor = method_sequence_check_instance.check_descriptor.second_method_descriptor
+          define_method(descriptor.name) do |*args, &blk|
             # Using "self.class" implies that the first method invocation returns the same type as the receiver
             # e.g., Array#select returns an Array.  Would need to further parameterize this to get
             # different behavior.
-            self.class.instance_variable_get(name).add_problem
+            the_check = self.class.instance_variable_get(name)
+            the_check.add_problem
             if method_sequence_check_instance.check_descriptor.should_check_subsequent_calls && method_sequence_check_instance.check_descriptor.clazz_to_decorate == self.class
               problem_location = caller_locations.find { |c| c.to_s !~ /byebug|lib\/pippi\/checks/ }
-              self.class.instance_variable_get(name).method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
-                define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).clear_fault_proc(self.class.instance_variable_get(name), problem_location))
+              the_check.method_names_that_indicate_this_is_being_used_as_a_collection.each do |this_means_its_ok_sym|
+                define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).clear_fault_proc(the_check, problem_location))
               end
             end
-            if method_sequence_check_instance.check_descriptor.second_method_descriptor.accepts_block?
-              super(&blk)
-            elsif method_sequence_check_instance.check_descriptor.second_method_descriptor.no_args?
-              super()
-            end
+            super(*args, &blk)
           end
         end
       end
 
       # e.g., "select" in "select followed by size"
-     first_method_decorator = Module.new do
-        define_method(method_sequence_check_instance.check_descriptor.first_method_descriptor.name) do |*args, &blk|
-          result = if method_sequence_check_instance.check_descriptor.first_method_descriptor.accepts_block?
-            super(&blk)
-          elsif method_sequence_check_instance.check_descriptor.first_method_descriptor.no_args?
-            super()
-          end
+      first_method_decorator = Module.new do
+        descriptor = method_sequence_check_instance.check_descriptor.first_method_descriptor
+        define_method(descriptor.name) do |*args, &blk|
+          result = super(*args, &blk)
           if self.class.instance_variable_get(name)
             result.extend second_method_decorator
             self.class.instance_variable_get(name).mutator_methods(result.class).each do |this_means_its_ok_sym|
