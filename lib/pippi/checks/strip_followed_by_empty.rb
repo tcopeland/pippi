@@ -12,10 +12,8 @@ module Pippi::Checks
       super
       check_descriptor = CheckDescriptor.new(self)
       check_descriptor.clazz_to_decorate = String
-      check_descriptor.method1 = "strip"
-      check_descriptor.method2 = "empty?"
-      check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
-      check_descriptor.second_method_arity_type = MethodSequenceChecker::ARITY_TYPE_NONE
+      check_descriptor.first_method_descriptor = MethodDescriptor.new("strip", MethodDescriptor::ARITY_TYPE_NONE)
+      check_descriptor.second_method_descriptor = MethodDescriptor.new("empty?", MethodDescriptor::ARITY_TYPE_NONE)
       @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 

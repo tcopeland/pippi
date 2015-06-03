@@ -22,10 +22,8 @@ module Pippi::Checks
       super
       check_descriptor = CheckDescriptor.new(self)
       check_descriptor.clazz_to_decorate = Array
-      check_descriptor.method1 = "select"
-      check_descriptor.method2 = "first"
-      check_descriptor.first_method_arity_type = MethodSequenceChecker::ARITY_TYPE_BLOCK_ARG
-      check_descriptor.second_method_arity_type = MyModule
+      check_descriptor.first_method_descriptor = MethodDescriptor.new("select", MethodDescriptor::ARITY_TYPE_BLOCK_ARG)
+      check_descriptor.second_method_descriptor = MethodDescriptor.new("first", MyModule)
       @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 

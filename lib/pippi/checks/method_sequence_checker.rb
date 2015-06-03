@@ -1,8 +1,5 @@
 class MethodSequenceChecker
 
-  ARITY_TYPE_BLOCK_ARG = 1
-  ARITY_TYPE_NONE = 2
-
   attr_reader :check_descriptor
 
   def initialize(check_descriptor)
@@ -18,11 +15,11 @@ class MethodSequenceChecker
       end
 
       # e.g., "size" in "select followed by size"
-      second_method_decorator = if method_sequence_check_instance.check_descriptor.second_method_arity_type.kind_of?(Module)
-        method_sequence_check_instance.check_descriptor.second_method_arity_type
+      second_method_decorator = if method_sequence_check_instance.check_descriptor.second_method_descriptor.module?
+        method_sequence_check_instance.check_descriptor.second_method_descriptor.arity
       else
         Module.new do
-          define_method(method_sequence_check_instance.check_descriptor.method2) do |*args, &blk|
+          define_method(method_sequence_check_instance.check_descriptor.second_method_descriptor.name) do |*args, &blk|
             # Using "self.class" implies that the first method invocation returns the same type as the receiver
             # e.g., Array#select returns an Array.  Would need to further parameterize this to get
             # different behavior.
@@ -33,9 +30,9 @@ class MethodSequenceChecker
                 define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).clear_fault_proc(self.class.instance_variable_get(name), problem_location))
               end
             end
-            if method_sequence_check_instance.check_descriptor.second_method_arity_type == ARITY_TYPE_BLOCK_ARG
+            if method_sequence_check_instance.check_descriptor.second_method_descriptor.accepts_block?
               super(&blk)
-            elsif method_sequence_check_instance.check_descriptor.second_method_arity_type == ARITY_TYPE_NONE
+            elsif method_sequence_check_instance.check_descriptor.second_method_descriptor.no_args?
               super()
             end
           end
@@ -44,16 +41,16 @@ class MethodSequenceChecker
 
       # e.g., "select" in "select followed by size"
      first_method_decorator = Module.new do
-        define_method(method_sequence_check_instance.check_descriptor.method1) do |*args, &blk|
-          result = if method_sequence_check_instance.check_descriptor.first_method_arity_type == ARITY_TYPE_BLOCK_ARG
+        define_method(method_sequence_check_instance.check_descriptor.first_method_descriptor.name) do |*args, &blk|
+          result = if method_sequence_check_instance.check_descriptor.first_method_descriptor.accepts_block?
             super(&blk)
-          elsif method_sequence_check_instance.check_descriptor.first_method_arity_type == ARITY_TYPE_NONE
+          elsif method_sequence_check_instance.check_descriptor.first_method_descriptor.no_args?
             super()
           end
           if self.class.instance_variable_get(name)
             result.extend second_method_decorator
             self.class.instance_variable_get(name).mutator_methods(result.class).each do |this_means_its_ok_sym|
-              result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.check_descriptor.method2))
+              result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.check_descriptor.second_method_descriptor.name))
             end
           end
           result
