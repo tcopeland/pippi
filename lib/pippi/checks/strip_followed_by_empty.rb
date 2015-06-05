@@ -10,8 +10,7 @@ module Pippi::Checks
 
     def initialize(ctx)
       super
-      check_descriptor = CheckDescriptor.new(self, String)
-      check_descriptor.method_sequence = MethodSequence.new("strip", "empty?")
+      check_descriptor = CheckDescriptor.new(self, String, MethodSequence.new("strip", "empty?"))
       @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 

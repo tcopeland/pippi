@@ -8,8 +8,7 @@ module Pippi::Checks
 
     def initialize(ctx)
       super
-      check_descriptor = CheckDescriptor.new(self, Array)
-      check_descriptor.method_sequence = MethodSequence.new("select", "any?")
+      check_descriptor = CheckDescriptor.new(self, Array, MethodSequence.new("select", "any?"))
       @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
 

@@ -12,8 +12,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
   end
 
   def test_decorate_should_add_accessor_to_decorated_class
-    check_descriptor = CheckDescriptor.new(TestCheck.new(nil), @clz_to_be_checked)
-    check_descriptor.method_sequence = MethodSequence.new("select", "size")
+    check_descriptor = CheckDescriptor.new(TestCheck.new(nil), @clz_to_be_checked, MethodSequence.new("select", "size"))
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
@@ -21,8 +20,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
   end
 
   def test_decorate_should_add_a_module_that_decorates_the_first_method
-    check_descriptor = CheckDescriptor.new(TestCheck.new(nil), @clz_to_be_checked)
-    check_descriptor.method_sequence = MethodSequence.new("select", "size")
+    check_descriptor = CheckDescriptor.new(TestCheck.new(nil), @clz_to_be_checked, MethodSequence.new("select", "size"))
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     assert_equal @clz_to_be_checked.ancestors[0], @clz_to_be_checked
@@ -36,8 +34,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
         raise "boom"
       end
     end
-    check_descriptor = CheckDescriptor.new(TestCheck.new(nil), @clz_to_be_checked)
-    check_descriptor.method_sequence = MethodSequence.new("select", "size", mymodule)
+    check_descriptor = CheckDescriptor.new(TestCheck.new(nil), @clz_to_be_checked, MethodSequence.new("select", "size", mymodule))
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
@@ -48,8 +45,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
 
   def test_add_a_problem_if_method_sequence_is_detected
     ctx = Pippi::Context.new
-    check_descriptor = CheckDescriptor.new(TestCheck.new(ctx), @clz_to_be_checked)
-    check_descriptor.method_sequence = MethodSequence.new("select", "size")
+    check_descriptor = CheckDescriptor.new(TestCheck.new(ctx), @clz_to_be_checked, MethodSequence.new("select", "size"))
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
@@ -63,8 +59,7 @@ class MethodSequenceCheckerTest < MiniTest::Test
 
   def test_no_problem_added_if_method_sequence_not_detected
     ctx = Pippi::Context.new
-    check_descriptor = CheckDescriptor.new(TestCheck.new(ctx), @clz_to_be_checked)
-    check_descriptor.method_sequence = MethodSequence.new("select", "size")
+    check_descriptor = CheckDescriptor.new(TestCheck.new(ctx), @clz_to_be_checked, MethodSequence.new("select", "size"))
     check_descriptor.should_check_subsequent_calls = false
     m = MethodSequenceChecker.new(check_descriptor)
     m.decorate
