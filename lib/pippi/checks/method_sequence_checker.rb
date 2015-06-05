@@ -15,12 +15,12 @@ class MethodSequenceChecker
       end
 
       # e.g., "size" in "select followed by size"
-      second_method_decorator = if method_sequence_check_instance.check_descriptor.second_method_descriptor.decorator
-        method_sequence_check_instance.check_descriptor.second_method_descriptor.decorator
+      second_method_decorator = if method_sequence_check_instance.check_descriptor.method_sequence.decorator
+        method_sequence_check_instance.check_descriptor.method_sequence.decorator
       else
         Module.new do
-          descriptor = method_sequence_check_instance.check_descriptor.second_method_descriptor
-          define_method(descriptor.name) do |*args, &blk|
+          descriptor = method_sequence_check_instance.check_descriptor.method_sequence.method2
+          define_method(descriptor) do |*args, &blk|
             # Using "self.class" implies that the first method invocation returns the same type as the receiver
             # e.g., Array#select returns an Array.  Would need to further parameterize this to get
             # different behavior.
@@ -39,13 +39,13 @@ class MethodSequenceChecker
 
       # e.g., "select" in "select followed by size"
       first_method_decorator = Module.new do
-        descriptor = method_sequence_check_instance.check_descriptor.first_method_descriptor
-        define_method(descriptor.name) do |*args, &blk|
+        descriptor = method_sequence_check_instance.check_descriptor.method_sequence.method1
+        define_method(descriptor) do |*args, &blk|
           result = super(*args, &blk)
           if self.class.instance_variable_get(name)
             result.extend second_method_decorator
             self.class.instance_variable_get(name).mutator_methods(result.class).each do |this_means_its_ok_sym|
-              result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.check_descriptor.second_method_descriptor.name))
+              result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.check_descriptor.method_sequence.method2))
             end
           end
           result
