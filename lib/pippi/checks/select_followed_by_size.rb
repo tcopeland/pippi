@@ -7,8 +7,7 @@ module Pippi::Checks
 
     def initialize(ctx)
       super
-      check_descriptor = CheckDescriptor.new(self)
-      check_descriptor.clazz_to_decorate = Array
+      check_descriptor = CheckDescriptor.new(self, Array)
       check_descriptor.method_sequence = MethodSequence.new("select", "size")
       @mycheck = MethodSequenceChecker.new(check_descriptor)
     end
