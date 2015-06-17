@@ -4,3 +4,6 @@ vendor
 *.gem
 out.txt
 .ruby-version
+.yardoc
+doc/*
+!doc/doc.md
