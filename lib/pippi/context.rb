@@ -1,4 +1,5 @@
 module Pippi
+  # Main struct for a Pippi run
   class Context
 
     attr_accessor :checks
