@@ -4,6 +4,11 @@ class MethodSequenceCheckerTest < MiniTest::Test
 
   class TestCheck < Pippi::Checks::Check ; end
 
+  class ToBeChecked
+    def select(&blk) ; self ; end
+    def size ; 0 ; end
+  end
+
   def setup
     @clz_to_be_checked = Class.new do
       def select(&blk) ; self ; end
@@ -67,4 +72,15 @@ class MethodSequenceCheckerTest < MiniTest::Test
     assert ctx.report.problems.none?
   end
 
+  def test_can_dump
+    ctx = Pippi::Context.new
+    c = TestCheck.new(ctx)
+    check_descriptor = Pippi::Checks::CheckDescriptor.new(c, ToBeChecked, Pippi::Checks::MethodSequence.new("select", "size"))
+    m = Pippi::Checks::MethodSequenceChecker.new(check_descriptor)
+    assert_equal ToBeChecked.ancestors[0], ToBeChecked
+    m.decorate
+    obj = ToBeChecked.new
+    obj.select {|x| x }.size
+    Marshal.dump obj
+  end
 end

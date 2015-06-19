@@ -1,4 +1,10 @@
 module Pippi::Checks
+
+  # Redefining marshal_dump to avoid exceptions around inability to marshal singletons
+  module DumpStub
+    def marshal_dump ; end
+  end
+
   class MethodSequenceChecker
 
     attr_reader :check_descriptor
@@ -48,6 +54,7 @@ module Pippi::Checks
               self.class.instance_variable_get(name).mutator_methods(result.class).each do |this_means_its_ok_sym|
                 result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.check_descriptor.method_sequence.method2))
               end
+              result.class.include DumpStub
             end
             result
           end
@@ -58,13 +65,8 @@ module Pippi::Checks
 
     def its_ok_watcher_proc(clazz, method_name)
       proc do |*args, &blk|
-        begin
-          singleton_class.ancestors.find { |x| x == clazz }.instance_eval { remove_method method_name }
-        rescue NameError
-          return super(*args, &blk)
-        else
-          return super(*args, &blk)
-        end
+        singleton_class.ancestors.find { |x| x == clazz }.instance_eval { remove_method method_name }
+        return super(*args, &blk)
       end
     end
   end
