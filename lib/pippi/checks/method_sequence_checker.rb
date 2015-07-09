@@ -54,7 +54,11 @@ module Pippi::Checks
               self.class.instance_variable_get(name).mutator_methods(result.class).each do |this_means_its_ok_sym|
                 result.define_singleton_method(this_means_its_ok_sym, self.class.instance_variable_get(name).its_ok_watcher_proc(second_method_decorator, method_sequence_check_instance.check_descriptor.method_sequence.method2))
               end
-              result.class.include DumpStub
+              if RUBY_VERSION == "2.0.0"
+                result.class.send :include, DumpStub
+              else
+                result.class.include DumpStub
+              end
             end
             result
           end
