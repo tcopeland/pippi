@@ -1,3 +1,8 @@
+# Note that Array#last doesn't take a block, so we can't
+# do a similar rule recommending replacing:
+# [1,2,3].select {|x| x > 1 }.last
+# with
+# [1,2,3].last {|x| x > 1 }
 module Pippi::Checks
   class SelectFollowedByFirst < Check
 
