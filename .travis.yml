@@ -1,7 +1,8 @@
 language: ruby
+before_install:
+  - gem install bundler
 rvm:
-  - 2.0
-  - 2.1
-  - 2.2
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
   - ruby-head
-script: bundle exec rake
