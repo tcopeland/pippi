@@ -6,4 +6,5 @@ out.txt
 .ruby-version
 .yardoc
 doc/*
+Gemfile.lock
 !doc/doc.md
