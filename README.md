@@ -332,8 +332,9 @@ product_path(@product)
 
 ## Here are some things that Pippi is not well suited for
 
-Use self.new vs MyClass.new. This is not a good fit for Pippi because it
-involves a receiver usage that can be detected with static analysis.
+### "Use `self.new` vs `MyClass.new`"
+
+This is not a good fit for Pippi because it involves a receiver usage that can be detected with static analysis.
 
 **wrong**:
 
@@ -354,6 +355,10 @@ class Foo
   end
 end
 ```
+
+### Consider the &$
+
+You might wonder why Pippi "rails" checkset doesn't have the rule "replace `"foobar".gsub(/foo/, '')` with `"foobar".remove(/foo/)`".  That's because of the behavior of global variables such as `$&`.  This behavior is [nicely explained by Frederick Cheung on this StackOverflow comment](https://stackoverflow.com/questions/30512945/programmatically-alias-method-that-uses-global-variable/30534264#30534264).  It's also broken down by David Black [here](https://www.ruby-forum.com/topic/198458) and by Aaron Patterson and others [here](https://github.com/rails/rails/issues/1555).  Due to the issue explained there, Pippi's technique of prepending a proxy method breaks code that's further downstream when used with the block form of `gsub`.
 
 ## TODO
 
