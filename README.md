@@ -83,7 +83,6 @@ USE_PIPPI=true PIPPI_CHECKSET=rails bundle exec rake test:units && cat log/pippi
 USE_PIPPI=true PIPPI_CHECKSET=basic,rails bundle exec rake test:units && cat log/pippi.log
 ```
 
-
 Here's a [demo Rails application](https://github.com/tcopeland/pippi_demo#pippi-demo).
 
 ### Rails with rspec
